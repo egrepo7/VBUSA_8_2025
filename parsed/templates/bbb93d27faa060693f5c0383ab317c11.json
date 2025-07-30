@@ -1,0 +1,3 @@
+{
+  "components/common/social-links": "{{#if social_media}}\n    <ul class=\"socialLinks socialLinks--alt\">\n        {{#each social_media}}\n            <li class=\"socialLinks-item\">\n                <a class=\"socialLinks-link\" href=\"{{url}}\" target=\"_blank\" rel=\"noopener\">\n                    <span class=\"icon icon--{{display_name}}\">\n                        <svg><use xlink:href=\"#icon-{{display_name}}\"></use></svg>\n                    </span>\n                    <span class=\"socialLinks-label h6\">\n                        {{display_name}}\n                    </span>\n                </a>\n            </li>\n        {{/each}}\n    </ul>\n{{/if}}\n"
+}

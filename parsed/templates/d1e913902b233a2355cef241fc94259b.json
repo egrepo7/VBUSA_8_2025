@@ -1,0 +1,3 @@
+{
+  "components/custom/header-2/header-2_top-nav": "<nav class=\"header-2__top-nav\">\n    <h6 class=\"header-2__top-nav-message\">Build your dream volleyball court using our all new Custom Court Builder Experience</h6>\n    <ul class=\"header-2__top-nav-list\">\n        {{#for 1 (lang 'custom.header.top-navigation.number-of-links')}}\n            <li class=\"header-2__top-nav-list-item\">\n                <a href=\"{{lang (concat (concat 'custom.header.top-navigation.link-'$index)'.link')}}\" class=\"header-2__top-nav-list-link\">\n                    {{lang (concat (concat 'custom.header.top-navigation.link-'$index)'.text')}}\n                </a>\n            </li>\n        {{/for}}\n    </ul>\n</nav>\n"
+}

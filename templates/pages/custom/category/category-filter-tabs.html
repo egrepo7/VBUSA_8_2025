@@ -1,0 +1,201 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{inject "categoryId" category.id}}
+
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+<!-- if hero image exists -->
+{{#if category.image}}
+    <div class="category-hero">
+        <img id="categoryHeroImg" data-raw-src="{{category.image.data}}" alt="{{category.image.alt}}" class="category-hero-image" style="display:none;" />
+        <div class="category-hero-content" data-category-id="{{category.id}}"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero image src fix
+            var heroImg = document.getElementById('categoryHeroImg');
+            if (heroImg) {
+                var raw = heroImg.getAttribute('data-raw-src');
+                if (raw && raw.indexOf('{:size}') !== -1) {
+                    heroImg.src = raw.replace('{:size}', 'original');
+                    heroImg.style.display = '';
+                }
+            }
+            // Hero overlay content injection
+            var heroContent = document.querySelector('.category-hero-content');
+            var catId = heroContent ? heroContent.getAttribute('data-category-id') : null;
+            if (catId) {
+                fetch('/assets/content/category-hero-content.json')
+                  .then(function(res) { return res.json(); })
+                  .then(function(data) {
+                    console.log('data:', data);
+                    if (data[catId]) {
+                      heroContent.innerHTML =
+                        (data[catId].heading ? '<h2>' + data[catId].heading + '</h2>' : '') +
+                        (data[catId].subheading ? '<p>' + data[catId].subheading + '</p>' : '') +
+                        (data[catId].cta_url ? '<a href="' + data[catId].cta_url + '" class="button button--primary">' + (data[catId].cta_text || 'Shop Now') + '</a>' : '');
+                    } else {
+                      heroContent.innerHTML = '<!-- No hero content for this category -->';
+                    }
+                  })
+                  .catch(function(err) {
+                    console.error('Error loading hero content JSON:', err);
+                  });
+            }
+        });
+    </script>
+{{/if}}
+<div class="page list-full-width">
+    {{#if category.faceted_search_enabled}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.subcategories}}
+        <aside class="page-sidebar" id="faceted-search-container">
+            {{> components/category/sidebar}}
+        </aside>
+    {{else if category.shop_by_price}}
+        {{#if theme_settings.shop_by_price_visibility}}
+            <aside class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </aside>
+        {{/if}}
+    {{/if}}
+
+    <div class="page-content" >
+        <!-- category filter tabs -->
+        <section class="category__content-container">
+            {{#unless theme_settings.hide_category_page_heading }}
+                <h1 class="page-heading page-heading--category">{{category.name}}</h1>
+                {{{region name="category_below_header"}}}
+                {{!> components/custom/category-overlap-cta }}
+            {{/unless}}
+        </section>
+        <!-- Subcategory filtering -->
+         <!-- <div class="subcategory-tabs">
+            <button class="subcategory-tab active" data-subcategory-id="all" type="button">All Products</button>
+            {{#each category.subcategories}}
+                <button
+                    class="subcategory-tab"
+                    data-subcategory-id="{{toLowerCase name}}"
+                    type="button"
+                >
+                    {{name}}
+                </button>
+            {{/each}}
+        </div> -->
+        <!-- Alternate tab style -->
+        <div class="subcategory-tabs subcategory-tabs--alt">
+            <button class="subcategory-tab-alt active" data-subcategory-id="all" type="button">All Products</button>
+            {{#each category.subcategories}}
+                <button
+                    class="subcategory-tab-alt"
+                    data-subcategory-id="{{toLowerCase name}}"
+                    type="button"
+                >
+                    {{name}}
+                </button>
+            {{/each}}
+        </div>
+        <!-- {{{region name="category_below_heading"}}}
+        {{#if theme_settings.its.category_subcat_cards}}
+            {{> components/custom/subcat-grid}}
+        {{/if}} -->
+        <section id="product-listing-container">
+            {{> components/custom/category/product-listing-tabs }}
+        </section>
+        {{#if category.description}}
+            <div class="category__description-container">
+                {{{category.description}}}
+            </div>
+        {{/if}}
+        <!-- ITS LOADING OVERLAY -->
+        <!-- <div class="loadingOverlay loadingOverlay--product-listing"></div>
+        {{{region name="category_below_content"}}} -->
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const subcatTabs = document.querySelectorAll('.subcategory-tab');
+        subcatTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                subcatTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const subcatName = this.getAttribute('data-subcategory-id').trim().toLowerCase();
+                // Only target .product containers for show/hide
+                const allProducts = Array.from(document.querySelectorAll('.product'));
+                allProducts.forEach(product => {
+                    // Find data-subcategory-id from child .listItem or from itself
+                    let prodSubcats = '';
+                    const listItem = product.querySelector('.listItem');
+                    if (listItem && listItem.getAttribute('data-subcategory-id')) {
+                        prodSubcats = listItem.getAttribute('data-subcategory-id').trim();
+                    } else if (product.getAttribute('data-subcategory-id')) {
+                        prodSubcats = product.getAttribute('data-subcategory-id').trim();
+                    }
+                    const prodSubcatsArr = prodSubcats.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+                    const matched = prodSubcatsArr.some(cat => {
+                        const lastSegment = cat.split('/').pop();
+                        return subcatName === lastSegment;
+                    });
+                    if (subcatName === 'all' || matched) {
+                        product.style.display = '';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+        // Add JS for alternate tabs
+        const subcatTabsAlt = document.querySelectorAll('.subcategory-tab-alt');
+        subcatTabsAlt.forEach(tab => {
+            tab.addEventListener('click', function() {
+                subcatTabsAlt.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                const subcatName = this.getAttribute('data-subcategory-id').trim().toLowerCase();
+                const allProducts = Array.from(document.querySelectorAll('.product'));
+                allProducts.forEach(product => {
+                    let prodSubcats = '';
+                    const listItem = product.querySelector('.listItem');
+                    if (listItem && listItem.getAttribute('data-subcategory-id')) {
+                        prodSubcats = listItem.getAttribute('data-subcategory-id').trim();
+                    } else if (product.getAttribute('data-subcategory-id')) {
+                        prodSubcats = product.getAttribute('data-subcategory-id').trim();
+                    }
+                    const prodSubcatsArr = prodSubcats.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+                    const matched = prodSubcatsArr.some(cat => {
+                        const lastSegment = cat.split('/').pop();
+                        return subcatName === lastSegment;
+                    });
+                    if (subcatName === 'all' || matched) {
+                        product.style.display = '';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
+{{/partial}}
+{{> layout/base container_active=true}}

@@ -1,0 +1,3 @@
+{
+  "components/custom/home-cta-wide-middle": "<h2 class=\"page-heading h1\">{{{lang 'custom.home.custom-printed-cta.page-heading'}}}</h2>\n<section class=\"cta-2 cta-2--default custom-printed-cta\" style=\"background-image: url({{lang 'custom.home.custom-printed-cta.image'}});\">\n    <div class=\"cta-2__content-container\">\n        <article class=\"cta-2__text-container cta-2__content\">\n            <h3 class=\"cta-2__title h1\">{{lang 'custom.home.custom-printed-cta.title'}}</h3>\n            <a href=\"{{lang 'custom.home.custom-printed-cta.button-link'}}\" class=\"button button--primary\">{{lang 'custom.home.custom-printed-cta.button-text'}}</a>\n        </article>\n    </div>\n</section>\n"
+}

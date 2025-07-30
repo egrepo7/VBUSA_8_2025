@@ -1,0 +1,13 @@
+.card--alternate:hover .card-body {
+    background-color: #fff;
+}
+
+.navPages-action:hover svg, 
+.navPages-action.activePage svg {
+    fill: #333;
+}
+
+.navPages-action svg {
+    stroke: none;
+    // width: 14px;
+}

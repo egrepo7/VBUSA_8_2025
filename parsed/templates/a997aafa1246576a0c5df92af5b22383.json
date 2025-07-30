@@ -1,0 +1,3 @@
+{
+  "components/products/options/set-select": "<div class=\"product-options form-field\" data-product-attribute=\"set-select\">\n    <select class=\"form-select form-select--small\" name=\"attribute[{{this.id}}]\" id=\"attribute_select_{{id}}\" {{#if required}}required{{/if}}>\n        <option value=\"\" selected disabled>{{this.display_name}}{{#if required}} <span style=\"color:red\">*</span>{{/if}}</option>\n        {{#each this.values}}\n            <option data-product-attribute-value=\"{{id}}\" value=\"{{id}}\" {{#if selected}}selected data-default{{/if}}>{{label}}</option>\n        {{/each}}\n    </select>\n</div>\n"
+}

@@ -1,0 +1,3 @@
+{
+  "components/custom/home-cta-wide": "<section class=\"cta-2 cta-2--default {{name}}\" style=\"background-image: url({{lang (concat (concat 'custom.home.' (dashcase name)) '.image')}});\" aria-label=\"{{lang (concat (concat 'custom.home.' (dashcase name)) '.image-alt-text')}}\">\n    <div class=\"cta-2__content-container\">\n        <article class=\"cta-2__text-container cta-2__content\">\n            <h3 class=\"cta-2__title h1\">{{lang (concat (concat 'custom.home.' (dashcase name)) '.title')}}</h3>\n            <a href=\"{{lang (concat (concat 'custom.home.' (dashcase name)) '.button-link')}}\" class=\"button button--primary\">{{lang (concat (concat 'custom.home.' (dashcase name)) '.button-text')}}</a>\n        </article>\n    </div>\n</section>\n"
+}

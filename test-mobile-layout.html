@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Layout Test - Split Layout Product Page</title>
+    
+    <!-- jQuery (required for Slick) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Slick Carousel CSS and JS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    
+    <!-- Load our theme CSS -->
+    <link rel="stylesheet" href="assets/dist/theme-bundle.main.css">
+    
+    <style>
+        /* Reset and basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* Mobile-first responsive test styles */
+        .mobile-test-header {
+            background: #dc3545;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            font-weight: bold;
+        }
+        
+        .mobile-test-content {
+            margin-top: 60px; /* Account for fixed header */
+            padding: 1rem;
+        }
+        
+        /* Test viewport indicators */
+        .viewport-indicator {
+            background: #007bff;
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+        
+        /* Desktop indicator - hide on mobile */
+        .desktop-indicator {
+            display: block;
+        }
+        
+        /* Mobile indicator - hide on desktop */
+        .mobile-indicator {
+            display: none;
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .desktop-indicator {
+                display: none;
+            }
+            
+            .mobile-indicator {
+                display: block;
+            }
+            
+            .mobile-test-content {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Test Header -->
+    <div class="mobile-test-header">
+        Mobile Layout Test - Resize window to test responsiveness
+    </div>
+    
+    <div class="mobile-test-content">
+        <!-- Viewport Indicators -->
+        <div class="viewport-indicator desktop-indicator">
+            🖥️ DESKTOP VIEW (> 768px) - Vertical thumbnails on left, main image on right
+        </div>
+        
+        <div class="viewport-indicator mobile-indicator">
+            📱 MOBILE VIEW (≤ 768px) - Main image on top, horizontal thumbnails below
+        </div>
+        
+        <!-- Product View with Split Layout -->
+        <div class="productView split-layout">
+            <div class="dual-panel-container">
+                
+                <!-- Left Panel - Media (becomes full width on mobile) -->
+                <div class="media-panel" id="mediaPanel">
+                    <div class="media-content">
+                        <!-- BigCommerce Product Images Structure -->
+                        <div class="productView-images">
+                            <!-- Vertical Thumbnail Carousel (becomes horizontal on mobile) -->
+                            <div class="productView-thumbnails" data-slick='{"vertical": true, "slidesToShow": 5, "slidesToScroll": 1, "arrows": false, "dots": false, "infinite": false}'>
+                                <div class="slick-list">
+                                    <div class="slick-track">
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="0">
+                                                    <img src="https://via.placeholder.com/80x80/007bff/ffffff?text=1" alt="Thumbnail 1">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="1">
+                                                    <img src="https://via.placeholder.com/80x80/28a745/ffffff?text=2" alt="Thumbnail 2">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="2">
+                                                    <img src="https://via.placeholder.com/80x80/dc3545/ffffff?text=3" alt="Thumbnail 3">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="3">
+                                                    <img src="https://via.placeholder.com/80x80/ffc107/000000?text=4" alt="Thumbnail 4">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="4">
+                                                    <img src="https://via.placeholder.com/80x80/6f42c1/ffffff?text=5" alt="Thumbnail 5">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="5">
+                                                    <img src="https://via.placeholder.com/80x80/fd7e14/ffffff?text=6" alt="Thumbnail 6">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="6">
+                                                    <img src="https://via.placeholder.com/80x80/20c997/ffffff?text=7" alt="Thumbnail 7">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="slick-slide">
+                                            <div class="productView-thumbnail">
+                                                <a class="productView-thumbnail-link" href="#" data-image-gallery-item="7">
+                                                    <img src="https://via.placeholder.com/80x80/6610f2/ffffff?text=8" alt="Thumbnail 8">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Main Product Image -->
+                            <figure class="productView-image" data-image-gallery-main>
+                                <div class="productView-img-container">
+                                    <a href="#" class="productView-img-link">
+                                        <img src="https://via.placeholder.com/600x400/007bff/ffffff?text=Main+Product+Image" alt="Main Product" class="productView-image-main">
+                                    </a>
+                                </div>
+                            </figure>
+                        </div>
+                        
+                        <!-- Additional content to test scrolling -->
+                        <div style="background: #e9ecef; height: 200px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-top: 2rem;">
+                            <span style="color: #6c757d; font-size: 1.2rem;">Additional Content</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel - Details (becomes full width below media on mobile) -->
+                <div class="details-panel">
+                    <div class="details-content">
+                        
+                        <!-- Product Header -->
+                        <div class="productView-header">
+                            <h1 style="font-size: 1.75rem; font-weight: 600; margin-bottom: 0.25rem; line-height: 1.2;">Sample Product Name</h1>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Brand Name</div>
+                        </div>
+
+                        <!-- Price -->
+                        <div style="margin: 1rem 0; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef;">
+                            <span style="font-size: 1.5rem; font-weight: 600; color: #007bff;">$129.99</span>
+                        </div>
+
+                        <!-- Product Information -->
+                        <div class="productView-info-section" style="margin: 1rem 0; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef;">
+                            <div style="display: grid; gap: 0.75rem;">
+                                <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; padding: 0.5rem 0; border-bottom: 1px solid #f1f3f4;">
+                                    <span style="font-weight: 500; color: #495057; font-size: 0.9rem; white-space: nowrap;">SKU:</span>
+                                    <span style="color: #6c757d; font-size: 0.85rem; word-break: break-word; text-align: right;">VBUSA-TEST-MOBILE</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f1f3f4;">
+                                    <span style="font-weight: 500; color: #495057; font-size: 0.9rem;">Availability:</span>
+                                    <span style="color: #6c757d; font-size: 0.85rem; text-align: right;">In Stock</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; padding: 0.5rem 0;">
+                                    <span style="font-weight: 500; color: #495057; font-size: 0.9rem;">Condition:</span>
+                                    <span style="color: #6c757d; font-size: 0.85rem; text-align: right;">New</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add to Cart Button -->
+                        <div style="margin: 1.5rem 0;">
+                            <button style="background: #dc3545; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; font-size: 1rem; font-weight: 500; width: 100%; cursor: pointer;">
+                                Add to Cart
+                            </button>
+                        </div>
+
+                        <!-- Description -->
+                        <div style="margin: 1rem 0;">
+                            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">Description</h3>
+                            <p style="color: #6c757d; line-height: 1.6;">
+                                This is a comprehensive product description that provides detailed information about the features and benefits of this product. The mobile layout test ensures that the main product image appears above the thumbnails on mobile devices for better usability.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            console.log('Document ready, setting up mobile-responsive split layout');
+            
+            // Initialize Slick carousel for thumbnails
+            const $thumbnails = $('.productView-thumbnails');
+            if ($thumbnails.length > 0) {
+                console.log('Initializing Slick carousel for thumbnails');
+                
+                // Initialize with responsive settings
+                $thumbnails.slick({
+                    vertical: true,
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    dots: false,
+                    infinite: false,
+                    variableWidth: false,
+                    focusOnSelect: true,
+                    accessibility: true,
+                    centerMode: false,
+                    responsive: [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                vertical: false,
+                                slidesToShow: 6, // Show more slides on mobile
+                                slidesToScroll: 1,
+                                variableWidth: false, // Disable variable width for consistent sizing
+                                centerMode: false,
+                                infinite: false,
+                                swipeToSlide: true, // Allow swiping to any slide
+                                touchThreshold: 10 // Make swiping more responsive
+                            }
+                        }
+                    ]
+                });
+                
+                // Apply our split layout overrides after Slick initialization
+                setTimeout(() => {
+                    console.log('Applying split layout carousel overrides');
+                    enforceLayoutBasedOnViewport();
+                    
+                    // Handle window resize to switch between mobile and desktop layouts
+                    $(window).on('resize', function() {
+                        setTimeout(enforceLayoutBasedOnViewport, 100);
+                    });
+                }, 500);
+            }
+            
+            function enforceLayoutBasedOnViewport() {
+                const $slickTrack = $thumbnails.find('.slick-track');
+                if ($slickTrack.length > 0) {
+                    const isMobile = window.innerWidth <= 768;
+                    
+                    console.log(`Enforcing layout - Mobile: ${isMobile}, Window width: ${window.innerWidth}`);
+                    
+                    if (isMobile) {
+                        console.log('Applying mobile horizontal layout');
+                        // Mobile: horizontal layout - ensure multiple thumbnails are visible
+                        $slickTrack[0].style.setProperty('display', 'flex');
+                        $slickTrack[0].style.setProperty('flex-direction', 'row');
+                        $slickTrack[0].style.setProperty('height', '80px');
+                        $slickTrack[0].style.setProperty('width', 'auto');
+                        $slickTrack[0].style.setProperty('min-width', '100%'); // Ensure it extends across screen
+                        $slickTrack[0].style.setProperty('gap', '12px');
+                        $slickTrack[0].style.setProperty('padding', '0 12px'); // Add horizontal padding
+                        
+                        // Ensure the slick-list allows horizontal scrolling
+                        const $slickList = $thumbnails.find('.slick-list');
+                        if ($slickList.length > 0) {
+                            $slickList[0].style.setProperty('width', '100%');
+                            $slickList[0].style.setProperty('overflow-x', 'auto');
+                            $slickList[0].style.setProperty('overflow-y', 'hidden');
+                            $slickList[0].style.setProperty('scroll-behavior', 'smooth');
+                        }
+                        
+                        // Force individual slides to be horizontal and visible
+                        $slickTrack.find('.slick-slide').each(function() {
+                            this.style.setProperty('display', 'inline-block');
+                            this.style.setProperty('width', '80px');
+                            this.style.setProperty('height', '80px');
+                            this.style.setProperty('min-width', '80px'); // Prevent shrinking
+                            this.style.setProperty('flex-shrink', '0'); // Don't allow shrinking
+                            this.style.setProperty('margin-bottom', '0');
+                            this.style.setProperty('margin-right', '0');
+                            this.style.setProperty('float', 'none');
+                            this.style.setProperty('transform', 'none');
+                            this.style.setProperty('left', 'auto');
+                            this.style.setProperty('top', 'auto');
+                            this.style.setProperty('position', 'relative');
+                        });
+                    } else {
+                        console.log('Applying desktop vertical layout');
+                        // Desktop: vertical layout
+                        $slickTrack[0].style.setProperty('display', 'flex');
+                        $slickTrack[0].style.setProperty('flex-direction', 'column');
+                        $slickTrack[0].style.setProperty('height', 'auto');
+                        $slickTrack[0].style.setProperty('width', '80px');
+                        $slickTrack[0].style.setProperty('gap', '8px');
+                        
+                        // Force individual slides to be vertical
+                        $slickTrack.find('.slick-slide').each(function() {
+                            this.style.setProperty('display', 'block');
+                            this.style.setProperty('width', '80px');
+                            this.style.setProperty('height', 'auto');
+                            this.style.setProperty('margin-bottom', '8px');
+                            this.style.setProperty('margin-right', '0');
+                            this.style.setProperty('float', 'none');
+                            this.style.setProperty('transform', 'none');
+                            this.style.setProperty('left', 'auto');
+                            this.style.setProperty('top', 'auto');
+                            this.style.setProperty('position', 'relative');
+                        });
+                    }
+                    
+                    // Common properties for both mobile and desktop
+                    $slickTrack[0].style.setProperty('transform', 'none');
+                    $slickTrack[0].style.setProperty('left', '0');
+                    $slickTrack[0].style.setProperty('top', '0');
+                    $slickTrack[0].style.setProperty('margin', '0');
+                    $slickTrack[0].style.setProperty('padding', '0');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

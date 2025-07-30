@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Floating Label Test</title>
+    <style>
+        /* Basic styles for testing */
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        
+        /* Floating label styles */
+        .form-field--floating-label {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .floating-label-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-field--floating-label .form-select {
+            padding: 12px;
+            padding-right: 40px;
+            border: 1px solid #d4d4d4;
+            border-radius: 4px;
+            background-color: transparent;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        
+        .form-field--floating-label .form-select.form-select--date {
+            min-width: 120px;
+            margin-right: 10px;
+        }
+        
+        .form-field--floating-label .form-select.form-select--date:last-child {
+            margin-right: 0;
+        }
+        
+        .form-field--floating-label .form-select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        .floating-label {
+            position: absolute;
+            left: 12px;
+            top: 0;
+            transform: translateY(-50%);
+            background-color: white;
+            padding: 0 4px;
+            color: #007bff;
+            font-size: 0.875rem;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .form-field--floating-label.has-selection .floating-label,
+        .form-field--floating-label .form-select.has-value + .floating-label {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Floating Label Test</h1>
+        
+        <h2>Standard Product Options</h2>
+        <div class="form-field--floating-label">
+            <div class="floating-label-wrapper">
+                <select class="form-select">
+                    <option value="" selected disabled>Size</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+                <label class="floating-label">Size</label>
+            </div>
+        </div>
+        
+        <div class="form-field--floating-label">
+            <div class="floating-label-wrapper">
+                <select class="form-select">
+                    <option value="" selected disabled>Color <span style="color:red">*</span></option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                </select>
+                <label class="floating-label">Color <span style="color:red">*</span></label>
+            </div>
+        </div>
+
+        <h2>Date Selection Options</h2>
+        <div style="display: flex; gap: 10px; margin-bottom: 24px;">
+            <div class="form-field--floating-label">
+                <div class="floating-label-wrapper">
+                    <select class="form-select form-select--date">
+                        <option value="" selected disabled>Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                    </select>
+                    <label class="floating-label">Event Date - Month</label>
+                </div>
+            </div>
+            
+            <div class="form-field--floating-label">
+                <div class="floating-label-wrapper">
+                    <select class="form-select form-select--date">
+                        <option value="" selected disabled>Day</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    <label class="floating-label">Event Date - Day</label>
+                </div>
+            </div>
+            
+            <div class="form-field--floating-label">
+                <div class="floating-label-wrapper">
+                    <select class="form-select form-select--date">
+                        <option value="" selected disabled>Year</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                    </select>
+                    <label class="floating-label">Event Date - Year</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Floating label functionality
+            function hasValue($select) {
+                const value = $select.val();
+                return value && value !== '' && value !== null;
+            }
+            
+            function updateFloatingState($select) {
+                const $field = $select.closest('.form-field--floating-label');
+                
+                if (hasValue($select)) {
+                    $field.addClass('has-selection');
+                    $select.addClass('has-value');
+                } else {
+                    $field.removeClass('has-selection');
+                    $select.removeClass('has-value');
+                }
+            }
+            
+            // Handle change (main event)
+            $(document).on('change', '.form-field--floating-label select', function() {
+                updateFloatingState($(this));
+            });
+            
+            // Initialize on page load
+            $('.form-field--floating-label select').each(function() {
+                updateFloatingState($(this));
+            });
+        });
+    </script>
+</body>
+</html>

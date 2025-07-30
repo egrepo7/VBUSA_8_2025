@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Refresh Test - Dual Panel Layout</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .auto-refresh-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #28a745;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 9999;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .auto-refresh-indicator.checking {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .auto-refresh-indicator.updating {
+            background: #dc3545;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .controls {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 9999;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+        
+        .controls button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        
+        .controls button:hover {
+            background: #0056b3;
+        }
+        
+        .controls button.stop {
+            background: #dc3545;
+        }
+        
+        .controls button.stop:hover {
+            background: #c82333;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auto-refresh-indicator" id="indicator">Auto-refresh: ON</div>
+    <div class="controls">
+        <span>Dev Mode:</span>
+        <button onclick="toggleAutoRefresh()" id="toggleBtn">Stop</button>
+        <button onclick="forceRefresh()">Refresh Now</button>
+        <button onclick="runBuild()">Build</button>
+    </div>
+    
+    <iframe src="test-dual-panel.html" id="testFrame"></iframe>
+    
+    <script>
+        let autoRefreshEnabled = true;
+        let refreshInterval = null;
+        let lastHash = null;
+        
+        function updateIndicator(status, text) {
+            const indicator = document.getElementById('indicator');
+            indicator.className = `auto-refresh-indicator ${status}`;
+            indicator.textContent = text;
+        }
+        
+        function toggleAutoRefresh() {
+            autoRefreshEnabled = !autoRefreshEnabled;
+            const btn = document.getElementById('toggleBtn');
+            
+            if (autoRefreshEnabled) {
+                btn.textContent = 'Stop';
+                btn.className = 'stop';
+                startAutoRefresh();
+                updateIndicator('', 'Auto-refresh: ON');
+            } else {
+                btn.textContent = 'Start';
+                btn.className = '';
+                stopAutoRefresh();
+                updateIndicator('', 'Auto-refresh: OFF');
+            }
+        }
+        
+        function forceRefresh() {
+            updateIndicator('updating', 'Refreshing...');
+            document.getElementById('testFrame').src = 'test-dual-panel.html?' + Date.now();
+            setTimeout(() => {
+                if (autoRefreshEnabled) {
+                    updateIndicator('', 'Auto-refresh: ON');
+                } else {
+                    updateIndicator('', 'Auto-refresh: OFF');
+                }
+            }, 1000);
+        }
+        
+        function runBuild() {
+            updateIndicator('checking', 'Building...');
+            // In a real setup, this would trigger a build
+            // For now, just simulate
+            setTimeout(() => {
+                forceRefresh();
+            }, 2000);
+        }
+        
+        function checkForChanges() {
+            if (!autoRefreshEnabled) return;
+            
+            updateIndicator('checking', 'Checking...');
+            
+            // Check if the file has changed by fetching with cache-busting
+            fetch('test-dual-panel.html?' + Date.now(), { 
+                method: 'HEAD',
+                cache: 'no-cache' 
+            })
+            .then(response => {
+                const etag = response.headers.get('etag') || response.headers.get('last-modified') || Date.now();
+                
+                if (lastHash && lastHash !== etag) {
+                    updateIndicator('updating', 'File changed, refreshing...');
+                    setTimeout(() => {
+                        document.getElementById('testFrame').src = 'test-dual-panel.html?' + Date.now();
+                        setTimeout(() => updateIndicator('', 'Auto-refresh: ON'), 1000);
+                    }, 500);
+                } else {
+                    updateIndicator('', 'Auto-refresh: ON');
+                }
+                
+                lastHash = etag;
+            })
+            .catch(err => {
+                updateIndicator('', 'Auto-refresh: ON (check failed)');
+            });
+        }
+        
+        function startAutoRefresh() {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(checkForChanges, 3000); // Check every 3 seconds
+        }
+        
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+            }
+        }
+        
+        // Start on load
+        window.addEventListener('load', () => {
+            startAutoRefresh();
+            // Initial hash
+            checkForChanges();
+        });
+        
+        // Pause when tab is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoRefresh();
+            } else if (autoRefreshEnabled) {
+                startAutoRefresh();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                forceRefresh();
+            }
+            if (e.key === 'b' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                runBuild();
+            }
+        });
+    </script>
+</body>
+</html>

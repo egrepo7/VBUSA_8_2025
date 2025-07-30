@@ -1,0 +1,13 @@
+// =============================================================================
+// IntuitSolutions.net - Utilities
+// =============================================================================
+// anchor-secondary class
+a.anchor-secondary {
+  color: $font-color-secondary-link;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: $font-color-secondary-link--hover;
+  }
+}
