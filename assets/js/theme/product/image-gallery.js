@@ -1,117 +1,51 @@
-import 'easyzoom';
+$(document).ready(function() {
+    function initMainImageSlick() {
+        if (window.innerWidth > 768) return;
+        if (typeof $.fn.slick !== 'function') return;
+        if (!window.BCData || !window.BCData.product_images || !window.BCData.product_images.length) return;
 
-export default class ImageGallery {
-    constructor($gallery) {
-        this.$mainImage = $gallery.find('[data-image-gallery-main]');
-        this.$mainImageNested = $gallery.find('[data-main-image]');
-        this.$selectableImages = $gallery.find('[data-image-gallery-item]');
-        this.currentImage = {};
-    }
+        var $mainImageDesktop = $('.main-image-desktop');
+        if (!$mainImageDesktop.length) return;
+        if ($('.main-image-slick').length) return;
 
-    init() {
-        this.bindEvents();
-        this.setImageZoom();
-    }
-
-    setMainImage(imgObj) {
-        this.currentImage = { ...imgObj };
-
-        this.setActiveThumb();
-        this.swapMainImage();
-    }
-
-    setAlternateImage(imgObj) {
-        if (!this.savedImage) {
-            this.savedImage = {
-                mainImageUrl: this.$mainImage.find('img').attr('src'),
-                zoomImageUrl: this.$mainImage.attr('data-zoom-image'),
-                mainImageSrcset: this.$mainImage.find('img').attr('srcset'),
-                $selectedThumb: this.currentImage.$selectedThumb,
-            };
-        }
-        this.setMainImage(imgObj);
-    }
-
-    restoreImage() {
-        if (this.savedImage) {
-            this.setMainImage(this.savedImage);
-            delete this.savedImage;
-        }
-    }
-
-    selectNewImage(e) {
-        e.preventDefault();
-        const $target = $(e.currentTarget);
-        const imgObj = {
-            mainImageUrl: $target.attr('data-image-gallery-new-image-url'),
-            zoomImageUrl: $target.attr('data-image-gallery-zoom-image-url'),
-            mainImageSrcset: $target.attr('data-image-gallery-new-image-srcset'),
-            $selectedThumb: $target,
-            mainImageAlt: $target.children().first().attr('alt'),
-        };
-        this.setMainImage(imgObj);
-    }
-
-    setActiveThumb() {
-        this.$selectableImages.removeClass('is-active');
-        if (this.currentImage.$selectedThumb) {
-            this.currentImage.$selectedThumb.addClass('is-active');
-        }
-    }
-
-    swapMainImage() {
-        const isBrowserIE = navigator.userAgent.includes('Trident');
-
-        this.easyzoom.data('easyZoom').swap(
-            this.currentImage.mainImageUrl,
-            this.currentImage.zoomImageUrl,
-            this.currentImage.mainImageSrcset,
-        );
-
-        this.$mainImage.attr({
-            'data-zoom-image': this.currentImage.zoomImageUrl,
+        var images = window.BCData.product_images;
+        var $slick = $('<div class="main-image-slick"></div>');
+        images.forEach(function(img) {
+            var $slide = $('<div></div>');
+            var $figure = $('<figure class="productView-image" data-image-gallery-main></figure>');
+            var $container = $('<div class="productView-img-container"></div>');
+            var $a = $('<a></a>')
+                .attr('href', img.url_zoom)
+                .attr('data-type', 'image')
+                .attr('target', '_blank');
+            var $img = $('<img>')
+                .attr('src', img.url_zoom)
+                .attr('alt', img.alt || '');
+            $a.append($img);
+            $container.append($a);
+            $figure.append($container);
+            $slide.append($figure);
+            $slick.append($slide);
         });
-        this.$mainImageNested.attr({
-            alt: this.currentImage.mainImageAlt,
-            title: this.currentImage.mainImageAlt,
-        });
-
-        if (isBrowserIE) {
-            const fallbackStylesIE = {
-                'background-image': `url(${this.currentImage.mainImageUrl})`,
-                'background-position': 'center',
-                'background-repeat': 'no-repeat',
-                'background-origin': 'content-box',
-                'background-size': 'contain',
-            };
-
-            this.$mainImageNested.css(fallbackStylesIE);
-        }
-    }
-
-    checkImage() {
-        const $imageContainer = $('.productView-image');
-        const containerHeight = $imageContainer.height();
-        const containerWidth = $imageContainer.width();
-
-        const $image = this.easyzoom.data('easyZoom').$zoom;
-        const height = $image.height();
-        const width = $image.width();
-
-        if (height < containerHeight || width < containerWidth) {
-            this.easyzoom.data('easyZoom').hide();
-        }
-    }
-
-    setImageZoom() {
-        this.easyzoom = this.$mainImage.easyZoom({
-            onShow: () => this.checkImage(),
-            errorNotice: '',
-            loadingNotice: '',
+        $mainImageDesktop.after($slick);
+        $slick.slick({
+            dots: true,
+            arrows: false,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            adaptiveHeight: true
         });
     }
 
-    bindEvents() {
-        this.$selectableImages.on('click', this.selectNewImage.bind(this));
-    }
-}
+    let tries = 0;
+    const maxTries = 10;
+    const interval = setInterval(function() {
+        tries++;
+        initMainImageSlick();
+        if ($('.main-image-slick').length || tries >= maxTries) {
+            clearInterval(interval);
+        }
+    }, 200);
+});

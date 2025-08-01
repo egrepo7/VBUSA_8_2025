@@ -36,18 +36,15 @@
         <!-- LEFT SIDE - Media & Content -->
         <div class="media-panel" id="mediaPanel">
             <div class="media-content">
-                
+                <!-- Breadcrumbs moved above main image and carousel -->
+                {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
                 <!-- Product Images & Gallery -->
                 <section class="productView-images" data-image-gallery>
-                    <!-- Floating Breadcrumbs -->
-                    <div class="floating-breadcrumbs">
-                        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
-                    </div>
-                    
                     {{#if product.images.length '>' 1 }}
                     {{> components/carousel-content-announcement}}
                     {{/if}}
-                    <figure class="productView-image"
+                    <!-- Main product image for desktop -->
+                    <figure class="productView-image main-image-desktop"
                             data-image-gallery-main
                             {{#if product.main_image}}
                             data-zoom-image="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size }}"
@@ -69,13 +66,107 @@
                             {{/if}}
                         </div>
                     </figure>
-            
                     {{#all (if product.videos.list) (if theme_settings.its.pdp_video_thumbnails)}}
                         {{> components/custom/product-view-thumbnails slick_activation_count=(add product.images.length product.videos.list.length) video_pos=theme_settings.its.pdp_video_thumbnails_pos video_show=theme_settings.its.pdp_video_thumbnails}}
                     {{else}}
                         {{> components/custom/product-view-thumbnails slick_activation_count=product.images.length}}
                     {{/all}}
                 </section>
+
+                <!-- DUPLICATED DETAILS PANEL FOR MOBILE/TABLET -->
+                <div class="details-panel-inline">
+                    <div class="details-content">
+                        <!-- Product Header -->
+                        <div class="productView-header">
+                            <h1 class="productView-title" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h1>
+                            {{#if product.brand}}
+                                <h2 class="productView-brand"{{#if schema}} itemprop="brand" itemscope itemtype="https://schema.org/Brand"{{/if}}>
+                                    <a href="{{product.brand.url}}"{{#if schema}} itemprop="url"{{/if}}><span{{#if schema}} itemprop="name"{{/if}}>{{product.brand.name}}</span></a>
+                                </h2>
+                            {{/if}}
+                        </div>
+                        <!-- Product Price -->
+                        <div class="productView-price">
+                            {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+                                {{> components/products/price price=product.price schema_org=schema}}
+                            {{else}}
+                                {{> components/common/login-for-pricing}}
+                            {{/or}}
+                        </div>
+                        <!-- Product Information -->
+                        <div class="productView-info-section">
+                            {{product.detail_messages}}
+                            <dl class="productView-info">
+                                {{#if product.sku}}
+                                    <div class="productView-info-details">
+                                        <dt class="productView-info-name">{{lang 'products.sku'}}</dt>
+                                        <dd class="productView-info-value" data-product-sku{{#if schema}} itemprop="sku"{{/if}}>{{product.sku}}</dd>
+                                    </div>
+                                {{/if}}
+                                {{#if product.upc}}
+                                    <div class="productView-info-details">
+                                        <dt class="productView-info-name">{{lang 'products.upc'}}</dt>
+                                        <dd class="productView-info-value" data-product-upc>{{product.upc}}</dd>    
+                                    </div>
+                                {{/if}}
+                                {{#if product.condition}}
+                                    <div class="productView-info-details">
+                                        <dt class="productView-info-name">{{lang 'products.condition'}}</dt>
+                                        <dd class="productView-info-value">{{product.condition}}</dd>   
+                                    </div>
+                                {{/if}}
+                                {{#if product.availability}}
+                                    <div class="productView-info-details">
+                                        <dt class="productView-info-name">{{lang 'products.availability'}}</dt>
+                                        <dd class="productView-info-value">{{product.availability}}</dd>
+                                    </div>
+                                {{/if}}
+                            </dl>
+                        </div>
+                        <!-- Product Options Form -->
+                        <div class="productView-options">
+                            {{#if product.release_date }}
+                                <p class="productView-releaseDate">{{product.release_date}}</p>
+                            {{/if}}
+                            <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data" data-cart-item-add id="productOptionsForm-inline">
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="product_id" value="{{product.id}}"/>
+                                <div data-product-option-change class="productView-options-wrapper">
+                                    {{inject 'showSwatchNames' theme_settings.show_product_swatch_names}}
+                                    {{#each product.options}}
+                                        {{{dynamicComponent 'components/products/options'}}}
+                                    {{/each}}
+                                </div>
+                                <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
+                                    <label class="form-label form-label--alternate">
+                                        {{lang 'products.current_stock'}}
+                                        <span data-product-stock>{{product.stock_level}}</span>
+                                    </label>
+                                </div>
+                                {{#if product.call_for_price}}
+                                    <p class="productView-price">
+                                        <span>{{product.call_for_price}}</span>
+                                    </p>
+                                {{/if}}
+                            </form>
+                        </div>
+                        <!-- Product Description -->
+                        {{#if product.description}}
+                            <div class="productView-description" id="productDescription-inline">
+                                {{{product.description}}}
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <script>
+                window.BCData = window.BCData || {};
+                window.BCData.product_images = [
+                    {{#each product.images}}
+                        {"url_zoom": "{{getImage this 'zoom_size'}}", "alt": "{{this.alt}}"}{{#unless @last}},{{/unless}}
+                    {{/each}}
+                ];
+                </script>
 
                 <!-- Product Videos -->
                 {{#if product.videos.list.length}}
@@ -218,7 +309,8 @@
                             min="1"
                             pattern="[0-9]*"
                             aria-live="polite"
-                            form="productOptionsForm">
+                            form="productOptionsForm"
+                            form="productOptionsForm-inline">
                         <button class="button button--icon" data-action="inc" type="button">
                             <span class="is-srOnly">{{lang 'products.quantity_increase' name=product.title}}</span>
                             <i class="icon" aria-hidden="true">
@@ -286,4 +378,68 @@
         </div>
     </div>
 {{/or}}
+
+<!-- Sticky Cart Section for Mobile/Tablet (highest level, always visible) -->
+<div class="sticky-cart-section sticky-cart-section-mobile">
+    <div class="sticky-cart-product-info">
+        <span class="sticky-cart-product-title">
+            {{product.title}}
+        </span>
+        <span class="sticky-cart-product-price">
+            {{> components/products/price price=product.price}}
+        </span>
+    </div>
+    <div class="sticky-cart-actions-row">
+        {{#if theme_settings.show_product_quantity_box}}
+            <div class="form-increment quantity-selector" data-quantity-change>
+                <button class="button button--icon" data-action="dec" type="button">
+                    <span class="is-srOnly">{{lang 'products.quantity_decrease' name=product.title}}</span>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xlink:href="#icon-keyboard-arrow-down"/>
+                        </svg>
+                    </i>
+                </button>
+                <input 
+                    class="form-input form-input--incrementTotal"
+                    id="qty-mobile"
+                    name="qty[]"
+                    type="tel"
+                    value="{{#if product.min_purchase_quantity}}{{product.min_purchase_quantity}}{{else}}1{{/if}}"
+                    data-quantity-min="{{product.min_purchase_quantity}}"
+                    data-quantity-max="{{product.max_purchase_quantity}}"
+                    min="1"
+                    pattern="[0-9]*"
+                    aria-live="polite"
+                    form="productOptionsForm-inline">
+                <button class="button button--icon" data-action="inc" type="button">
+                    <span class="is-srOnly">{{lang 'products.quantity_increase' name=product.title}}</span>
+                    <i class="icon" aria-hidden="true">
+                        <svg>
+                            <use xlink:href="#icon-keyboard-arrow-up"/>
+                        </svg>
+                    </i>
+                </button>
+            </div>
+        {{/if}}
+        {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+            <input
+                id="form-action-addToCart-mobile"
+                data-wait-message="{{lang 'products.adding_to_cart'}}"
+                class="button button--primary sticky-cart-add-to-cart"
+                type="submit"
+                value="{{#if product.pre_order}}{{lang 'products.pre_order'}}{{else}}{{lang 'products.add_to_cart'}}{{/if}}"
+                form="productOptionsForm-inline"
+                {{#unless product.can_purchase}}style="display: none"{{/unless}}>
+            <span class="product-status-message aria-description--hidden">{{lang 'products.adding_to_cart'}} {{lang 'category.add_cart_announcement'}}</span>
+        {{/or}}
+    </div>
+    {{#if product.out_of_stock}}
+        {{#if product.out_of_stock_message}}
+            {{> components/common/alert/alert-error product.out_of_stock_message}}
+        {{else}}
+            {{> components/common/alert/alert-error (lang 'products.sold_out')}}
+        {{/if}}
+    {{/if}}
+</div>
 

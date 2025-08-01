@@ -11,6 +11,7 @@ import modalFactory from './global/modal';
 import ITSProduct from './custom/its-product';
 import DualPanelScroll from './custom/dual-panel-scroll';
 import SplitLayoutCarousel from './custom/split-layout-carousel';
+import './product/image-gallery';
 
 export default class Product extends PageManager {
     constructor(context) {

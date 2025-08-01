@@ -44,6 +44,13 @@
             {{{stylesheet '/assets/css/theme.css'}}}
         {{/and}}
 
+        <!-- Swiper CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+        <!-- Slick Carousel CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
         {{{head.scripts}}}
 
         {{~inject 'itsConfig' theme_settings.its}}
@@ -69,6 +76,9 @@
             {{inject 'inDevelopment' true}}
         {{/if}}
 
+        <!-- jQuery (required for Slick) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     </head>
     <body class="{{> components/attributes/body-classes }}" data-graphql="{{ settings.storefront_api.token }}">
         <svg data-src="{{cdn 'img/icon-sprite.svg'}}" class="icons-svg-sprite"></svg>
@@ -83,6 +93,10 @@
 
         <script>window.__webpack_public_path__ = "{{cdn 'assets/dist/'}}";</script>
         <script src="{{cdn 'assets/dist/theme-bundle.main.js'}}"></script>
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <!-- Slick Carousel JS -->
+        <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
         <script>
             {{!-- Exported in app.js --}}
             window.stencilBootstrap("{{page_type}}", {{jsContext}}).load();

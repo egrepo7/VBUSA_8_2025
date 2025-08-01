@@ -12,7 +12,7 @@ require("fslightbox");
 export default function (context) {
     const { inDevelopment } = context;
     if (inDevelopment) {
-        console.log('this.context ', context); // eslint-disable-line
+        // console.log('this.context ', context); // eslint-disable-line
 
         kitchenSink(context);
     }
@@ -34,7 +34,7 @@ export default function (context) {
         }
     }
     if (context.template === 'pages/blog-post') {
-        console.log('blog post');
+        // console.log('blog post');
         $(window).resize(() => {
             if (window.innerWidth < 1340) {
                 $('.blog-sidebar').appendTo('.blog-post__header');

@@ -15,12 +15,12 @@ export default class SplitLayoutCarousel {
         
         // Wait for DOM to be ready
         $(document).ready(() => {
-            console.log('DOM ready, initializing split layout carousel');
+            // console.log('DOM ready, initializing split layout carousel');
             this.enforceVerticalLayout();
             
             // Re-enforce after any slick initialization
             setTimeout(() => {
-                console.log('Re-enforcing layout after 500ms delay');
+                // console.log('Re-enforcing layout after 500ms delay');
                 this.enforceVerticalLayout();
             }, 500);
             
@@ -33,13 +33,13 @@ export default class SplitLayoutCarousel {
             
             // Set up a fallback to ensure handlers are always set up
             setTimeout(() => {
-                console.log('Setting up additional navigation handlers');
+                // console.log('Setting up additional navigation handlers');
                 this.setupNavigationHandlers($('.productView.split-layout'));
             }, 1000);
             
             // Set up swipe functionality after a delay to ensure everything is loaded
             setTimeout(() => {
-                console.log('Setting up swipe functionality');
+                // console.log('Setting up swipe functionality');
                 this.setupMainImageSwipe();
             }, 1200);
         });
@@ -66,7 +66,7 @@ export default class SplitLayoutCarousel {
         $.fn.slick = function(options) {
             // Check if this is a split layout thumbnail carousel
             if (this.hasClass('productView-thumbnails') && this.closest('.productView.split-layout').length > 0) {
-                console.log('Intercepting Slick initialization for split layout');
+                // console.log('Intercepting Slick initialization for split layout');
                 
                 // Apply our fixes BEFORE Slick initializes
                 self.applyImmediateLayoutFixes(this);
@@ -114,11 +114,11 @@ export default class SplitLayoutCarousel {
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
         if ($thumbnails.length === 0) return;
         
-        console.log('Pre-initializing split layout before Slick initialization');
+        // console.log('Pre-initializing split layout before Slick initialization');
         
         // Set up event listeners to intercept Slick initialization
         $thumbnails.on('beforeChange.splitLayout', (event, slick) => {
-            console.log('Slick beforeChange event intercepted');
+            // console.log('Slick beforeChange event intercepted');
             this.enforceVerticalLayout();
         });
         
@@ -138,7 +138,7 @@ export default class SplitLayoutCarousel {
     applyImmediateLayoutFixes($thumbnails) {
         const isMobile = window.innerWidth <= 768;
         
-        console.log('Applying immediate layout fixes for split layout - AGGRESSIVE MODE');
+        // console.log('Applying immediate layout fixes for split layout - AGGRESSIVE MODE');
         
         // Apply pre-initialization styles to prevent FOUC
         $thumbnails.css({
@@ -201,7 +201,7 @@ export default class SplitLayoutCarousel {
             });
         }
         
-        console.log('Applied immediate layout fixes for split layout - COMPLETE');
+        // console.log('Applied immediate layout fixes for split layout - COMPLETE');
     }
 
     enforceVerticalLayout() {
@@ -228,7 +228,7 @@ export default class SplitLayoutCarousel {
         
         const isMobile = window.innerWidth <= 768;
         
-        console.log(`Enforcing layout for split layout - Mobile: ${isMobile}`);
+        // console.log(`Enforcing layout for split layout - Mobile: ${isMobile}`);
         
         // All products now use Slick mode - apply layout based on screen size
         const $slickTrack = $thumbnails.find('.slick-track');
@@ -316,7 +316,7 @@ export default class SplitLayoutCarousel {
         // Listen for slick events (all products use Slick now)
         // If slick isn't initialized yet, listen for it
         $thumbnails.on('init', (event, slick) => {
-            console.log('Slick carousel initialized, enforcing layout');
+            // console.log('Slick carousel initialized, enforcing layout');
             setTimeout(() => {
                 this.enforceVerticalLayout();
             }, 50);
@@ -324,7 +324,7 @@ export default class SplitLayoutCarousel {
         
         // Also listen for reInit
         $thumbnails.on('reInit', (event, slick) => {
-            console.log('Slick carousel reinitialized, enforcing layout');
+            // console.log('Slick carousel reinitialized, enforcing layout');
             setTimeout(() => {
                 this.enforceVerticalLayout();
             }, 50);
@@ -332,7 +332,7 @@ export default class SplitLayoutCarousel {
         
         // Listen for breakpoint changes
         $thumbnails.on('breakpoint', (event, slick) => {
-            console.log('Slick carousel breakpoint changed, enforcing layout');
+            // console.log('Slick carousel breakpoint changed, enforcing layout');
             setTimeout(() => {
                 this.enforceVerticalLayout();
             }, 50);
@@ -365,9 +365,9 @@ export default class SplitLayoutCarousel {
     setupNavigationHandlers($splitLayout) {
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
         
-        console.log('Setting up navigation handlers for split layout - pseudo-element click detection');
-        console.log('Found split layout containers:', $splitLayout.length);
-        console.log('Found thumbnail containers:', $thumbnails.length);
+        // console.log('Setting up navigation handlers for split layout - pseudo-element click detection');
+        // console.log('Found split layout containers:', $splitLayout.length);
+        // console.log('Found thumbnail containers:', $thumbnails.length);
         
         // Use document-level delegation to capture clicks on the thumbnail container
         $(document).off('click.split-layout-pseudo');
@@ -387,31 +387,31 @@ export default class SplitLayoutCarousel {
             const upArrowBottom = containerTop + arrowHeight;
             const downArrowTop = containerBottom - arrowHeight;
             
-            console.log('Click detected on thumbnails container:', {
-                clickY,
-                containerTop,
-                containerBottom,
-                upArrowBottom,
-                downArrowTop
-            });
+            // console.log('Click detected on thumbnails container:', {
+            //     clickY,
+            //     containerTop,
+            //     containerBottom,
+            //     upArrowBottom,
+            //     downArrowTop
+            // });
             
             const $currentSplitLayout = $container.closest('.productView.split-layout');
             const $slickList = $container.find('.slick-list');
             
             if ($slickList.length === 0) {
-                console.log('No slick-list found for scrolling');
+                // console.log('No slick-list found for scrolling');
                 return;
             }
             
             // Check if click is in the up arrow area (::before)
             if (clickY >= containerTop && clickY <= upArrowBottom) {
-                console.log('Up arrow area clicked (::before pseudo-element area)');
+                // console.log('Up arrow area clicked (::before pseudo-element area)');
                 
                 const currentScrollTop = $slickList.scrollTop();
                 const scrollAmount = 88; // thumbnail height (80px) + gap (8px)
                 const newScrollTop = Math.max(0, currentScrollTop - scrollAmount);
                 
-                console.log(`Scrolling up from ${currentScrollTop} to ${newScrollTop}`);
+                // console.log(`Scrolling up from ${currentScrollTop} to ${newScrollTop}`);
                 
                 $slickList.animate({
                     scrollTop: newScrollTop
@@ -421,14 +421,14 @@ export default class SplitLayoutCarousel {
             }
             // Check if click is in the down arrow area (::after)
             else if (clickY >= downArrowTop && clickY <= containerBottom) {
-                console.log('Down arrow area clicked (::after pseudo-element area)');
+                // console.log('Down arrow area clicked (::after pseudo-element area)');
                 
                 const currentScrollTop = $slickList.scrollTop();
                 const scrollAmount = 88; // thumbnail height (80px) + gap (8px)
                 const maxScrollTop = $slickList[0].scrollHeight - $slickList.outerHeight();
                 const newScrollTop = Math.min(maxScrollTop, currentScrollTop + scrollAmount);
                 
-                console.log(`Scrolling down from ${currentScrollTop} to ${newScrollTop}, max: ${maxScrollTop}`);
+                // console.log(`Scrolling down from ${currentScrollTop} to ${newScrollTop}, max: ${maxScrollTop}`);
                 
                 $slickList.animate({
                     scrollTop: newScrollTop
@@ -436,13 +436,13 @@ export default class SplitLayoutCarousel {
                     this.updateScrollArrowVisibility($currentSplitLayout);
                 });
             } else {
-                console.log('Click in middle area - no scroll action');
+                // console.log('Click in middle area - no scroll action');
             }
         });
         
         // Update arrow visibility when Slick is initialized
         $thumbnails.on('init', (event, slick) => {
-            console.log('Slick initialized, setting up scroll arrow visibility');
+            // console.log('Slick initialized, setting up scroll arrow visibility');
             setTimeout(() => {
                 this.updateScrollArrowVisibility($splitLayout);
                 
@@ -469,13 +469,13 @@ export default class SplitLayoutCarousel {
         const maxScrollTop = scrollHeight - clientHeight;
         const isScrollable = scrollHeight > clientHeight;
         
-        console.log('Updating scroll arrow visibility for pseudo-elements:', {
-            scrollTop,
-            scrollHeight,
-            clientHeight,
-            maxScrollTop,
-            isScrollable
-        });
+        // console.log('Updating scroll arrow visibility for pseudo-elements:', {
+        //     scrollTop,
+        //     scrollHeight,
+        //     clientHeight,
+        //     maxScrollTop,
+        //     isScrollable
+        // });
         
         if (!isScrollable) {
             // Not scrollable - hide both pseudo-element arrows
@@ -507,7 +507,7 @@ export default class SplitLayoutCarousel {
         if (window.innerWidth > 768) return;
         
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
-        console.log('Setting up mobile horizontal scroll handlers');
+        // console.log('Setting up mobile horizontal scroll handlers');
         
         // Handle horizontal scroll for mobile
         $(document).off('click.mobile-horizontal');
@@ -528,19 +528,19 @@ export default class SplitLayoutCarousel {
             const leftArrowZone = arrowWidth;
             const rightArrowZone = containerWidth - arrowWidth;
             
-            console.log('Mobile horizontal click detected:', {
-                clickX,
-                containerWidth,
-                leftArrowZone,
-                rightArrowZone
-            });
+            // console.log('Mobile horizontal click detected:', {
+            //     clickX,
+            //     containerWidth,
+            //     leftArrowZone,
+            //     rightArrowZone
+            // });
             
             const $slickList = $container.find('.slick-list');
             if ($slickList.length === 0) return;
             
             if (clickX <= leftArrowZone) {
                 // Clicked in left arrow area - scroll left
-                console.log('Mobile left arrow area clicked');
+                // console.log('Mobile left arrow area clicked');
                 const currentScrollLeft = $slickList.scrollLeft();
                 const scrollAmount = 92; // thumbnail width (80px) + gap (12px)
                 const newScrollLeft = Math.max(0, currentScrollLeft - scrollAmount);
@@ -551,7 +551,7 @@ export default class SplitLayoutCarousel {
                 
             } else if (clickX >= rightArrowZone) {
                 // Clicked in right arrow area - scroll right
-                console.log('Mobile right arrow area clicked');
+                // console.log('Mobile right arrow area clicked');
                 const currentScrollLeft = $slickList.scrollLeft();
                 const scrollAmount = 92; // thumbnail width (80px) + gap (12px)
                 const maxScrollLeft = $slickList[0].scrollWidth - $slickList.outerWidth();
@@ -594,13 +594,13 @@ export default class SplitLayoutCarousel {
         const maxScrollLeft = scrollWidth - clientWidth;
         const isScrollable = scrollWidth > clientWidth;
         
-        console.log('Updating mobile horizontal arrow visibility:', {
-            scrollLeft,
-            scrollWidth,
-            clientWidth,
-            maxScrollLeft,
-            isScrollable
-        });
+        // console.log('Updating mobile horizontal arrow visibility:', {
+        //     scrollLeft,
+        //     scrollWidth,
+        //     clientWidth,
+        //     maxScrollLeft,
+        //     isScrollable
+        // });
         
         if (!isScrollable) {
             $thumbnails.removeClass('can-scroll-left can-scroll-right');
@@ -623,7 +623,7 @@ export default class SplitLayoutCarousel {
     }
     
     setupThumbnailClickHandlers($splitLayout) {
-        console.log('Setting up thumbnail click handlers for split layout');
+        // console.log('Setting up thumbnail click handlers for split layout');
         
         // Remove existing thumbnail click handlers that open PhotoSwipe
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
@@ -640,10 +640,10 @@ export default class SplitLayoutCarousel {
             const $target = $(e.currentTarget);
             const type = $target.attr('data-type');
             
-            console.log('Split layout thumbnail clicked:', {
-                type: type,
-                target: $target[0]
-            });
+            // console.log('Split layout thumbnail clicked:', {
+            //     type: type,
+            //     target: $target[0]
+            // });
             
             // Try to find the image gallery instance from the global product details
             let imageGallery = null;
@@ -662,22 +662,22 @@ export default class SplitLayoutCarousel {
             if (imageGallery && typeof imageGallery.selectNewImage === 'function') {
                 // Use the existing selectNewImage method to change the main image
                 imageGallery.selectNewImage(e);
-                console.log('Main image changed via image gallery instance');
+                // console.log('Main image changed via image gallery instance');
             } else {
                 // Fallback: manually change the main image
                 this.changeMainImageManually($target, type);
-                console.log('Main image changed via manual method');
+                // console.log('Main image changed via manual method');
             }
         });
         
-        console.log('Thumbnail click handlers set up for split layout - hover disabled');
+        // console.log('Thumbnail click handlers set up for split layout - hover disabled');
     }
     
     disableThumbnailHover($splitLayout) {
         // Continuously disable hover functionality for split layout thumbnails
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
         
-        console.log('Disabling thumbnail hover for split layout');
+        // console.log('Disabling thumbnail hover for split layout');
         
         // Remove any hover event listeners
         $thumbnails.find('[data-image-gallery-item], [data-image-gallery-video]').off('mouseenter mouseover hover');
@@ -691,7 +691,7 @@ export default class SplitLayoutCarousel {
             return false;
         });
         
-        console.log('Thumbnail hover disabled for split layout');
+        // console.log('Thumbnail hover disabled for split layout');
     }
     
     changeMainImageManually($target, type) {
@@ -710,13 +710,13 @@ export default class SplitLayoutCarousel {
         
         if (!newImageUrl) return;
         
-        console.log('Manually changing main image:', {
-            newImageUrl,
-            newImageSrcset,
-            zoomImageUrl,
-            imageAlt,
-            imageIndex
-        });
+        // console.log('Manually changing main image:', {
+        //     newImageUrl,
+        //     newImageSrcset,
+        //     zoomImageUrl,
+        //     imageAlt,
+        //     imageIndex
+        // });
         
         // Update the main image
         $mainImage.attr({
@@ -745,19 +745,19 @@ export default class SplitLayoutCarousel {
             $zoomContainer.attr('data-zoom-image', zoomImageUrl);
         }
         
-        console.log('Main image manually updated');
+        // console.log('Main image manually updated');
     }
     
     setupMainImageSwipe() {
-        console.log('Setting up main image swipe handlers');
+        // console.log('Setting up main image swipe handlers');
         
         const $mainImageContainer = $('.productView.split-layout .productView-image .productView-img-container');
         if ($mainImageContainer.length === 0) {
-            console.log('No main image container found for swipe');
+            // console.log('No main image container found for swipe');
             return;
         }
         
-        console.log('Found main image container:', $mainImageContainer[0]);
+        // console.log('Found main image container:', $mainImageContainer[0]);
         
         // Set up touch events for mobile and device emulation
         let startX = null;
@@ -769,13 +769,13 @@ export default class SplitLayoutCarousel {
         
         // Touch start
         $mainImageContainer.on('touchstart.swipe', (e) => {
-            console.log('Touch start detected on main image:', e.originalEvent);
+            // console.log('Touch start detected on main image:', e.originalEvent);
             const touch = e.originalEvent.touches[0];
             startX = touch.clientX;
             startY = touch.clientY;
             isScrolling = null;
             
-            console.log('Touch start coordinates:', { startX, startY });
+            // console.log('Touch start coordinates:', { startX, startY });
             
             // Add visual feedback
             $mainImageContainer.css('opacity', '0.9');
@@ -789,18 +789,18 @@ export default class SplitLayoutCarousel {
             const deltaX = touch.clientX - startX;
             const deltaY = touch.clientY - startY;
             
-            console.log('Touch move - deltas:', { deltaX, deltaY });
+            // console.log('Touch move - deltas:', { deltaX, deltaY });
             
             // Determine if user is scrolling vertically or swiping horizontally
             if (isScrolling === null) {
                 isScrolling = Math.abs(deltaY) > Math.abs(deltaX);
-                console.log('Determined scrolling direction:', isScrolling ? 'vertical' : 'horizontal');
+                // console.log('Determined scrolling direction:', isScrolling ? 'vertical' : 'horizontal');
             }
             
             // If horizontal swipe, prevent default scrolling
             if (!isScrolling && Math.abs(deltaX) > 10) {
                 e.preventDefault();
-                console.log('Horizontal swipe detected, preventing default');
+                // console.log('Horizontal swipe detected, preventing default');
                 
                 // Add visual feedback during swipe
                 const translateX = deltaX * 0.1; // Subtle movement feedback
@@ -810,7 +810,7 @@ export default class SplitLayoutCarousel {
         
         // Touch end
         $mainImageContainer.on('touchend.swipe', (e) => {
-            console.log('Touch end detected on main image');
+            // console.log('Touch end detected on main image');
             
             // Remove visual feedback
             $mainImageContainer.css({
@@ -819,7 +819,7 @@ export default class SplitLayoutCarousel {
             });
             
             if (!startX || !startY || isScrolling) {
-                console.log('Touch end - no swipe action (scrolling or no start position)');
+                // console.log('Touch end - no swipe action (scrolling or no start position)');
                 startX = null;
                 startY = null;
                 isScrolling = null;
@@ -833,21 +833,21 @@ export default class SplitLayoutCarousel {
             // Minimum swipe distance
             const minSwipeDistance = 50;
             
-            console.log('Touch end - analyzing swipe:', { deltaX, deltaY, minSwipeDistance });
+            // console.log('Touch end - analyzing swipe:', { deltaX, deltaY, minSwipeDistance });
             
             // Check for horizontal swipe
             if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < 100) {
                 if (deltaX > 0) {
                     // Swipe right - go to previous image
-                    console.log('Swipe right detected - going to previous image');
+                    // console.log('Swipe right detected - going to previous image');
                     this.navigateToImage('previous');
                 } else {
                     // Swipe left - go to next image
-                    console.log('Swipe left detected - going to next image');
+                    // console.log('Swipe left detected - going to next image');
                     this.navigateToImage('next');
                 }
             } else {
-                console.log('No swipe action - insufficient distance or vertical movement');
+                // console.log('No swipe action - insufficient distance or vertical movement');
             }
             
             // Reset values
@@ -863,10 +863,10 @@ export default class SplitLayoutCarousel {
         
         // Only add mouse events if touch is NOT supported (pure desktop)
         if (!('ontouchstart' in window)) {
-            console.log('Touch not supported - adding mouse events for desktop testing');
+            // console.log('Touch not supported - adding mouse events for desktop testing');
             
             $mainImageContainer.on('mousedown.swipe', (e) => {
-                console.log('Mouse down detected on main image (desktop mode)');
+                // console.log('Mouse down detected on main image (desktop mode)');
                 mouseDown = true;
                 mouseStartX = e.clientX;
                 mouseStartY = e.clientY;
@@ -892,7 +892,7 @@ export default class SplitLayoutCarousel {
             $mainImageContainer.on('mouseup.swipe', (e) => {
                 if (!mouseDown) return;
                 
-                console.log('Mouse up detected on main image (desktop mode)');
+                // console.log('Mouse up detected on main image (desktop mode)');
                 mouseDown = false;
                 
                 // Reset visual feedback
@@ -905,17 +905,17 @@ export default class SplitLayoutCarousel {
                 const deltaY = e.clientY - mouseStartY;
                 const minSwipeDistance = 50;
                 
-                console.log('Mouse drag - analyzing swipe:', { deltaX, deltaY, minSwipeDistance });
+                // console.log('Mouse drag - analyzing swipe:', { deltaX, deltaY, minSwipeDistance });
                 
                 // Check for horizontal swipe
                 if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaY) < 100) {
                     if (deltaX > 0) {
                         // Drag right - go to previous image
-                        console.log('Mouse drag right detected - going to previous image');
+                        // console.log('Mouse drag right detected - going to previous image');
                         this.navigateToImage('previous');
                     } else {
                         // Drag left - go to next image
-                        console.log('Mouse drag left detected - going to next image');
+                        // console.log('Mouse drag left detected - going to next image');
                         this.navigateToImage('next');
                     }
                 }
@@ -932,10 +932,10 @@ export default class SplitLayoutCarousel {
                 }
             });
         } else {
-            console.log('Touch supported - skipping mouse events (will use touch events in device emulation)');
+            // console.log('Touch supported - skipping mouse events (will use touch events in device emulation)');
         }
         
-        console.log('Main image swipe handlers set up');
+        // console.log('Main image swipe handlers set up');
     }
     
     navigateToImage(direction) {
@@ -963,7 +963,7 @@ export default class SplitLayoutCarousel {
         }
         
         if ($nextThumbnail && $nextThumbnail.length > 0) {
-            console.log(`Navigating to ${direction} image via swipe`);
+            // console.log(`Navigating to ${direction} image via swipe`);
             
             // Trigger click on the thumbnail to change the main image
             const clickEvent = $.Event('click', {
@@ -990,14 +990,14 @@ export default class SplitLayoutCarousel {
     
     // Helper method for testing swipe functionality from desktop console
     testSwipe(direction = 'next') {
-        console.log(`Testing swipe ${direction} from console`);
+        // console.log(`Testing swipe ${direction} from console`);
         this.navigateToImage(direction);
     }
     
     // Expose this instance globally for testing
     init() {
         window.splitLayoutCarousel = this;
-        console.log('Split layout carousel instance exposed as window.splitLayoutCarousel');
-        console.log('Test swipe with: window.splitLayoutCarousel.testSwipe("next") or window.splitLayoutCarousel.testSwipe("previous")');
+        // console.log('Split layout carousel instance exposed as window.splitLayoutCarousel');
+        // console.log('Test swipe with: window.splitLayoutCarousel.testSwipe("next") or window.splitLayoutCarousel.testSwipe("previous")');
     }
 }

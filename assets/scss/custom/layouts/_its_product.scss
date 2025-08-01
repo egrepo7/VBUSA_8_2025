@@ -19,7 +19,7 @@
 }
 
 .productView-title {
-    text-align: center;
+    text-align: left;
     line-height: 33px;
     letter-spacing: -0.03rem;
     font-weight: 700;
@@ -319,8 +319,9 @@
 
 .productView-price {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: start;
+    width: 100%;
+    justify-content: start;
     // margin-top removed for mobile
 
     @include breakpoint('medium') {
@@ -329,7 +330,7 @@
         // margin: 0 48px 0 0;
         // border-top: 0;
         // width: 100%;
-        justify-content: end;
+        justify-content: start;
         // margin-top: 18px;
     }
 }
@@ -350,11 +351,12 @@
 
 .price.price--withTax,
 .price--withoutTax {
-    color: $color-primary;
-    font-size: 2rem;
+    color: #ed1c24;
+    font-size: 1rem;
     font-weight: 700;
-
 }
+
+
 
 .price-section--saving {
     display: none;
@@ -362,12 +364,6 @@
 
 .page--product .form-increment {
     justify-content: center;
-    margin-bottom: 32px;
-
-    @include breakpoint('medium') {
-        // 801px and up
-        margin: 0;
-    }
 }
 
 .page--product .form-field--increments,
@@ -1028,115 +1024,6 @@
     }
 }
 
-// Split Layout Carousel - Immediate Sizing Fix
-// Force thumbnails to load at full size immediately, preventing shrink-then-expand effect
-.productView.split-layout {
-    .productView-thumbnails {
-        // Force immediate visibility and proper sizing
-        opacity: 1 !important;
-        visibility: visible !important;
-        
-        // Desktop: vertical layout with immediate sizing
-        width: 80px !important;
-        min-width: 80px !important;
-        max-width: 80px !important;
-        
-        @media (max-width: 768px) {
-            width: 100% !important;
-            max-width: none !important;
-        }
-        
-        // Force all thumbnail images to proper size immediately
-        img,
-        li img,
-        .slick-slide img,
-        .productView-thumbnail img,
-        .productView-thumbnail-link img {
-            width: 80px !important;
-            height: 80px !important;
-            min-width: 80px !important;
-            min-height: 80px !important;
-            max-width: 80px !important;
-            max-height: 80px !important;
-            object-fit: cover !important;
-            
-            // Prevent any transitions during load to avoid visual jump
-            transition: none !important;
-        }
-        
-        // Force proper Slick container sizing immediately
-        .slick-list {
-            width: 80px !important;
-            height: auto !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            
-            @media (max-width: 768px) {
-                width: 100% !important;
-                height: 80px !important;
-                overflow-x: auto !important;
-                overflow-y: hidden !important;
-            }
-        }
-        
-        // Force proper Slick track sizing immediately
-        .slick-track {
-            display: flex !important;
-            flex-direction: column !important;
-            width: 80px !important;
-            height: auto !important;
-            transform: none !important;
-            left: 0 !important;
-            top: 0 !important;
-            gap: 8px !important;
-            
-            @media (max-width: 768px) {
-                flex-direction: row !important;
-                width: auto !important;
-                height: 80px !important;
-                gap: 12px !important;
-            }
-        }
-        
-        // Force proper slide sizing immediately
-        .slick-slide {
-            display: block !important;
-            width: 80px !important;
-            height: 80px !important;
-            min-width: 80px !important;
-            min-height: 80px !important;
-            margin-bottom: 8px !important;
-            transform: none !important;
-            left: auto !important;
-            top: auto !important;
-            position: relative !important;
-            
-            @media (max-width: 768px) {
-                display: inline-block !important;
-                margin-bottom: 0 !important;
-                margin-right: 0 !important;
-            }
-            
-            &:last-child {
-                margin-bottom: 0 !important;
-            }
-        }
-        
-        // Hide all Slick arrows immediately
-        .slick-prev,
-        .slick-next,
-        .slick-arrow,
-        button.slick-prev,
-        button.slick-next,
-        button.slick-arrow {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-    }
-}
-
 // Mobile swipe enhancement for main product image
 @media (max-width: 768px) {
     .productView.split-layout {
@@ -1146,7 +1033,6 @@
                 img {
                     transition: opacity 0.2s ease-in-out;
                 }
-                
                 // Add touch feedback
                 &:active {
                     transform: scale(0.98);
@@ -1155,4 +1041,27 @@
             }
         }
     }
+}
+
+@media (max-width: 1024px) {
+  .sticky-cart-actions-row {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+  }
+  .sticky-cart-actions-row .button--primary {
+    width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .sticky-cart-actions-row .productView-price {
+    font-size: 1rem;
+    color: $color-primary;
+    font-weight: 700;
+  }
+}
+
+.sticky-cart-product-info .price--rrp {
+  display: none;
 }
