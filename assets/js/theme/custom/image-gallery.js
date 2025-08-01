@@ -67,6 +67,24 @@ export default class ImageGallery {
     }
 
     swapMainImage() {
+        if (this.$mainImageNested.length === 0) {
+            // Try alternative selectors
+            const $altMainImage1 = $('.productView-image img').first();
+            const $altMainImage3 = $('[data-main-image]'); // Global search
+            
+            if ($altMainImage1.length > 0) {
+                this.$mainImageNested = $altMainImage1;
+            } else if ($altMainImage3.length > 0) {
+                this.$mainImageNested = $altMainImage3;
+            } else {
+                return;
+            }
+        }
+
+        if (!this.currentImage.mainImageUrl) {
+            return;
+        }
+
         this.$mainImageNested.attr({
             src: this.currentImage.mainImageUrl,
             srcset: this.currentImage.mainImageSrcset,
@@ -136,7 +154,9 @@ export default class ImageGallery {
             this.$selectableVideos.each((index, el) => {
                 const videoIframe = $(el).attr('data-pswp-content');
                 const videoImageSrc = $(el).attr('data-video-gallery-zoom-image-url');
-                this.updatePhotoswipeItemsArray(index, videoImageSrc, videoIframe);
+                if (videoImageSrc && videoImageSrc !== 'undefined') {
+                    this.updatePhotoswipeItemsArray(index, videoImageSrc, videoIframe);
+                }
             });
         }
 
@@ -146,12 +166,16 @@ export default class ImageGallery {
                     ? index + videoCount
                     : index;
                 const imageSrc = $(el).attr('data-image-gallery-zoom-image-url');
-                this.updatePhotoswipeItemsArray(newIndex, imageSrc);
+                if (imageSrc && imageSrc !== 'undefined') {
+                    this.updatePhotoswipeItemsArray(newIndex, imageSrc);
+                }
             });
         } else {
             // Only fires if there is no video thumbnails or image thumbnails (single thumbnails are turned off by default on all store items)
             const imageSrc = this.$mainImage.attr('data-zoom-image');
-            this.updatePhotoswipeItemsArray(0, imageSrc);
+            if (imageSrc && imageSrc !== 'undefined') {
+                this.updatePhotoswipeItemsArray(0, imageSrc);
+            }
         }
 
         if (videoCount && !this.videoFirstPos) {
@@ -161,12 +185,20 @@ export default class ImageGallery {
                     : index;
                 const videoIframe = $(el).attr('data-pswp-content');
                 const videoImageSrc = $(el).attr('data-video-gallery-zoom-image-url');
-                this.updatePhotoswipeItemsArray(newIndex, videoImageSrc, videoIframe);
+                if (videoImageSrc && videoImageSrc !== 'undefined') {
+                    this.updatePhotoswipeItemsArray(newIndex, videoImageSrc, videoIframe);
+                }
             });
         }
     }
 
     updatePhotoswipeItemsArray(index, src, videoHTML = '') {
+        // Safety check: don't process if src is undefined, null, or empty
+        if (!src || src === 'undefined' || src.trim() === '') {
+            console.warn('ImageGallery: Skipping undefined or empty image src for index', index);
+            return;
+        }
+
         const image = new Image();
         image.src = src;
         image.onload = (event) => {
@@ -182,14 +214,46 @@ export default class ImageGallery {
 
             this.photoswipeItems.splice(index, 1, data);
         };
+        
+        // Add error handling for failed image loads
+        image.onerror = () => {
+            console.error('ImageGallery: Failed to load image:', src);
+        };
     }
 
     bindEvents() {
-        this.$selectableImages.on('mouseenter', this.selectNewImage.bind(this));
-        this.$selectableVideos.on('mouseenter', this.selectNewImage.bind(this)); // change main image on thumbnail hover
+        // Check if we're in a split layout - if so, don't bind thumbnail click events
+        const $productView = this.$selectableImages.closest('.productView');
+        const isSplitLayout = $productView.hasClass('split-layout');
+        
+        // Only bind hover events if NOT in split layout
+        if (!isSplitLayout) {
+            this.$selectableImages.on('mouseenter', this.selectNewImage.bind(this));
+            this.$selectableVideos.on('mouseenter', this.selectNewImage.bind(this)); // change main image on thumbnail hover
+        }
 
-        this.$selectableImages.on('click', this.handleClickImage.bind(this)); // open photoswipe on thumbnail click
-        this.$selectableVideos.on('click', this.handleClickImage.bind(this));
+        // Only bind click handlers if NOT in split layout (split layout handles its own clicks)
+        if (!isSplitLayout) {
+            // Add click handlers to change main image on click
+            this.$selectableImages.on('click', (e) => {
+                // Prevent immediate PhotoSwipe opening
+                e.preventDefault();
+                // Change the main image first
+                this.selectNewImage(e);
+            });
+            
+            this.$selectableVideos.on('click', (e) => {
+                // Prevent immediate PhotoSwipe opening
+                e.preventDefault();
+                // Change the main image first
+                this.selectNewImage(e);
+            });
+
+            // PhotoSwipe opens on double-click or main image click
+            this.$selectableImages.on('dblclick', this.handleClickImage.bind(this));
+            this.$selectableVideos.on('dblclick', this.handleClickImage.bind(this));
+        }
+        
         this.$mainImage.find('.image-main').on('click', this.handleClickImage.bind(this)); // makes clicking off in mobile work to hide
         this.$mainImage.find('a').on('click', this.handleClickImage.bind(this)); // open photoswipe on main image click
     }

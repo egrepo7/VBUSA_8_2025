@@ -2,34 +2,176 @@
 // SPLIT LAYOUT - OPTIMIZED VERSION
 // =============================================================================
 
-// IMMEDIATE FIX: Prevent carousel image shrinking on load
-// This CSS loads first to prevent any visual jumping
+// Prevent carousel image shrinking on load - using high specificity instead of !important
 .productView.split-layout .productView-thumbnails {
     img,
     li img,
     .slick-slide img,
     .productView-thumbnail img,
     .productView-thumbnail-link img {
-        width: 80px !important;
-        height: 80px !important;
-        min-width: 80px !important;
-        min-height: 80px !important;
-        max-width: 80px !important;
-        max-height: 80px !important;
-        object-fit: cover !important;
-        transition: none !important;
+        width: 80px;
+        height: 80px;
+        min-width: 80px;
+        min-height: 80px;
+        max-width: 80px;
+        max-height: 80px;
+        object-fit: cover;
+        transition: none;
     }
     
-    // Immediate container sizing
-    width: 80px !important;
-    min-width: 80px !important;
-    max-width: 80px !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+    // Container sizing
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    opacity: 1;
+    visibility: visible;
     
     @media (max-width: 768px) {
-        width: 100% !important;
-        max-width: none !important;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+// Main product images (not thumbnails) should fill their container
+.productView.split-layout .productView-images:not(.productView-thumbnails) {
+    .productView-image,
+    .productView-img-container {
+        max-height: 70vh; // Constrain container height
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        @media (max-width: 768px) {
+            max-height: 60vh; // Smaller on mobile
+        }
+    }
+    
+    .slick-slide img,
+    .productView-image img,
+    .productView-img-container img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        object-position: center;
+        
+        // Override for mobile - better centering
+        @media (max-width: 768px) {
+            margin: 0 auto;
+            display: block;
+        }
+    }
+}
+
+// JavaScript-controlled carousel states - replaces inline styling
+.productView.split-layout .productView-thumbnails {
+    // Base state
+    &.carousel-initialized {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    // Force override Slick's width calculations - MAXIMUM SPECIFICITY
+    .slick-track,
+    .slick-track[style],
+    .slick-track[style*="width"] {
+        width: 80px !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+    }
+    
+    .slick-slide,
+    .slick-slide[style],
+    .slick-slide[style*="width"] {
+        width: 80px !important;
+        min-width: 80px !important;
+        max-width: 80px !important;
+    }
+    
+    // Mobile state
+    &.carousel-mobile {
+        width: 100%;
+        min-width: 100%;
+        max-width: none;
+        
+        .slick-list {
+            width: 100%;
+            height: 80px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        
+        .slick-track {
+            display: flex;
+            flex-direction: row;
+            width: auto !important;
+            height: 80px;
+            transform: none;
+            left: 0;
+            top: 0;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .slick-slide {
+            display: inline-block;
+            width: 80px !important;
+            height: 80px;
+            min-width: 80px;
+            margin: 0;
+            float: none;
+            transform: none;
+            left: auto;
+            top: auto;
+            position: relative;
+        }
+    }
+    
+    // Desktop state
+    &.carousel-desktop {
+        width: 80px;
+        min-width: 80px;
+        max-width: 80px;
+        
+        .slick-list {
+            width: 80px;
+            height: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        .slick-track {
+            display: flex;
+            flex-direction: column;
+            width: 80px !important;
+            height: auto;
+            transform: none;
+            left: 0;
+            top: 0;
+            gap: 8px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .slick-slide {
+            display: block;
+            width: 80px !important;
+            height: auto;
+            margin-bottom: 8px;
+            margin-right: 0;
+            float: none;
+            transform: none;
+            left: auto;
+            top: auto;
+            position: relative;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 }
 
@@ -90,7 +232,6 @@
                     @media (max-width: 768px) {
                         order: 1;
                         width: 100%;
-                        margin-bottom: 1rem;
                     }
                     
                     .productView-img-container {
@@ -173,6 +314,7 @@
                             display: flex;
                             flex-direction: column;
                             height: auto;
+                            align-items:center;
                             width: 80px;
                             gap: 8px;
                             transform: none;
@@ -291,9 +433,10 @@
                         }
                     }
                     
-                    // Custom navigation arrows (desktop only)
+                    // Custom navigation arrows (desktop only) - visible by default
                     &::before,
                     &::after {
+                        content: '';
                         position: absolute;
                         left: 50%;
                         transform: translateX(-50%);
@@ -302,8 +445,8 @@
                         background: rgba(255, 255, 255, 0.95);
                         border-radius: 50%;
                         cursor: pointer;
-                        z-index: 15;
-                        display: flex;
+                        z-index: 20;
+                        display: flex; // Visible by default
                         align-items: center;
                         justify-content: center;
                         opacity: 1;
@@ -331,8 +474,18 @@
                         }
                     }
                     
+                    // Show arrows when they can be used (override the dimming)
+                    &.can-scroll-up::before {
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+                    
+                    &.can-scroll-down::after {
+                        opacity: 1;
+                        pointer-events: auto;
+                    }
+                    
                     &::before {
-                        content: '';
                         top: 4px;
                         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc3545'%3E%3Cpath d='M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z'/%3E%3C/svg%3E");
                         background-size: 20px 20px;
@@ -341,7 +494,6 @@
                     }
                     
                     &::after {
-                        content: '';
                         bottom: 4px;
                         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc3545'%3E%3Cpath d='M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z'/%3E%3C/svg%3E");
                         background-size: 20px 20px;
@@ -785,6 +937,16 @@
     display: block;
     max-width: 100%;
   }
+
+  .sticky-cart-product-price {
+    .rrp-price--withoutTax {
+        display: none;
+    }
+    .price--withoutTax {
+        font-size: 1rem;
+    }
+  }
+  
   .sticky-cart-section-mobile {
     display: flex !important;
     position: fixed;

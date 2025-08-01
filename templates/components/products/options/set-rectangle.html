@@ -10,12 +10,12 @@
         <input
             class="form-radio"
             type="radio"
-            id="attribute_rectangle__{{../id}}_none"
+            id="attribute_rectangle__{{../id}}_none{{id_suffix}}"
             name="attribute[{{../id}}]"
             value=""
             checked="{{#if defaultValue '==' ''}}checked{{/if}}"
         >
-        <label class="form-option" for="attribute_rectangle__{{../id}}_none">
+        <label class="form-option" for="attribute_rectangle__{{../id}}_none{{id_suffix}}">
             <span class="form-option-variant">{{lang 'products.none'}}</span>
         </label>
     {{/unless}}
@@ -25,7 +25,7 @@
         <input
             class="form-radio"
             type="radio"
-            id="attribute_rectangle__{{../id}}_{{id}}"
+            id="attribute_rectangle__{{../id}}_{{id}}{{id_suffix}}"
             name="attribute[{{../id}}]"
             value="{{id}}"
             {{#if selected}}
@@ -34,7 +34,7 @@
             {{/if}}
             {{#if ../required}}required{{/if}}
         >
-        <label class="form-option" for="attribute_rectangle__{{../id}}_{{id}}" data-product-attribute-value="{{id}}">
+        <label class="form-option" for="attribute_rectangle__{{../id}}_{{id}}{{id_suffix}}" data-product-attribute-value="{{id}}">
             <span class="form-option-variant">{{this.label}}</span>
         </label>
     </div>

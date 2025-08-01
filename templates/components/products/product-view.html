@@ -134,7 +134,7 @@
                                 <div data-product-option-change class="productView-options-wrapper">
                                     {{inject 'showSwatchNames' theme_settings.show_product_swatch_names}}
                                     {{#each product.options}}
-                                        {{{dynamicComponent 'components/products/options'}}}
+                                        {{{dynamicComponent 'components/products/options' id_suffix="-inline"}}}
                                     {{/each}}
                                 </div>
                                 <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
@@ -257,7 +257,7 @@
                         <div data-product-option-change class="productView-options-wrapper">
                             {{inject 'showSwatchNames' theme_settings.show_product_swatch_names}}
                             {{#each product.options}}
-                                {{{dynamicComponent 'components/products/options'}}}
+                                {{{dynamicComponent 'components/products/options' id_suffix=""}}}
                             {{/each}}
                         </div>
                         

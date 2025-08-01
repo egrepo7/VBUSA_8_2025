@@ -15,7 +15,6 @@ export default class SplitLayoutCarousel {
         
         // Wait for DOM to be ready
         $(document).ready(() => {
-            // console.log('DOM ready, initializing split layout carousel');
             this.enforceVerticalLayout();
             
             // Re-enforce after any slick initialization
@@ -33,7 +32,6 @@ export default class SplitLayoutCarousel {
             
             // Set up a fallback to ensure handlers are always set up
             setTimeout(() => {
-                // console.log('Setting up additional navigation handlers');
                 this.setupNavigationHandlers($('.productView.split-layout'));
             }, 1000);
             
@@ -71,7 +69,8 @@ export default class SplitLayoutCarousel {
                 // Apply our fixes BEFORE Slick initializes
                 self.applyImmediateLayoutFixes(this);
                 
-                // Override Slick options for split layout
+                // Override Slick options for split layout - FORCE VERTICAL
+                const isDesktop = window.innerWidth > 768;
                 const splitLayoutOptions = {
                     ...options,
                     infinite: false,
@@ -79,11 +78,27 @@ export default class SplitLayoutCarousel {
                     dots: false,
                     variableWidth: false,
                     adaptiveHeight: false,
-                    slidesToShow: 1,
+                    slidesToShow: isDesktop ? 1 : 4,
                     slidesToScroll: 1,
-                    vertical: window.innerWidth > 768,
-                    verticalSwiping: window.innerWidth > 768
+                    vertical: isDesktop,
+                    verticalSwiping: isDesktop,
+                    // Force these settings
+                    centerMode: false,
+                    focusOnSelect: false,
+                    responsive: isDesktop ? [] : [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                vertical: false,
+                                verticalSwiping: false,
+                                slidesToShow: 4,
+                                horizontal: true
+                            }
+                        }
+                    ]
                 };
+                
+
                 
                 // Initialize Slick with our options
                 const result = originalSlick.call(this, splitLayoutOptions);
@@ -140,16 +155,17 @@ export default class SplitLayoutCarousel {
         
         // console.log('Applying immediate layout fixes for split layout - AGGRESSIVE MODE');
         
-        // Apply pre-initialization styles to prevent FOUC
-        $thumbnails.css({
-            'opacity': '1',
-            'visibility': 'visible',
-            'width': isMobile ? '100%' : '80px',
-            'min-width': isMobile ? '100%' : '80px',
-            'max-width': isMobile ? 'none' : '80px'
-        });
+        // Apply CSS classes instead of inline styles
+        $thumbnails.addClass('carousel-initialized');
         
-        // AGGRESSIVELY pre-set ALL possible thumbnail image selectors
+        // Set responsive state classes
+        if (isMobile) {
+            $thumbnails.removeClass('carousel-desktop').addClass('carousel-mobile');
+        } else {
+            $thumbnails.removeClass('carousel-mobile').addClass('carousel-desktop');
+        }
+        
+        // Set image attributes for proper sizing (keep this for img elements)
         const imageSelectors = [
             'img',
             'li img', 
@@ -160,46 +176,11 @@ export default class SplitLayoutCarousel {
         
         imageSelectors.forEach(selector => {
             $thumbnails.find(selector).each(function() {
-                // Force immediate sizing with high priority
-                this.style.setProperty('width', '80px', 'important');
-                this.style.setProperty('height', '80px', 'important');
-                this.style.setProperty('min-width', '80px', 'important');
-                this.style.setProperty('min-height', '80px', 'important');
-                this.style.setProperty('max-width', '80px', 'important');
-                this.style.setProperty('max-height', '80px', 'important');
-                this.style.setProperty('object-fit', 'cover', 'important');
-                this.style.setProperty('transition', 'none', 'important');
-                
-                // Set attributes to prevent any automatic resizing
+                // Only set HTML attributes, not inline styles
                 this.setAttribute('width', '80');
                 this.setAttribute('height', '80');
             });
         });
-        
-        // Pre-configure Slick containers if they exist
-        const $slickList = $thumbnails.find('.slick-list');
-        if ($slickList.length > 0) {
-            $slickList.each(function() {
-                this.style.setProperty('width', isMobile ? '100%' : '80px', 'important');
-                this.style.setProperty('height', isMobile ? '80px' : 'auto', 'important');
-                this.style.setProperty('overflow-x', isMobile ? 'auto' : 'hidden', 'important');
-                this.style.setProperty('overflow-y', isMobile ? 'hidden' : 'auto', 'important');
-            });
-        }
-        
-        const $slickTrack = $thumbnails.find('.slick-track');
-        if ($slickTrack.length > 0) {
-            $slickTrack.each(function() {
-                this.style.setProperty('display', 'flex', 'important');
-                this.style.setProperty('flex-direction', isMobile ? 'row' : 'column', 'important');
-                this.style.setProperty('width', isMobile ? 'auto' : '80px', 'important');
-                this.style.setProperty('height', isMobile ? '80px' : 'auto', 'important');
-                this.style.setProperty('transform', 'none', 'important');
-                this.style.setProperty('left', '0', 'important');
-                this.style.setProperty('top', '0', 'important');
-                this.style.setProperty('gap', isMobile ? '12px' : '8px', 'important');
-            });
-        }
         
         // console.log('Applied immediate layout fixes for split layout - COMPLETE');
     }
@@ -216,15 +197,8 @@ export default class SplitLayoutCarousel {
         // FORCE HIDE ALL SLICK ARROWS
         $thumbnails.find('.slick-prev, .slick-next, .slick-arrow, button.slick-prev, button.slick-next, button.slick-arrow').remove();
         
-        // IMMEDIATE FIX: Force thumbnail image sizes before any other processing
-        $thumbnails.find('img').each(function() {
-            this.style.setProperty('width', '80px', 'important');
-            this.style.setProperty('height', '80px', 'important');
-            this.style.setProperty('min-width', '80px', 'important');
-            this.style.setProperty('min-height', '80px', 'important');
-            this.style.setProperty('max-width', '80px', 'important');
-            this.style.setProperty('max-height', '80px', 'important');
-        });
+        // Set CSS classes for carousel initialization
+        $thumbnails.addClass('carousel-initialized');
         
         const isMobile = window.innerWidth <= 768;
         
@@ -233,84 +207,49 @@ export default class SplitLayoutCarousel {
         // All products now use Slick mode - apply layout based on screen size
         const $slickTrack = $thumbnails.find('.slick-track');
         
-        if ($slickTrack.length > 0) {
+        // Set responsive state classes (CSS handles all styling)
             if (isMobile) {
-                // Mobile: horizontal layout
-                $slickTrack[0].style.setProperty('display', 'flex', 'important');
-                $slickTrack[0].style.setProperty('flex-direction', 'row', 'important');
-                $slickTrack[0].style.setProperty('height', '80px', 'important');
-                $slickTrack[0].style.setProperty('width', 'auto', 'important');
-                $slickTrack[0].style.setProperty('gap', '12px', 'important');
-                $slickTrack[0].style.setProperty('transform', 'none', 'important');
-                $slickTrack[0].style.setProperty('left', '0', 'important');
-                $slickTrack[0].style.setProperty('top', '0', 'important');
-                $slickTrack[0].style.setProperty('margin', '0', 'important');
-                $slickTrack[0].style.setProperty('padding', '0', 'important');
-                
-                // Force individual slides to be horizontal
-                $slickTrack.find('.slick-slide').each(function(index) {
-                    this.style.setProperty('display', 'inline-block', 'important');
-                    this.style.setProperty('width', '80px', 'important');
-                    this.style.setProperty('height', '80px', 'important');
-                    this.style.setProperty('margin-bottom', '0', 'important');
-                    this.style.setProperty('margin-right', '0', 'important');
-                    this.style.setProperty('float', 'none', 'important');
-                    this.style.setProperty('transform', 'none', 'important');
-                    this.style.setProperty('left', 'auto', 'important');
-                    this.style.setProperty('top', 'auto', 'important');
-                    this.style.setProperty('position', 'relative', 'important');
-                });
+            $thumbnails.removeClass('carousel-desktop').addClass('carousel-mobile');
             } else {
-                // Desktop: vertical layout
-                $slickTrack[0].style.setProperty('display', 'flex', 'important');
-                $slickTrack[0].style.setProperty('flex-direction', 'column', 'important');
-                $slickTrack[0].style.setProperty('height', 'auto', 'important');
-                $slickTrack[0].style.setProperty('width', '80px', 'important');
-                $slickTrack[0].style.setProperty('gap', '8px', 'important');
-                $slickTrack[0].style.setProperty('transform', 'none', 'important');
-                $slickTrack[0].style.setProperty('left', '0', 'important');
-                $slickTrack[0].style.setProperty('top', '0', 'important');
-                $slickTrack[0].style.setProperty('margin', '0', 'important');
-                $slickTrack[0].style.setProperty('padding', '0', 'important');
-                
-                // Force individual slides to be vertical
-                $slickTrack.find('.slick-slide').each(function(index) {
-                    this.style.setProperty('display', 'block', 'important');
-                    this.style.setProperty('width', '80px', 'important');
-                    this.style.setProperty('height', 'auto', 'important');
-                    this.style.setProperty('margin-bottom', '8px', 'important');
-                    this.style.setProperty('margin-right', '0', 'important');
-                    this.style.setProperty('float', 'none', 'important');
-                    this.style.setProperty('transform', 'none', 'important');
-                    this.style.setProperty('left', 'auto', 'important');
-                    this.style.setProperty('top', 'auto', 'important');
-                    this.style.setProperty('position', 'relative', 'important');
-                });
-                
-                // Remove margin from last slide
-                const $lastSlide = $slickTrack.find('.slick-slide:last-child');
-                if ($lastSlide.length > 0) {
-                    $lastSlide[0].style.setProperty('margin-bottom', '0', 'important');
-                }
-            }
+            $thumbnails.removeClass('carousel-mobile').addClass('carousel-desktop');
         }
+        
+        // AGGRESSIVELY remove any inline width styles that Slick applies
+        const removeInlineWidths = () => {
+            $slickTrack.each(function() {
+                if (this.style) {
+                    this.style.removeProperty('width');
+                    this.style.removeProperty('min-width');
+                    this.style.removeProperty('max-width');
+                }
+            });
             
-        // Also force the slick-list container
-        const $slickList = $thumbnails.find('.slick-list');
-        if ($slickList.length > 0) {
-            if (isMobile) {
-                // Mobile: full width, horizontal scroll
-                $slickList[0].style.setProperty('width', '100%', 'important');
-                $slickList[0].style.setProperty('height', '80px', 'important');
-                $slickList[0].style.setProperty('overflow-x', 'auto', 'important');
-                $slickList[0].style.setProperty('overflow-y', 'hidden', 'important');
-            } else {
-                // Desktop: fixed width, vertical scroll
-                $slickList[0].style.setProperty('width', '80px', 'important');
-                $slickList[0].style.setProperty('height', 'auto', 'important');
-                $slickList[0].style.setProperty('overflow-x', 'hidden', 'important');
-                $slickList[0].style.setProperty('overflow-y', 'auto', 'important');
-            }
+            $thumbnails.find('.slick-slide').each(function() {
+                if (this.style) {
+                    this.style.removeProperty('width');
+                    this.style.removeProperty('min-width'); 
+                    this.style.removeProperty('max-width');
+                }
+            });
+        };
+        
+        // Remove immediately and repeatedly
+        removeInlineWidths();
+        setTimeout(removeInlineWidths, 100);
+        setTimeout(removeInlineWidths, 500);
+        
+        // Set up a MutationObserver to watch for style changes
+        if (window.MutationObserver && $slickTrack.length > 0) {
+            const observer = new MutationObserver(() => {
+                removeInlineWidths();
+            });
+            
+            $slickTrack.each(function() {
+                observer.observe(this, { 
+                    attributes: true, 
+                    attributeFilter: ['style'] 
+                });
+            });
         }
         
         // Listen for slick events (all products use Slick now)
@@ -365,9 +304,7 @@ export default class SplitLayoutCarousel {
     setupNavigationHandlers($splitLayout) {
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
         
-        // console.log('Setting up navigation handlers for split layout - pseudo-element click detection');
-        // console.log('Found split layout containers:', $splitLayout.length);
-        // console.log('Found thumbnail containers:', $thumbnails.length);
+
         
         // Use document-level delegation to capture clicks on the thumbnail container
         $(document).off('click.split-layout-pseudo');
@@ -387,117 +324,152 @@ export default class SplitLayoutCarousel {
             const upArrowBottom = containerTop + arrowHeight;
             const downArrowTop = containerBottom - arrowHeight;
             
-            // console.log('Click detected on thumbnails container:', {
-            //     clickY,
-            //     containerTop,
-            //     containerBottom,
-            //     upArrowBottom,
-            //     downArrowTop
-            // });
+
             
             const $currentSplitLayout = $container.closest('.productView.split-layout');
             const $slickList = $container.find('.slick-list');
             
-            if ($slickList.length === 0) {
-                // console.log('No slick-list found for scrolling');
+                        if ($slickList.length === 0) {
                 return;
             }
             
             // Check if click is in the up arrow area (::before)
             if (clickY >= containerTop && clickY <= upArrowBottom) {
-                // console.log('Up arrow area clicked (::before pseudo-element area)');
-                
-                const currentScrollTop = $slickList.scrollTop();
-                const scrollAmount = 88; // thumbnail height (80px) + gap (8px)
-                const newScrollTop = Math.max(0, currentScrollTop - scrollAmount);
-                
-                // console.log(`Scrolling up from ${currentScrollTop} to ${newScrollTop}`);
-                
-                $slickList.animate({
-                    scrollTop: newScrollTop
-                }, 300, () => {
+                // Use Slick's built-in navigation instead of manual scrolling
+                if ($container.hasClass('slick-initialized')) {
+                    $container.slick('slickPrev');
                     this.updateScrollArrowVisibility($currentSplitLayout);
-                });
+                }
             }
             // Check if click is in the down arrow area (::after)
             else if (clickY >= downArrowTop && clickY <= containerBottom) {
-                // console.log('Down arrow area clicked (::after pseudo-element area)');
-                
-                const currentScrollTop = $slickList.scrollTop();
-                const scrollAmount = 88; // thumbnail height (80px) + gap (8px)
-                const maxScrollTop = $slickList[0].scrollHeight - $slickList.outerHeight();
-                const newScrollTop = Math.min(maxScrollTop, currentScrollTop + scrollAmount);
-                
-                // console.log(`Scrolling down from ${currentScrollTop} to ${newScrollTop}, max: ${maxScrollTop}`);
-                
-                $slickList.animate({
-                    scrollTop: newScrollTop
-                }, 300, () => {
+                // Use Slick's built-in navigation instead of manual scrolling
+                if ($container.hasClass('slick-initialized')) {
+                    $container.slick('slickNext');
                     this.updateScrollArrowVisibility($currentSplitLayout);
-                });
-            } else {
-                // console.log('Click in middle area - no scroll action');
+                }
             }
         });
         
-        // Update arrow visibility when Slick is initialized
-        $thumbnails.on('init', (event, slick) => {
-            // console.log('Slick initialized, setting up scroll arrow visibility');
+        // Update arrow visibility when Slick is initialized and on slide changes
+        $thumbnails.on('init afterChange', (event, slick) => {
             setTimeout(() => {
                 this.updateScrollArrowVisibility($splitLayout);
+            }, 50);
+        });
+        
+        // ALTERNATIVE: Add direct click handlers to the arrow areas
+        // This is a backup method in case the pseudo-element detection doesn't work
+        try {
+            $thumbnails.each(function(index) {
+                const $thumb = $(this);
                 
-                // Also listen for scroll events on the slick-list
-                const $slickList = $splitLayout.find('.slick-list');
-                if ($slickList.length > 0) {
-                    $slickList.on('scroll', () => {
-                        this.updateScrollArrowVisibility($splitLayout);
+                // Create invisible overlay divs for the arrow areas
+                if ($thumb.find('.arrow-overlay-up, .arrow-overlay-down').length === 0) {
+                    const $upOverlay = $('<div class="arrow-overlay-up" style="position: absolute; top: 0; left: 0; right: 0; height: 40px; z-index: 25; cursor: pointer; background: transparent; pointer-events: auto;"></div>');
+                    const $downOverlay = $('<div class="arrow-overlay-down" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px; z-index: 25; cursor: pointer; background: transparent; pointer-events: auto;"></div>');
+                    
+                    $thumb.css('position', 'relative').append($upOverlay, $downOverlay);
+                    
+                    $upOverlay.on('click', (e) => {
+                        // Only handle clicks that are NOT on thumbnail images or their containers
+                        const $target = $(e.target);
+                        
+                        if ($target.is('img') || $target.closest('[data-image-gallery-item]').length > 0 || $target.hasClass('productView-thumbnail')) {
+                            // Let thumbnail clicks pass through
+                            return;
+                        }
+                        
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Direct scrolling approach - bypass Slick completely
+                        const $slickList = $thumb.find('.slick-list');
+                        
+                        if ($slickList.length > 0) {
+                            const currentScrollTop = $slickList.scrollTop();
+                            const scrollAmount = 88; // thumbnail height (80px) + gap (8px)
+                            const newScrollTop = Math.max(0, currentScrollTop - scrollAmount);
+                            
+                            $slickList.animate({
+                                scrollTop: newScrollTop
+                            }, 300);
+                        }
+                    });
+                    
+                    $downOverlay.on('click', (e) => {
+                        // Only handle clicks that are NOT on thumbnail images or their containers
+                        const $target = $(e.target);
+                        
+                        if ($target.is('img') || $target.closest('[data-image-gallery-item]').length > 0 || $target.hasClass('productView-thumbnail')) {
+                            // Let thumbnail clicks pass through
+                            return;
+                        }
+                        
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Direct scrolling approach - bypass Slick completely
+                        const $slickList = $thumb.find('.slick-list');
+                        
+                        if ($slickList.length > 0) {
+                            const currentScrollTop = $slickList.scrollTop();
+                            const scrollAmount = 88; // thumbnail height (80px) + gap (8px)
+                            const maxScrollTop = $slickList[0].scrollHeight - $slickList.outerHeight();
+                            const newScrollTop = Math.min(maxScrollTop, currentScrollTop + scrollAmount);
+                            
+                            $slickList.animate({
+                                scrollTop: newScrollTop
+                            }, 300);
+                        }
                     });
                 }
-            }, 100);
-        });
+            });
+        } catch (error) {
+            console.error('Error setting up overlay handlers:', error);
+        }
     }
     
     updateScrollArrowVisibility($splitLayout) {
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
-        const $slickList = $splitLayout.find('.slick-list');
         
-        if ($slickList.length === 0) return;
-        
-        const scrollTop = $slickList.scrollTop();
-        const scrollHeight = $slickList[0].scrollHeight;
-        const clientHeight = $slickList.outerHeight();
-        const maxScrollTop = scrollHeight - clientHeight;
-        const isScrollable = scrollHeight > clientHeight;
-        
-        // console.log('Updating scroll arrow visibility for pseudo-elements:', {
-        //     scrollTop,
-        //     scrollHeight,
-        //     clientHeight,
-        //     maxScrollTop,
-        //     isScrollable
-        // });
-        
-        if (!isScrollable) {
-            // Not scrollable - hide both pseudo-element arrows
+        if (!$thumbnails.hasClass('slick-initialized')) {
+            // Slick not initialized yet
             $thumbnails.removeClass('can-scroll-up can-scroll-down');
             return;
         }
         
-        // Show/hide up arrow (::before) based on scroll position
-        if (scrollTop <= 5) {
-            // At or near the top - hide up arrow
+        // Get Slick instance data
+        const slickData = $thumbnails.slick('getSlick');
+        if (!slickData) return;
+        
+        const currentSlide = slickData.currentSlide;
+        const slideCount = slickData.slideCount;
+        const slidesToShow = slickData.options.slidesToShow;
+        
+
+        
+        if (slideCount <= slidesToShow) {
+            // All slides are visible - hide both arrows
+            $thumbnails.removeClass('can-scroll-up can-scroll-down');
+            return;
+        }
+        
+        // Show/hide up arrow (::before) based on current slide
+        if (currentSlide <= 0) {
+            // At or near the first slide - hide up arrow
             $thumbnails.removeClass('can-scroll-up');
         } else {
-            // Not at top - show up arrow
+            // Not at first slide - show up arrow
             $thumbnails.addClass('can-scroll-up');
         }
         
-        // Show/hide down arrow (::after) based on scroll position
-        if (scrollTop >= maxScrollTop - 5) {
-            // At or near the bottom - hide down arrow
+        // Show/hide down arrow (::after) based on current slide
+        if (currentSlide >= slideCount - slidesToShow) {
+            // At or near the last slide - hide down arrow
             $thumbnails.removeClass('can-scroll-down');
         } else {
-            // Not at bottom - show down arrow
+            // Not at last slide - show down arrow
             $thumbnails.addClass('can-scroll-down');
         }
     }
@@ -623,8 +595,6 @@ export default class SplitLayoutCarousel {
     }
     
     setupThumbnailClickHandlers($splitLayout) {
-        // console.log('Setting up thumbnail click handlers for split layout');
-        
         // Remove existing thumbnail click handlers that open PhotoSwipe
         const $thumbnails = $splitLayout.find('.productView-thumbnails');
         
@@ -639,11 +609,6 @@ export default class SplitLayoutCarousel {
             
             const $target = $(e.currentTarget);
             const type = $target.attr('data-type');
-            
-            // console.log('Split layout thumbnail clicked:', {
-            //     type: type,
-            //     target: $target[0]
-            // });
             
             // Try to find the image gallery instance from the global product details
             let imageGallery = null;
@@ -661,16 +626,17 @@ export default class SplitLayoutCarousel {
             
             if (imageGallery && typeof imageGallery.selectNewImage === 'function') {
                 // Use the existing selectNewImage method to change the main image
-                imageGallery.selectNewImage(e);
-                // console.log('Main image changed via image gallery instance');
+                try {
+                    imageGallery.selectNewImage(e);
+                } catch (error) {
+                    // Fallback to manual method
+                    this.changeMainImageManually($target, type);
+                }
             } else {
                 // Fallback: manually change the main image
                 this.changeMainImageManually($target, type);
-                // console.log('Main image changed via manual method');
             }
         });
-        
-        // console.log('Thumbnail click handlers set up for split layout - hover disabled');
     }
     
     disableThumbnailHover($splitLayout) {
