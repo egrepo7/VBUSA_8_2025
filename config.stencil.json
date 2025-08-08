@@ -1,9 +1,16 @@
 {
   "customLayouts": {
     "brand": {},
-    "category": {},
-    "page": {},
-    "product": {}
+    "category": {
+      "category-list-full-width.html": "/padding/",
+      "category-filter-tabs.html": "/test_category/test_outdoor_nets/"
+    },
+    "page": {
+      "about-us-test.html": "/about-us-test/"
+    },
+    "product": {
+        "product-view-v2.html": "/copy-of-3-patriot-pin-stop-carbon-fiber-volleyball-system-with-stainless-steel-shields/"
+    }
   },
   "normalStoreUrl": "https://www.volleyballusa.com",
   "port": 3000,

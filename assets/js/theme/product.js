@@ -11,6 +11,7 @@ import modalFactory from './global/modal';
 import ITSProduct from './custom/its-product';
 import DualPanelScroll from './custom/dual-panel-scroll';
 import SplitLayoutCarousel from './custom/split-layout-carousel';
+import MobileStickyCartValidator from './custom/mobile-sticky-cart-validator';
 import './product/image-gallery';
 
 export default class Product extends PageManager {
@@ -154,6 +155,9 @@ export default class Product extends PageManager {
         
         // Initialize split layout carousel override
         this.splitLayoutCarousel = new SplitLayoutCarousel();
+        
+        // Initialize mobile sticky cart validator (scroll-to-error + popup notification)
+        this.mobileStickyCartValidator = new MobileStickyCartValidator();
         
         if ($reviewForm.length === 0) return;
 

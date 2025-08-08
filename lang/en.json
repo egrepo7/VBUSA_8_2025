@@ -1,5 +1,61 @@
 {
     "custom": {
+        "clients": {
+            "title": "OUR CLIENTS & PARTNERS",
+            "subtitle": "Trusted by athletes, schools, clubs, and organizations across the USA.",
+            "filter": {
+                "all": "All Clients (120+ total)",
+                "partnerships": "Official Partnerships (7)",
+                "colleges": "Colleges & Universities (68)",
+                "clubs": "Clubs & Academies (15)",
+                "facilities": "Sports Complexes (18)",
+                "organizations": "Organizations (3)",
+                "corporate": "Corporate (3)",
+                "sand-supplier": "Sand Supplier (5)"
+            },
+            "show_more": "SHOW ALL",
+            "show_less": "SHOW LESS"
+        },
+        "about-page": {
+            "hero": {
+                "title": "<strong>BUILT</strong> FOR THE GAME. TRUSTED BY THE <strong>BEST</strong>.",
+                "subtitle": "American-made volleyball equipment, expert court design, and premium sand—since 1996."
+            },
+            "trusted_section": {
+                "title": "TRUSTED BY THE VOLLEYBALL COMMUNITY SINCE 1996",
+                "paragraph1": "For nearly three decades, we've proudly served as a trusted partner to schools, clubs, pros, and facilities across the country.",
+                "paragraph2": "What began as a clear reputation rooted in craftsmanship and customer service has grown into the largest volleyball equipment manufacturer in the United States.",
+                "paragraph3": "Our teams support hundreds of dedicated professionals—from skilled trainers and coaches to experienced support staff—all working with a shared purpose to support the growth of volleyball through high-quality, American-made equipment."
+            },
+            "designed_section": {
+                "title": "DESIGNED, BUILT, & SHIPPED IN-HOUSE",
+                "paragraph1": "We take pride in doing everything under one roof. Every net, pad, antenna, and court system is manufactured in our facility by a team that knows the game and understands the demands of competitive play.",
+                "paragraph2": "Because we control the entire production process, we can offer unmatched attention to detail, fast lead times, and custom solutions built for maximum durability. Every product we make meets every piece of equipment and meets our standards—and yours."
+            },
+            "mission": {
+                "title": "OUR MISSION",
+                "paragraph1": "Our mission is to provide the highest quality, American-made volleyball equipment in the USA, and to support our customers with reliable service, technical expertise, and honest communication.",
+                "paragraph2": "Whether we're outfitting a championship court or helping a new program get started, we stand behind every product and every partnership with the same commitment to quality."
+            },
+            "services": {
+                "title": "OUR SERVICES",
+                "equipment": {
+                    "title": "AMERICAN-MADE VOLLEYBALL EQUIPMENT",
+                    "description": "Complete volleyball solutions from poles and nets to padding and referee equipment. Every product is engineered for durability and performance, whether you need standard equipment shipped immediately or custom solutions designed for your specific requirements.",
+                    "button": "SHOP VOLLEYBALL SYSTEMS"
+                },
+                "sand": {
+                    "title": "PREMIUM BEACH SAND",
+                    "description": "Tournament-grade volleyball sand that meets official specifications. Our premium sand provides optimal playing conditions with proper drainage and consistency, delivered and installed by our experienced team to ensure your court performs at championship level.",
+                    "button": "LEARN MORE"
+                },
+                "solutions": {
+                    "title": "CUSTOM VOLLEYBALL SOLUTIONS",
+                    "description": "Expert guidance from our volleyball specialists who understand the game inside and out. We'll guide you through equipment selection, court design, and installation planning—ensuring your setup delivers peak performance whether you're outfitting a home court or a Division I facility.",
+                    "button": "EMAIL US TODAY"
+                }
+            }
+        },
         "header": {
             "static": {
                 "top-navigation": {
@@ -1595,7 +1651,7 @@
                 },
                 "link-3": {
                     "link": "/faqs/",
-                    "text": "FAQ’s"
+                    "text": "FAQ's"
                 },
                 "link-4": {
                     "link": "/satisfaction-guarantee/",
@@ -1619,11 +1675,13 @@
             "hero-video": {
                 "image": "webdav:/img/home/hero-video/hero-placeholder-desktop.png",
                 "video": "webdav:/videos/homepage/homepage-video.mp4",
-                "image-alt-text": "Buy Factory Direct",
-                "title": "Buy Factory Direct",
-                "sub-title": "Proudly Manufacturing Nets, Poles and Padding in the United States",
+                "image-alt-text": "Made in the USA. Trusted on Every Court.",
+                "title": "<strong>Made in the USA</strong>. Trusted on Every Court.",
+                "sub-title": "We proudly manufacture professional-grade volleyball equipment in-house—from backyard courts to pro tours.",
                 "button-link": "/about-us/",
-                "button-text": "Learn More"
+                "button-text": "Browse products",
+                "secondary-button-link": "/about-us/",
+                "secondary-button-text": "Our Story"
             },
             "court-builder-cta": {
                 "image": "https://www.volleyballusa.com/content/img/home/court-builder-cta/Carbon.jpg",

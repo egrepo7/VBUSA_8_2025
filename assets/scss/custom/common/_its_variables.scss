@@ -48,17 +48,17 @@ $fontSize-larger--mobile:           remCalc(stencilNumber("fontSize-h2--mobile")
 $fontSize-large--mobile:            remCalc(stencilNumber("fontSize-h3--mobile"));
 $fontSize-medium--mobile:           remCalc(stencilNumber("fontSize-h4--mobile"));
 
-$fontWeight-thin:                   300;
-$fontWeight-normal:                 400;
-$fontWeight-medium:                 500;
-$fontWeight-semibold:               600;
-$fontWeight-bold:                   700;
+$fontWeight-thin:                   200;
+$fontWeight-normal:                 300;
+$fontWeight-medium:                 400;
+$fontWeight-semibold:               500;
+$fontWeight-bold:                   600;
 $fontWeight-heavy:                  800;
 $fontWeight-black:                  900;
 
 $font-family--heading:              stencilFontFamily('headings-font'), 'Poppins',Arial, Helvetica, sans-serif;
 $font-family--heading-alt:          stencilFontFamily('headings-font-alt'), Arial, Helvetica, sans-serif;
-$font-family--body:                 stencilFontFamily('body-font'), Arial, Helvetica, sans-serif;
+$font-family--body: 'Open Sans', stencilFontFamily('body-font'), Arial, Helvetica, sans-serif;
 
 $font-color-primary:                stencilColor('color-textBase');
 $font-color-secondary:              stencilColor('color-textSecondary');

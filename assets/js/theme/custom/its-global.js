@@ -2,6 +2,7 @@ import kitchenSink from './kitchen-sink';
 import imageSwapOnHover from './image-swap-on-hover';
 import popupLoginWindow from './popup-login';
 import CardAddToCart from './card-add-to-cart';
+import scrollHeader from './scroll-header';
 import _ from 'lodash';
 // import '../lazysizes/plugins/unveilhooks/ls.unveilhooks';
 import '../../../../node_modules/lazysizes/plugins/unveilhooks/ls.unveilhooks';
@@ -11,6 +12,16 @@ require("fslightbox");
 
 export default function (context) {
     const { inDevelopment } = context;
+    
+    // Initialize scroll header globally
+    const headerScrollSystem = scrollHeader();
+    if (headerScrollSystem) {
+        // Initialize after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            headerScrollSystem.init();
+        }, 100);
+    }
+    
     if (inDevelopment) {
         // console.log('this.context ', context); // eslint-disable-line
 

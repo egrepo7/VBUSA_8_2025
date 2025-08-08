@@ -70,21 +70,16 @@
     justify-content: flex-end;
 }
 
-// breadcrumbs 
-ol.breadcrumbs {
-    @include breakpoint('medium') {
-        // 801px and up
-        text-align: left;
-    }
-}
+// breadcrumbs - styles unified in _its_style-guide.scss
+// ol.breadcrumbs styling moved to unified location
 
-.breadcrumb:not(:first-child)::before {
-    margin: 0 6px;
-}
+// .breadcrumb:not(:first-child)::before {
+//     margin: 0 6px;
+// }
 
-.breadcrumb.is-active > .breadcrumb-label {
-    color: #333333;
-}
+// .breadcrumb.is-active > .breadcrumb-label {
+//     color: #333333;
+// }
 
 // Account
 .page--account .button.button--primary.button--small {

@@ -9,9 +9,10 @@
     // display: none;
 }
 
-.page--category .breadcrumbs {
-    text-align: left;
-}
+// Breadcrumb styling unified in _its_style-guide.scss
+// .page--category .breadcrumbs {
+//     text-align: left;
+// }
 
 .page--category .page-sidebar {
     @include breakpoint('medium') {

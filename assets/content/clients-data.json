@@ -1,0 +1,730 @@
+{
+    "clients": [
+        {
+            "name": "Official AVP Tour Equipment Supplier",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Official P1440 Tour Equipment Supplier",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Sand Court Experts",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "David Culpepper (AVP/FIVB Facilities Director)",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Sinjin Smith (King of the Beach)",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Jake Gibb's Spiker Beach",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Phil Dalhausser Beach Volleyball Academy",
+            "location": "USA",
+            "categories": ["partnerships"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Washington",
+            "location": "Seattle, WA",
+            "categories": ["colleges", "sand-supplier"],
+            "badges": ["indoor", "outdoor", "sand supplier"]
+        },
+        {
+            "name": "Utah Valley University",
+            "location": "Orem, UT",
+            "categories": ["colleges"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "University of Mary Hardin-Baylor",
+            "location": "Belton, TX",
+            "categories": ["colleges"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Seattle University (Club Sports)",
+            "location": "Seattle, WA",
+            "categories": ["colleges"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "University of Colorado, Colorado Springs",
+            "location": "Colorado Springs, CO",
+            "categories": ["colleges"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Fresno State University",
+            "location": "Fresno, CA",
+            "categories": ["colleges"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Mt. San Jacinto College",
+            "location": "San Jacinto, CA",
+            "categories": ["colleges"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Northwest University",
+            "location": "Kirkland, WA",
+            "categories": ["colleges"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Mercer University",
+            "location": "Macon, GA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Utah",
+            "location": "Salt Lake City, UT",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of San Diego",
+            "location": "San Diego, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "SD Mesa College",
+            "location": "San Diego, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "UC Davis",
+            "location": "Davis, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Cal State Bakersfield",
+            "location": "Bakersfield, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "El Camino College",
+            "location": "Torrance, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Grossmont College",
+            "location": "El Cajon, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Cal State University Northridge",
+            "location": "Northridge, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Long Beach State",
+            "location": "Long Beach, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Southern Mississippi University",
+            "location": "Hattiesburg, MS",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Hawaii",
+            "location": "Honolulu, HI",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Colorado State University",
+            "location": "Fort Collins, CO",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Stanford University",
+            "location": "Stanford, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Texas",
+            "location": "Austin, TX",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Central Arkansas",
+            "location": "Conway, AR",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Coastal Carolina",
+            "location": "Conway, SC",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Grand Canyon University",
+            "location": "Phoenix, AZ",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "LMU",
+            "location": "Los Angeles, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Boise State University",
+            "location": "Boise, ID",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Austin Peay University",
+            "location": "Clarksville, TN",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "TCU",
+            "location": "Fort Worth, TX",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "San Jose State University",
+            "location": "San Jose, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Florida Gulf Coast University",
+            "location": "Fort Myers, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Stetson University",
+            "location": "DeLand, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Cal Poly San Luis Obispo",
+            "location": "San Luis Obispo, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Florida International University",
+            "location": "Miami, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "St. Leo University",
+            "location": "St. Leo, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Florida Atlantic University",
+            "location": "Boca Raton, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of North Florida",
+            "location": "Jacksonville, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Jacksonville University",
+            "location": "Jacksonville, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Palm Beach Atlantic University",
+            "location": "West Palm Beach, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Florida Southern",
+            "location": "Lakeland, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Florida State University",
+            "location": "Tallahassee, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "The College of Idaho",
+            "location": "Caldwell, ID",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Texas A&M",
+            "location": "College Station, TX",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Texas A&M Kingsville University",
+            "location": "Kingsville, TX",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Texas A&M Corpus Christi University",
+            "location": "Corpus Christi, TX",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Corban College",
+            "location": "Salem, OR",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Bushnell College",
+            "location": "Eugene, OR",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "De Anza College",
+            "location": "Cupertino, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "The Master's College",
+            "location": "Santa Clarita, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Long Beach City College",
+            "location": "Long Beach, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "West Valley College",
+            "location": "Saratoga, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Pepperdine University",
+            "location": "Malibu, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Moorpark College",
+            "location": "Moorpark, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "College of the Siskiyous",
+            "location": "Weed, CA",
+            "categories": ["colleges"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Feather River College",
+            "location": "Quincy, CA",
+            "categories": ["colleges"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Principia College",
+            "location": "Elsah, IL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Occidental College",
+            "location": "Los Angeles, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "California State University Sacramento",
+            "location": "Sacramento, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "UC Berkeley",
+            "location": "Berkeley, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Oregon",
+            "location": "Eugene, OR",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "UCLA",
+            "location": "Los Angeles, CA",
+            "categories": ["colleges", "sand-supplier"],
+            "badges": ["outdoor", "sand supplier"]
+        },
+        {
+            "name": "USC",
+            "location": "Los Angeles, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Alabama Birmingham",
+            "location": "Birmingham, AL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University Louisiana Monroe",
+            "location": "Monroe, LA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of North Alabama",
+            "location": "Florence, AL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Missouri State University",
+            "location": "Springfield, MO",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of Arizona",
+            "location": "Tucson, AZ",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "University of South Carolina",
+            "location": "Columbia, SC",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Liberty University",
+            "location": "Lynchburg, VA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Tusculum University",
+            "location": "Greeneville, TN",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Sierra College",
+            "location": "Rocklin, CA",
+            "categories": ["colleges"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Eckerd University",
+            "location": "St. Petersburg, FL",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Cosumnes River College",
+            "location": "Sacramento, CA",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Arizona State University",
+            "location": "Tempe, AZ",
+            "categories": ["colleges"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Spike and Serve Volleyball Club",
+            "location": "Honolulu, HI",
+            "categories": ["clubs"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Hive Volleyball",
+            "location": "Farmington, UT",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Cedar Park Christian",
+            "location": "Bothell, WA",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Next Level",
+            "location": "Texas",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Wave Volleyball Club",
+            "location": "Bradenton, FL",
+            "categories": ["clubs"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Country Fire Volleyball Club",
+            "location": "Texas",
+            "categories": ["clubs"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Mad Frog",
+            "location": "North Texas",
+            "categories": ["clubs"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Washington Volleyball Academy",
+            "location": "Washington",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "South Texas Volleyball Academy",
+            "location": "Texas",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Northern Virginia Volleyball Club",
+            "location": "Virginia",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Baxter Jacks Volleyball Club",
+            "location": "Louisville, KY",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "The Beach YYC",
+            "location": "Calgary, Canada",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Tsunami Volleyball",
+            "location": "South Florida",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Albuquerque Rebels Volleyball Club",
+            "location": "Albuquerque, NM",
+            "categories": ["clubs"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "BVCA (Beach Volleyball Clubs of America)",
+            "location": "National Organization",
+            "categories": ["clubs"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Hickory Point / Lake County",
+            "location": "Tavares, FL",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Miami Beach Volleyball Facility",
+            "location": "Miami, FL",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "King Louis Volleyball Facility",
+            "location": "USA",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Setter Volleyball Facility",
+            "location": "Cincinnati, OH",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Grand Sand Volleyball",
+            "location": "Westfield, IN",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "The Beach at Craig Ranch",
+            "location": "McKinney, TX",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Craig Ranch",
+            "location": "McKinney, TX",
+            "categories": ["facilities"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "The Legacy Sports Complex",
+            "location": "Phoenix, AZ",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Lake Point",
+            "location": "Cartersville, GA",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "The SandBar",
+            "location": "North Salt Lake, UT",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "4th Ave Beach",
+            "location": "USA",
+            "categories": ["facilities"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "QBK Sports Beach",
+            "location": "Long Island City, NY",
+            "categories": ["facilities"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Sudden Impact",
+            "location": "USA",
+            "categories": ["facilities"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "John Hunt Park",
+            "location": "Huntsville, AL",
+            "categories": ["facilities"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "Youngsville Sports Complex",
+            "location": "Youngsville, NC",
+            "categories": ["facilities"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Highline Sports Facility (Great American Sports Center)",
+            "location": "USA",
+            "categories": ["facilities"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "6pack Beach",
+            "location": "California",
+            "categories": ["facilities"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Dakine",
+            "location": "Seattle, WA",
+            "categories": ["facilities"],
+            "badges": ["indoor", "outdoor"]
+        },
+        {
+            "name": "Outrigger Canoe Club",
+            "location": "Honolulu, HI",
+            "categories": ["organizations"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "American Volleyball Coaches Association",
+            "location": "USA",
+            "categories": ["organizations"],
+            "badges": ["outdoor"]
+        },
+        {
+            "name": "ABCDEM Sports Ltd.",
+            "location": "Canada",
+            "categories": ["organizations"],
+            "badges": ["indoor"]
+        },
+        {
+            "name": "Pixar Campus",
+            "location": "Emeryville, CA",
+            "categories": ["corporate", "sand-supplier"],
+            "badges": ["outdoor", "sand supplier"]
+        },
+        {
+            "name": "NASA Campus",
+            "location": "Houston, TX",
+            "categories": ["corporate", "sand-supplier"],
+            "badges": ["outdoor", "sand supplier"]
+        },
+        {
+            "name": "Google Campus",
+            "location": "Kirkland, WA",
+            "categories": ["corporate", "sand-supplier"],
+            "badges": ["outdoor", "sand supplier"]
+        }
+    ]
+}
