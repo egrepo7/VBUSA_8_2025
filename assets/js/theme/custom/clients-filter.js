@@ -35,6 +35,12 @@ export default function clientsFilter() {
             updateEnvironmentFilters();
             setupFilterEventListeners();
             renderClients();
+            
+            // Initialize infinite scroll after initial render
+            setTimeout(() => {
+                setupInfiniteScroll();
+                console.log('Infinite scroll initialized');
+            }, 500);
         })
         .catch(error => {
             console.error('Error loading client data:', error);
@@ -59,8 +65,7 @@ export default function clientsFilter() {
             'clubs': document.getElementById('count-clubs'),
             'facilities': document.getElementById('count-facilities'),
             'organizations': document.getElementById('count-organizations'),
-            'corporate': document.getElementById('count-corporate'),
-            'sand-supplier': document.getElementById('count-sand-supplier')
+            'corporate': document.getElementById('count-corporate')
         };
         
         Object.keys(countElements).forEach(key => {
@@ -117,6 +122,13 @@ export default function clientsFilter() {
         return Array.from(environmentSet).sort();
     }
 
+    // Function to capitalize each word in a string
+    function capitalizeWords(str) {
+        return str.split(' ').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        ).join(' ');
+    }
+
     // Function to update environment filter buttons
     function updateEnvironmentFilters() {
         if (!environmentFilters) return;
@@ -131,10 +143,11 @@ export default function clientsFilter() {
         const environmentButtons = availableEnvironments.map(environment => {
             const isSelected = selectedEnvironment === environment;
             const environmentClass = environment.toLowerCase().replace(/\s+/g, '-');
+            const displayText = capitalizeWords(environment); // Capitalize each word
             return `
                 <button class="filter-toggle ${isSelected ? 'filter-toggle--active' : ''}" 
                         data-environment="${environment}">
-                    <span class="filter-toggle__text">${environment}</span>
+                    <span class="filter-toggle__text">${displayText}</span>
                 </button>
             `;
         }).join('');
@@ -313,10 +326,17 @@ export default function clientsFilter() {
         // Manage fade effect and scroll hint
         const hasMoreContent = filteredClients.length > visibleCount;
         
+        console.log('Managing fade effect:', {
+            totalClients: filteredClients.length,
+            visibleCount: visibleCount,
+            hasMoreContent: hasMoreContent
+        });
+        
         if (hasMoreContent) {
             // Add fade effect class when there's more content
             grid.classList.add('has-more-content');
             grid.classList.remove('all-content-shown');
+            console.log('Added has-more-content class');
             // Show scroll hint
             if (scrollHint && !append) {
                 scrollHint.classList.remove('hidden');
@@ -325,6 +345,7 @@ export default function clientsFilter() {
             // Reduce fade effect when all content is shown
             grid.classList.remove('has-more-content');
             grid.classList.add('all-content-shown');
+            console.log('Added all-content-shown class');
             // Hide scroll hint
             if (scrollHint) {
                 scrollHint.classList.add('hidden');
@@ -439,9 +460,4 @@ export default function clientsFilter() {
         // Store reference for cleanup if needed
         window.clientsScrollHandler = throttledScrollHandler;
     }
-    
-    // Initialize infinite scroll after initial render
-    setTimeout(() => {
-        setupInfiniteScroll();
-    }, 500);
 }

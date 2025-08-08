@@ -177,6 +177,7 @@
 .quickSearchResults {
     margin-top: spacing("single");
     padding-top: 16px;
+    display: none; // Hidden by default until search input has content
 
     @include breakpoint("medium") {
         margin-top: 0;

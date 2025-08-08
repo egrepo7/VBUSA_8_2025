@@ -16,6 +16,27 @@ export default class ImageGallery {
 
     init() {
         this.bindEvents();
+        this.setInitialActiveThumb();
+    }
+
+    setInitialActiveThumb() {
+        // Set the first image thumbnail as active if none are currently active
+        if (this.$selectableImages.filter('.is-active').length === 0) {
+            const $firstThumb = this.$selectableImages.first();
+            if ($firstThumb.length) {
+                $firstThumb.addClass('is-active');
+                
+                // Set up the currentImage object to match the first thumbnail
+                const type = $firstThumb.attr('data-type') || 'image';
+                this.currentImage = {
+                    mainImageUrl: $firstThumb.attr(`data-${type}-gallery-new-image-url`),
+                    zoomImageUrl: $firstThumb.attr(`data-${type}-gallery-zoom-image-url`),
+                    mainImageSrcset: $firstThumb.attr(`data-${type}-gallery-new-image-srcset`),
+                    $selectedThumb: $firstThumb,
+                    mainImageAlt: $firstThumb.find('img').attr('alt'),
+                };
+            }
+        }
     }
 
     setMainImage(imgObj) {
@@ -131,14 +152,41 @@ export default class ImageGallery {
     handleClickImage(e) {
         e.preventDefault();
         const $target = $(e.currentTarget);
-        const isImage = $target.attr('data-type') === 'image';
-        const hasVideos = this.$selectableVideos.length;
-        const itemIndex = Number($target.attr('data-index'));
-        const newIndex = isImage && (this.videoFirstPos && hasVideos)
-            ? itemIndex + this.$selectableVideos.length - this.videoFirstPos
-            : itemIndex;
+        
+        // Check if this is a main image click
+        const isMainImageClick = $target.closest('[data-image-gallery-main]').length > 0 || 
+                                 $target.closest('.image-main').length > 0 ||
+                                 $target.is('a') && $target.closest('[data-image-gallery-main]').length > 0;
+        
+        if (isMainImageClick) {
+            // Find the currently active thumbnail to get the correct index
+            const $activeThumb = this.$selectableImages.filter('.is-active').first();
+            
+            if ($activeThumb.length) {
+                // Use the active thumbnail's index
+                const isImage = $activeThumb.attr('data-type') === 'image';
+                const hasVideos = this.$selectableVideos.length;
+                const itemIndex = Number($activeThumb.attr('data-index'));
+                const newIndex = isImage && (this.videoFirstPos && hasVideos)
+                    ? itemIndex + this.$selectableVideos.length - this.videoFirstPos
+                    : itemIndex;
+                
+                this.openPhotoSwipe(newIndex);
+            } else {
+                // Fallback: if no active thumb, start at index 0
+                this.openPhotoSwipe(0);
+            }
+        } else {
+            // This is a thumbnail click
+            const isImage = $target.attr('data-type') === 'image';
+            const hasVideos = this.$selectableVideos.length;
+            const itemIndex = Number($target.attr('data-index'));
+            const newIndex = isImage && (this.videoFirstPos && hasVideos)
+                ? itemIndex + this.$selectableVideos.length - this.videoFirstPos
+                : itemIndex;
 
-        this.openPhotoSwipe(newIndex);
+            this.openPhotoSwipe(newIndex);
+        }
     }
 
     buildPhotoSwipeCollection() {

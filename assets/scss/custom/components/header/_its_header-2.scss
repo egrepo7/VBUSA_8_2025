@@ -821,6 +821,17 @@ $header-mid-columns-desktop: auto auto 1fr auto;
             height: auto;
             max-height: unset;
             transform: scale(0.8); // Reduce size by 20%
+            
+            // iPad-specific scaling - make logo smaller on iPads/tablets
+            @media (min-width: 768px) and (max-width: 1024px) {
+                transform: scale(0.65); // Scale down even more on iPad
+                transition: transform 0.3s ease; // Smooth transition
+            }
+            
+            // Portrait iPad specific
+            @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+                transform: scale(0.6); // Even smaller on portrait iPad
+            }
         }
     }
     .top-navigation__store-contact {
@@ -1869,6 +1880,17 @@ body {
             height: auto;
             max-height: unset;
             transform: scale(0.8); // Reduce size by 20%
+            
+            // iPad-specific scaling - make logo smaller on iPads/tablets
+            @media (min-width: 768px) and (max-width: 1024px) {
+                transform: scale(0.65); // Scale down even more on iPad
+                transition: transform 0.3s ease; // Smooth transition
+            }
+            
+            // Portrait iPad specific
+            @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+                transform: scale(0.6); // Even smaller on portrait iPad
+            }
         }
     }
     .top-navigation__store-contact {

@@ -33,6 +33,24 @@ export default function () {
         }
     };
 
+    // Hide search results initially and when search is cleared
+    $quickSearchResults.hide();
+    
+    // Hide search results when search input loses focus and is empty
+    $searchQuery.on('blur', function() {
+        const searchValue = $(this).val();
+        if (!searchValue || searchValue.length === 0) {
+            $quickSearchResults.hide();
+        }
+    });
+
+    // Hide search results when search input is cleared
+    $searchQuery.on('input', function() {
+        const searchValue = $(this).val();
+        if (!searchValue || searchValue.length === 0) {
+            $quickSearchResults.hide();
+        }
+    });
 
     // stagger searching for 1200ms after last input
     const debounceWaitTime = 1200;
@@ -88,8 +106,15 @@ export default function () {
     utils.hooks.on('search-quick', (event, currentTarget) => {
         const searchQuery = $(currentTarget).val();
 
+        // Hide search results if input is empty
+        if (searchQuery.length === 0) {
+            $quickSearchResults.hide();
+            return;
+        }
+
         // server will only perform search with at least 3 characters
         if (searchQuery.length < 3) {
+            $quickSearchResults.hide();
             return;
         }
 

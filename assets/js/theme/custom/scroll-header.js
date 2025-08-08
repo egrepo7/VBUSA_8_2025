@@ -92,6 +92,10 @@ export default function scrollHeader() {
         const isScrollingUp = scrollDelta < 0;
         const isAtTop = scrollTop <= headerHeight;
         
+        // Check if we're in specific sections that should keep header hidden
+        const isInWeServeSection = body.classList.contains('we-serve-active');
+        const isInClientsSection = body.classList.contains('clients-active');
+        
         // Add scrolled class for styling when not at top
         if (scrollTop > headerHeight / 2) {
             header.classList.add('header--scrolled');
@@ -99,15 +103,18 @@ export default function scrollHeader() {
             header.classList.remove('header--scrolled');
         }
 
-        // Handle header visibility
+        // Handle header visibility with special section logic
         if (isAtTop) {
             // Always show header when at top
             showHeader();
+        } else if (isInWeServeSection || isInClientsSection) {
+            // Always hide header when in WE SERVE or clients section
+            hideHeader();
         } else if (isScrollingDown) {
-            // Hide header immediately when scrolling down
+            // Hide header immediately when scrolling down (normal behavior)
             hideHeader();
         } else if (isScrollingUp) {
-            // Show header immediately when scrolling up
+            // Show header immediately when scrolling up (normal behavior)
             showHeader();
         }
 

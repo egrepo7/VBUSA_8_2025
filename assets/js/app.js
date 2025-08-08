@@ -2,6 +2,10 @@ __webpack_public_path__ = window.__webpack_public_path__; // eslint-disable-line
 
 import Global from './theme/global';
 import clientsFilter from './theme/custom/clients-filter';
+import './theme/custom/scroll-animations';
+import './theme/custom/we-serve-section';
+import ClientsSectionTracker from './theme/custom/clients-section-tracker';
+import AboutUsGallery from './theme/custom/about-gallery';
 
 const getAccount = () => import('./theme/account');
 const getLogin = () => import('./theme/auth');
@@ -101,4 +105,12 @@ window.stencilBootstrap = function stencilBootstrap(pageType, contextJSON = null
 // Initialize on page load
 $(document).ready(() => {
     clientsFilter();
+    
+    // Initialize clients section tracker for header control
+    new ClientsSectionTracker();
+    
+    // Initialize about page gallery if on about page
+    if ($('.about-trusted__img, .about-designed__img, .about-mission__img, .about-service__img').length > 0) {
+        new AboutUsGallery();
+    }
 });

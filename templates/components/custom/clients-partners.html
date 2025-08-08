@@ -5,62 +5,66 @@
             <p>{{lang 'custom.clients.subtitle'}}</p>
         </div>
 
-        <div class="clients-partners__filters">
-            <!-- Category Filter Buttons -->
-            <div class="clients-partners__filter-group">
-                <h3 class="clients-partners__filter-title">Client Types</h3>
-                <div class="clients-partners__filter-buttons" id="categoryFilters">
-                    <button class="filter-toggle filter-toggle--active" data-filter="all">
-                        <span class="filter-toggle__text">All Clients</span>
-                        <span class="filter-toggle__count" id="count-all">(120+)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="partnerships">
-                        <span class="filter-toggle__text">Official Partnerships</span>
-                        <span class="filter-toggle__count" id="count-partnerships">(0)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="colleges">
-                        <span class="filter-toggle__text">Colleges & Universities</span>
-                        <span class="filter-toggle__count" id="count-colleges">(0)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="clubs">
-                        <span class="filter-toggle__text">Clubs & Academies</span>
-                        <span class="filter-toggle__count" id="count-clubs">(0)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="facilities">
-                        <span class="filter-toggle__text">Sports Complexes</span>
-                        <span class="filter-toggle__count" id="count-facilities">(0)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="organizations">
-                        <span class="filter-toggle__text">Organizations</span>
-                        <span class="filter-toggle__count" id="count-organizations">(0)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="corporate">
-                        <span class="filter-toggle__text">Corporate</span>
-                        <span class="filter-toggle__count" id="count-corporate">(0)</span>
-                    </button>
-                    <button class="filter-toggle" data-filter="sand-supplier">
-                        <span class="filter-toggle__text">Sand Suppliers</span>
-                        <span class="filter-toggle__count" id="count-sand-supplier">(0)</span>
-                    </button>
+        <div class="clients-partners__content">
+            <!-- Left Column: Sticky Filters -->
+            <div class="clients-partners__sidebar">
+                <div class="clients-partners__filters">
+                    <!-- Category Filter Buttons -->
+                    <div class="clients-partners__filter-group">
+                        <h3 class="clients-partners__filter-title">Client Types</h3>
+                        <div class="clients-partners__filter-buttons" id="categoryFilters">
+                            <button class="filter-toggle filter-toggle--active" data-filter="all">
+                                <span class="filter-toggle__text">All Clients</span>
+                                <span class="filter-toggle__count" id="count-all">(120+)</span>
+                            </button>
+                            <button class="filter-toggle" data-filter="partnerships">
+                                <span class="filter-toggle__text">Official Partnerships</span>
+                                <span class="filter-toggle__count" id="count-partnerships">(0)</span>
+                            </button>
+                            <button class="filter-toggle" data-filter="colleges">
+                                <span class="filter-toggle__text">Colleges & Universities</span>
+                                <span class="filter-toggle__count" id="count-colleges">(0)</span>
+                            </button>
+                            <button class="filter-toggle" data-filter="clubs">
+                                <span class="filter-toggle__text">Clubs & Academies</span>
+                                <span class="filter-toggle__count" id="count-clubs">(0)</span>
+                            </button>
+                            <button class="filter-toggle" data-filter="facilities">
+                                <span class="filter-toggle__text">Sports Complexes</span>
+                                <span class="filter-toggle__count" id="count-facilities">(0)</span>
+                            </button>
+                            <button class="filter-toggle" data-filter="organizations">
+                                <span class="filter-toggle__text">Organizations</span>
+                                <span class="filter-toggle__count" id="count-organizations">(0)</span>
+                            </button>
+                            <button class="filter-toggle" data-filter="corporate">
+                                <span class="filter-toggle__text">Corporate</span>
+                                <span class="filter-toggle__count" id="count-corporate">(0)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Environment/Type Filter Buttons -->
+                    <div class="clients-partners__filter-group">
+                        <h3 class="clients-partners__filter-title">Court Types</h3>
+                        <div class="clients-partners__filter-buttons" id="environmentFilters">
+                            <!-- These will be dynamically populated based on available badges -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Environment/Type Filter Buttons -->
-            <div class="clients-partners__filter-group">
-                <h3 class="clients-partners__filter-title">Court Types</h3>
-                <div class="clients-partners__filter-buttons" id="environmentFilters">
-                    <!-- These will be dynamically populated based on available badges -->
+            <!-- Right Column: Scrollable Cards -->
+            <div class="clients-partners__main">
+                <div class="clients-partners__grid" id="clientsGrid">
+                    <p style="color: white; text-align: center;">Loading clients...</p>
+                </div>
+
+                <!-- Optional scroll hint for better UX -->
+                <div class="clients-partners__scroll-hint" id="scrollHint">
+                    Scroll to see more clients
                 </div>
             </div>
-        </div>
-
-        <div class="clients-partners__grid" id="clientsGrid">
-            <p style="color: white; text-align: center;">Loading clients...</p>
-        </div>
-
-        <!-- Optional scroll hint for better UX -->
-        <div class="clients-partners__scroll-hint" id="scrollHint">
-            Scroll to see more clients
         </div>
     </div>
 </section>

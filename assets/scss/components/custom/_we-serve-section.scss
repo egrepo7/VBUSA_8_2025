@@ -1,0 +1,519 @@
+// =============================================================================
+// HEADER HIDE BEHAVIOR WHEN SPECIAL SECTIONS ARE ACTIVE
+// =============================================================================
+
+// Hide header when WE SERVE section is active
+body.we-serve-active {
+    .header:not(.header-2),
+    .site-header:not(.header-2),
+    .main-header:not(.header-2) {
+        transform: translateY(-100%) !important;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    .header-2 {
+        transform: translateY(-100%) !important;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}
+
+// Hide header when clients section is active
+body.clients-active {
+    .header:not(.header-2),
+    .site-header:not(.header-2),
+    .main-header:not(.header-2) {
+        transform: translateY(-100%) !important;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    .header-2 {
+        transform: translateY(-100%) !important;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}
+
+// Show header when neither WE SERVE nor clients section is active
+body:not(.we-serve-active):not(.clients-active) {
+    .header:not(.header-2),
+    .site-header:not(.header-2),
+    .main-header:not(.header-2) {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    
+    .header-2 {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+}
+
+// =============================================================================
+// WE SERVE SECTION (CSS) - Nike-inspired dynamic hero section
+// =============================================================================
+
+.we-serve-section {
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    margin-left: calc(-50vw + 50%); // Break out of container constraints
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d3748 100%); // Gradient that transitions seamlessly to clients section
+    position: relative;
+    overflow: hidden; // Ensure all content stays within section bounds
+    z-index: 1; // Normal z-index, not covering header
+    contain: layout style paint; // Contain all effects within this section
+    
+    // Scroll snap to hold user in section
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    
+    // Dark overlay for text contrast
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+
+    &__container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        transition: transform 0.15s ease-out;
+        
+        // Ensure container is fully visible and centered
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100vh; // Full viewport height for proper centering
+    }
+
+    &__text {
+        color: #ffffff;
+        font-weight: 900;
+        font-size: clamp(3rem, 12vw, 8rem);
+        line-height: 0.85; // Much tighter line height for almost touching text
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        margin: 0;
+        width: 100%;
+        
+        // Add text shadow for better contrast
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        
+        // Responsive sizing
+        @media (max-width: 1200px) {
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            line-height: 0.85;
+        }
+        
+        @media (max-width: 768px) {
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+        }
+        
+        @media (max-width: 480px) {
+            font-size: clamp(1.5rem, 7vw, 3rem);
+            line-height: 0.95;
+        }
+    }
+
+    &__static {
+        display: block;
+        margin-bottom: -0.1em; // Negative margin to bring lines closer
+        
+        // Initially hidden until section becomes active
+        opacity: 0;
+        transform: translateY(50px);
+        visibility: hidden;
+        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        
+        &.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+    }
+
+    &__dynamic {
+        display: block;
+        position: relative;
+        min-height: 1.2em; // Reduced height to match tighter spacing
+        height: auto;
+        overflow: visible;
+        margin: -0.1em 0; // Negative margins to bring text closer
+        width: 100%; // Ensure full width
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        // Initially hidden until section becomes active
+        opacity: 0;
+        visibility: hidden;
+        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        
+        // Add underline effect with progress indicator
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5em; // Moved even further below text
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%; // Fixed width to prevent jumping
+            height: 6px;
+            background: linear-gradient(90deg, 
+                #ed1c24 0%, 
+                #ed1c24 var(--progress, 0%), 
+                rgba(255, 255, 255, 0.3) var(--progress, 0%), 
+                rgba(255, 255, 255, 0.3) 100%);
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s,
+                        background 0.3s ease;
+        }
+        
+        &.animate-in {
+            opacity: 1;
+            visibility: visible;
+            
+            &::after {
+                transform: translateX(-50%) scaleX(1);
+            }
+        }
+    }
+
+    &__word {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        width: max-content; // Allow natural width
+        max-width: 90vw; // Prevent overflow on very small screens
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+        white-space: nowrap; // Prevent text wrapping
+        text-align: center;
+        
+        // Gradient text effect for active word
+        background: linear-gradient(135deg, #ffffff 0%, #ed1c24 50%, #ffffff 100%);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: textGradientShift 3s ease-in-out infinite;
+        
+        &.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        
+        &.exiting {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-50%);
+            transition-duration: 0.4s; // Faster exit
+        }
+    }
+
+    // Scroll indicator
+    &__scroll-indicator {
+        position: absolute;
+        bottom: 4rem; // More space from bottom since we have full height
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        z-index: 2;
+        
+        // Initially hidden until section becomes active
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, color 0.3s ease, visibility 0.3s ease;
+        
+        // Show when section is active
+        &.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        &::before {
+            content: '';
+            display: block;
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 0 auto 1rem;
+            animation: scrollPulse 2s ease-in-out infinite;
+            transition: background 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            bottom: 3rem; // Still need adequate space on mobile
+            font-size: 0.75rem;
+            
+            &::before {
+                height: 20px;
+            }
+        }
+    }
+}
+
+// Keyframe animations
+@keyframes volleyballFloat {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    }
+    25% {
+        transform: translate(-52%, -48%) rotate(2deg) scale(1.05);
+    }
+    50% {
+        transform: translate(-48%, -52%) rotate(-1deg) scale(0.95);
+    }
+    75% {
+        transform: translate(-50%, -46%) rotate(1deg) scale(1.02);
+    }
+}
+
+@keyframes textGradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes scrollPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(10px);
+    }
+}
+
+// =============================================================================
+// ADDITIONAL KEYFRAMES FOR TEXT EFFECTS
+// =============================================================================
+
+@keyframes textGlitch {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-2px);
+    }
+    40% {
+        transform: translateX(2px);
+    }
+    60% {
+        transform: translateX(-1px);
+    }
+    80% {
+        transform: translateX(1px);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-2px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(2px);
+    }
+}
+
+// Transition effects when leaving section
+.we-serve-section.transitioning-out {
+    .we-serve-section__text {
+        transform: scale(0.95);
+        opacity: 0.7;
+        transition: all 0.8s ease-out; // Shortened from 1s
+    }
+    
+    .we-serve-section__scroll-indicator {
+        opacity: 0;
+        transition: opacity 0.3s ease-out; // Shortened from 0.5s
+    }
+}
+
+// =============================================================================
+// MOBILE OPTIMIZATIONS
+// =============================================================================
+
+@media (max-width: 768px) {
+    .we-serve-section {
+        // Ensure proper height on mobile accounting for viewport issues
+        min-height: 100vh;
+        min-height: 100dvh; // Use dynamic viewport height if supported
+        
+        &__container {
+            padding: 1rem;
+            min-height: 100vh;
+            min-height: 100dvh;
+        }
+        
+        &__text {
+            // Ensure text is not cut off on mobile
+            max-width: 100%;
+        }
+        
+        &__dynamic {
+            min-height: 2em; // More space on mobile
+            
+            &::after {
+                height: 4px;
+                width: 90%; // Wider underline on mobile
+            }
+        }
+        
+        &__word {
+            max-width: 95vw; // More room on mobile
+            
+            &.active {
+                transform: translateX(-50%) translateY(-50%);
+            }
+            
+            &.exiting {
+                transform: translateX(-50%) translateY(-50%);
+            }
+        }
+    }
+}
+
+// =============================================================================
+// ACCESSIBILITY & REDUCED MOTION
+// =============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+    .we-serve-section {
+        &__word {
+            transition: opacity 0.5s ease !important;
+            transform: translateX(-50%) translateY(-50%) !important;
+            
+            &.active {
+                transform: translateX(-50%) translateY(-50%) !important;
+            }
+            
+            &.exiting {
+                transform: translateX(-50%) translateY(-50%) !important;
+            }
+        }
+        
+        &__scroll-indicator::before {
+            animation: none !important;
+        }
+    }
+    
+    @keyframes textGradientShift {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+    }
+}
+
+// =============================================================================
+// HIGH CONTRAST MODE SUPPORT
+// =============================================================================
+
+@media (prefers-contrast: high) {
+    .we-serve-section {
+        background: #000000;
+        
+        &::before {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        &__word {
+            background: #ffffff !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: #ffffff !important;
+            background-clip: unset !important;
+        }
+        
+        &__dynamic::after {
+            background: #ffffff;
+        }
+    }
+}
+
+// =============================================================================
+// PERFORMANCE OPTIMIZATIONS
+// =============================================================================
+
+.we-serve-section {
+    // Use contain for better performance
+    contain: layout style;
+    
+    // Optimize animations
+    .we-serve-section__word {
+        will-change: transform, opacity;
+    }
+    
+    &.transitioning-out .we-serve-section__word {
+        will-change: auto;
+    }
+}
+
+// =============================================================================
+// SCROLL SNAP BEHAVIOR FOR SMOOTH SECTION FLOW
+// =============================================================================
+
+// Root-level scroll snap container
+html {
+    scroll-snap-type: y proximity;
+}
+
+// Individual sections that should snap
+.about-services,
+.we-serve-section,
+.clients-partners {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+}
+
+// When WE SERVE section is active, make scroll snapping more aggressive
+.we-serve-section {
+    scroll-snap-stop: always;
+    
+    // Add a strong snap point that holds the section
+    &.active {
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+    
+    // Lock body scroll when section is active
+    &.locked {
+        body {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+    }
+}
