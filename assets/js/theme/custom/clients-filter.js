@@ -20,11 +20,12 @@ export default function clientsFilter() {
     const loadMoreCount = 12; // How many to load each time
     let isLoading = false; // Prevent multiple simultaneous loads
     
-    // Load clients data from JSON file
-    fetch('/assets/content/clients-data.json')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Data loaded successfully:', data);
+    // Load clients data from embedded JSON in template
+    try {
+        const dataScript = document.getElementById('clientsData');
+        if (dataScript) {
+            const data = JSON.parse(dataScript.textContent);
+            console.log('Data loaded successfully from embedded script:', data);
             
             // Process the clients array
             if (data.clients && Array.isArray(data.clients)) {
@@ -41,11 +42,38 @@ export default function clientsFilter() {
                 setupInfiniteScroll();
                 console.log('Infinite scroll initialized');
             }, 500);
-        })
-        .catch(error => {
-            console.error('Error loading client data:', error);
-            grid.innerHTML = '<p style="color: white; text-align: center;">Error loading client data</p>';
-        });
+        } else {
+            // Fallback to fetch if embedded data not found
+            fetch('/assets/content/clients-data.json')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Data loaded successfully from fetch:', data);
+                    
+                    // Process the clients array
+                    if (data.clients && Array.isArray(data.clients)) {
+                        allClients = data.clients;
+                    }
+                    
+                    updateFilterCounts(data);
+                    updateEnvironmentFilters();
+                    setupFilterEventListeners();
+                    renderClients();
+                    
+                    // Initialize infinite scroll after initial render
+                    setTimeout(() => {
+                        setupInfiniteScroll();
+                        console.log('Infinite scroll initialized');
+                    }, 500);
+                })
+                .catch(error => {
+                    console.error('Error loading client data:', error);
+                    grid.innerHTML = '<p style="color: white; text-align: center;">Error loading client data</p>';
+                });
+        }
+    } catch (error) {
+        console.error('Error parsing embedded client data:', error);
+        grid.innerHTML = '<p style="color: white; text-align: center;">Error loading client data</p>';
+    }
     
     // Function to update category filter counts
     function updateFilterCounts(data) {
