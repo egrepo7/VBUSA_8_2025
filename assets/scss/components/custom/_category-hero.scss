@@ -229,7 +229,7 @@
         -webkit-backdrop-filter: blur(10px);
         border: 2px solid rgba(255, 255, 255, 0.3);
         color: white;
-        cursor: default; /* Changed from pointer to default since arrow is decorative only */
+        cursor: pointer; /* Changed from default to pointer for clickable functionality */
         transition: all 0.3s ease;
         animation: bounce 2s infinite;
 
