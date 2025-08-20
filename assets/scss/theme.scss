@@ -66,6 +66,7 @@
 // -----------------------------------------------------------------------------
 
 @import "../../node_modules/@bigcommerce/citadel/dist/vendor/normalize/normalize"; // 1
+@import "common/_links"; // Global link styles - override normalize, before components
 @import "../../node_modules/@bigcommerce/citadel/dist/components/components"; // 2
 @import "common/index"; // 3
 @import "components/components"; // 6
@@ -88,6 +89,9 @@
 
 @import 'custom/its_theme';
 @import 'components/custom/mobile-sticky-cart-validator';
+@import 'components/custom/cls-prevention';
+@import 'components/custom/product-listing-cls';
+@import 'custom/layouts/contact-form-fix';
 
 
 /* PORTLINE ========================================================== */

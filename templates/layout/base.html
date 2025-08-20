@@ -33,9 +33,14 @@
                 custom: {
                     families: ['Karla', 'Roboto', 'Source Sans Pro']
                 },
-                classes: false
+                classes: false,
+                display: 'swap' // Prevent CLS from font loading
             });
         </script>
+
+        <!-- Preload critical fonts to reduce CLS -->
+        <link rel="preload" href="{{cdn 'assets/fonts/clearsans-regular-webfont.woff2'}}" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="{{cdn 'assets/fonts/clearsans-bold-webfont.woff2'}}" as="font" type="font/woff2" crossorigin>
 
         {{ getFontsCollection }}
         {{#and (if theme_settings.its.kitchen_sink) (if in_development)}}

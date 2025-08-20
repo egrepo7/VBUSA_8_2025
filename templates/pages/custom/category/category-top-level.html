@@ -1,0 +1,189 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{inject "categoryId" category.id}}
+
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+    {{!-- Preload critical hero image to prevent CLS --}}
+    {{#if category.image}}
+        <link rel="preload" as="image" href="{{getImage category.image 'zoom_size'}}" />
+    {{/if}}
+    {{!-- Preload critical buying guide images based on category --}}
+    {{#contains category.url "volleyball-nets"}}
+        <link rel="preload" as="image" href="{{cdn 'assets/img/categories/net-buying-guide.png'}}" />
+    {{/contains}}
+    {{#contains category.url "complete-systems"}}
+        <link rel="preload" as="image" href="{{cdn 'assets/img/categories/systems-buying-guide.png'}}" />
+    {{/contains}}
+    {{#contains category.url "volleyball-poles"}}
+        <link rel="preload" as="image" href="{{cdn 'assets/img/categories/poles-buying-guide.png'}}" />
+    {{/contains}}
+    {{!-- CLS prevention meta --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{/partial}}
+
+{{#partial "page"}}
+{{!-- Add class to indicate if hero is present or not --}}
+<div class="page--category {{#unless category.image}}no-hero{{/unless}}">
+
+<!-- {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}} -->
+
+<!-- Category Hero Section - Only show if category has an image -->
+{{#if category.image}}
+<section class="category-hero">
+    <div class="category-hero__background" 
+         data-category="{{category.url}}"
+         style="background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('{{getImage category.image 'zoom_size'}}') bottom/cover;">
+        <div class="container">
+            <div class="category-hero__content">
+                {{!-- Dynamic content based on category URL - careful syntax --}}
+                {{#contains category.url "volleyball-nets"}}
+                    <h1 class="category-hero__title h1">Professional Volleyball Nets for <strong>Every Level of Play</strong></h1>
+                    <div class="category-hero__subtitle">Whether you're outfitting an indoor high school gym, a beach court, or a professional tournament, our volleyball nets are designed for unmatched durability and performance. Shop indoor and outdoor systems trusted by the AVP, USAV, and thousands of schools across the country.</div>
+                    <!-- Scroll Down Arrow -->
+                    <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll to categories">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- <div class="category-hero__cta">
+                        <a href="/volleyball-nets" class="button button--primary">Shop Nets</a>
+                    </div> -->
+                {{/contains}}
+                {{#contains category.url "volleyball-poles"}}
+                    <h1 class="category-hero__title h1">Heavy-Duty <strong>Volleyball Poles</strong></h1>
+                    <div class="category-hero__subtitle">Adjustable, professional-grade poles engineered for lasting performance. Built to withstand intense play and weather conditions.</div>
+                    <!-- Scroll Down Arrow -->
+                    <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll to categories">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="category-hero__cta">
+                        <a href="/volleyball-poles" class="button button--primary">Shop Poles</a>
+                    </div>
+                {{/contains}}
+                {{#contains category.url "sand"}}
+                    <h1 class="category-hero__title h1">Premium <strong>Volleyball Sand</strong></h1>
+                    <div class="category-hero__subtitle">The perfect playing surface for beach volleyball courts. Our specially graded sand provides optimal drainage, safety, and performance for professional play.</div>
+                    <!-- Scroll Down Arrow -->
+                    <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll to categories">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="category-hero__cta">
+                        <a href="/volleyball-sand" class="button button--primary">Shop Sand</a>
+                    </div>
+                {{/contains}}
+                {{#contains category.url "accessories"}}
+                    <h1 class="category-hero__title h1">Essential <strong>Volleyball Accessories</strong></h1>
+                    <div class="category-hero__subtitle">Complete your volleyball setup with our professional accessories. From line judges to maintenance tools, we have everything you need.</div>
+                    <!-- Scroll Down Arrow -->
+                    <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll to categories">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="category-hero__cta">
+                        <a href="/volleyball-accessories" class="button button--primary">Browse Accessories</a>
+                    </div>
+                {{/contains}}
+                {{#contains category.url "complete-systems"}}
+                    <h1 class="category-hero__title h1">Complete <strong>Volleyball Systems</strong></h1>
+                    <div class="category-hero__subtitle">Everything you need for professional volleyball installations. Tournament-ready systems trusted by schools, clubs, and professional venues nationwide.</div>
+                    <!-- Scroll Down Arrow -->
+                    <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll to categories">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="category-hero__cta">
+                        <a href="/complete-systems" class="button button--primary">View Systems</a>
+                    </div>
+                {{/contains}}
+            </div>
+        </div>
+    </div>
+</section>
+{{/if}}
+
+<script>
+// Scroll function - commented out since scroll arrows are now decorative only
+/*
+function scrollToNextSection() {
+    const heroSection = document.querySelector('.category-hero');
+    const nextSection = heroSection.nextElementSibling;
+    if (nextSection) {
+        nextSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+}
+*/
+</script>
+
+<!-- Product Categories Grid -->
+{{#if category.subcategories}}
+    <section class="category-grid">
+        <div class="container">
+            {{> components/custom/category-cards}}
+        </div>
+    </section>
+{{/if}}
+
+<!-- Buying Guide Section - Only for specific categories -->
+{{#contains category.url "volleyball-nets"}}
+<section class="buying-guide-section">
+    <div class="container">
+        {{> components/custom/buying-guide}}
+    </div>
+</section>
+{{/contains}}
+{{#contains category.url "complete-systems"}}
+<section class="buying-guide-section">
+    <div class="container">
+        {{> components/custom/buying-guide}}
+    </div>
+</section>
+{{/contains}}
+{{#contains category.url "volleyball-poles"}}
+<section class="buying-guide-section">
+    <div class="container">
+        {{> components/custom/buying-guide}}
+    </div>
+</section>
+{{/contains}}
+
+<!-- Dynamic FAQ Section - Shows for all supported categories -->
+{{> components/custom/category-faq-seo}}
+
+</div> {{!-- End page--category wrapper --}}
+{{/partial}}
+
+{{#partial "page_scripts"}}
+    <script src="{{assetPath 'js/theme/custom/product-listing-optimization.js'}}"></script>
+{{/partial}}
+
+{{> layout/base container_active=true}}

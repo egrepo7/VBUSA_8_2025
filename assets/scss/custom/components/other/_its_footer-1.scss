@@ -106,6 +106,8 @@ body > .banners {
     max-width: 420px;
     margin: 0 auto;
     background-color: $color-white;
+    border-radius: 12px;
+    overflow: hidden;
 
     @include breakpoint('small') {
         // 551px and up

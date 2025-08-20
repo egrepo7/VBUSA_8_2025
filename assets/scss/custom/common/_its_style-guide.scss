@@ -211,6 +211,33 @@ a {
         }
     }
 
+    // Mobile responsive button sizing
+    @media (max-width: 768px) {
+        &.button--primary,
+        &.button--secondary {
+            padding: 0.75rem 1rem; // Reduced from 1.145rem 1.5rem
+            font-size: 12px; // Slightly smaller font
+        }
+        
+        &.button--small {
+            padding: 0.5rem 0.75rem; // Even smaller for small buttons
+            font-size: 11px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        &.button--primary,
+        &.button--secondary {
+            padding: 0.625rem 0.875rem; // Even more compact on very small screens
+            font-size: 11px;
+        }
+        
+        &.button--small {
+            padding: 0.4rem 0.625rem;
+            font-size: 10px;
+        }
+    }
+
     &.button--white-ghost {
         font-size: $button-font-size-secondary;
         color: white;
@@ -571,7 +598,9 @@ a {
 
 // Unified breadcrumb styling for all pages to match product page look
 .breadcrumbs-bar {
+    margin-top: 1.75rem;
     margin-bottom: 1rem;
+    
     
     @include breakpoint('medium') {
         margin-top: 1.75rem;

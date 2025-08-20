@@ -133,6 +133,26 @@ with `icon-` prepended. e.g. `xlink:href="#icon-facebook"`.
 Simply add your new icon SVG file to the icons folder, and run `grunt svgstore`,
 or just `grunt`.
 
+## 🤖 GitHub Copilot Configuration
+
+This project includes specific coding conventions and patterns that GitHub Copilot should follow:
+
+### Key Files for Copilot Context:
+- **`.github/copilot-instructions.md`** - Core coding conventions and DRY principles
+- **`CODING_CONVENTIONS.md`** - Comprehensive style guide and patterns
+- **`.vscode/settings.json`** - VS Code configuration optimized for BigCommerce Stencil development
+
+### Copilot Usage Tips:
+1. **Reference existing patterns**: Always mention "following the existing category-card pattern" or "reusing theme classes"
+2. **DRY principle**: Ask Copilot to "search for existing similar styles before creating new ones"
+3. **Component-aware**: Specify "make this component category-aware with Handlebars conditionals"
+4. **BEM naming**: Request "use BEM methodology for class names"
+
+### Example Prompts:
+- "Create a new card component that reuses the existing category-card classes"
+- "Add responsive styles following mobile-first approach with existing breakpoints"
+- "Generate Handlebars template with category-aware conditionals like the buying-guide component"
+
 #### License
 
 (The MIT License)

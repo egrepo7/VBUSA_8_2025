@@ -1,62 +1,5 @@
 // =============================================================================
-// HEADER HIDE BEHAVIOR WHEN SPECIAL SECTIONS ARE ACTIVE
-// =============================================================================
-
-// Hide header when WE SERVE section is active
-body.we-serve-active {
-    .header:not(.header-2),
-    .site-header:not(.header-2),
-    .main-header:not(.header-2) {
-        transform: translateY(-100%) !important;
-        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-    
-    .header-2 {
-        transform: translateY(-100%) !important;
-        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-}
-
-// Hide header when clients section is active
-body.clients-active {
-    .header:not(.header-2),
-    .site-header:not(.header-2),
-    .main-header:not(.header-2) {
-        transform: translateY(-100%) !important;
-        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-    
-    .header-2 {
-        transform: translateY(-100%) !important;
-        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-}
-
-// Show header when neither WE SERVE nor clients section is active
-body:not(.we-serve-active):not(.clients-active) {
-    .header:not(.header-2),
-    .site-header:not(.header-2),
-    .main-header:not(.header-2) {
-        opacity: 1 !important;
-        pointer-events: auto !important;
-    }
-    
-    .header-2 {
-        opacity: 1 !important;
-        pointer-events: auto !important;
-    }
-}
-
-// =============================================================================
-// WE SERVE SECTION (CSS) - Nike-inspired dynamic hero section
+// WE SERVE SECTION (CSS) - Nike-inspired dynamic hero section with auto-cycling
 // =============================================================================
 
 .we-serve-section {
@@ -73,9 +16,31 @@ body:not(.we-serve-active):not(.clients-active) {
     z-index: 1; // Normal z-index, not covering header
     contain: layout style paint; // Contain all effects within this section
     
-    // Scroll snap to hold user in section
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    // Mobile viewport handling - account for browser UI changes
+    @supports (-webkit-appearance: none) and (display: -webkit-box) {
+        // iOS Safari specific - handle dynamic viewport
+        height: -webkit-fill-available;
+        min-height: -webkit-fill-available;
+    }
+    
+    // Mobile specific adjustments
+    @media (max-width: 768px) {
+        // Use dynamic viewport units when available
+        height: 100dvh;
+        min-height: 100dvh;
+        
+        // Fallback for older browsers
+        @supports not (height: 100dvh) {
+            height: calc(100vh - env(safe-area-inset-bottom, 0px));
+            min-height: calc(100vh - env(safe-area-inset-bottom, 0px));
+        }
+    }
+    
+    // Tablet specific adjustments
+    @media (min-width: 769px) and (max-width: 1024px) {
+        height: 100vh;
+        min-height: 100vh;
+    }
     
     // Dark overlay for text contrast
     &::before {
@@ -127,20 +92,41 @@ body:not(.we-serve-active):not(.clients-active) {
         }
         
         @media (max-width: 768px) {
-            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-size: 4rem; // Fixed 4rem size as requested
             letter-spacing: -0.02em;
-            line-height: 0.9;
+            line-height: 1.1; // Slightly more line height for better readability
+            // Ensure text fits within mobile viewport and wraps properly
+            padding: 0 1rem;
+            max-width: calc(100vw - 2rem);
+            word-wrap: break-word; // Allow words to break if too long
+            overflow-wrap: break-word; // Modern syntax
+            hyphens: auto; // Enable hyphenation for better text breaking
         }
         
         @media (max-width: 480px) {
-            font-size: clamp(1.5rem, 7vw, 3rem);
-            line-height: 0.95;
+            font-size: 3.5rem; // Slightly smaller on very small screens but still prominent
+            line-height: 1.15;
+            // Tighter spacing on small screens
+            padding: 0 0.5rem;
+            max-width: calc(100vw - 1rem);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        // Handle landscape orientation on mobile
+        @media (max-width: 768px) and (orientation: landscape) {
+            font-size: 3rem; // Still prominent but smaller for landscape
+            line-height: 1.0;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
     }
 
     &__static {
         display: block;
-        margin-bottom: -0.1em; // Negative margin to bring lines closer
+        margin-bottom: 0.5rem; // Add 1.5rem spacing under "WE SERVE"
         
         // Initially hidden until section becomes active
         opacity: 0;
@@ -156,125 +142,67 @@ body:not(.we-serve-active):not(.clients-active) {
     }
 
     &__dynamic {
-        display: block;
         position: relative;
-        min-height: 1.2em; // Reduced height to match tighter spacing
-        height: auto;
-        overflow: visible;
-        margin: -0.1em 0; // Negative margins to bring text closer
-        width: 100%; // Ensure full width
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: inline-block;
+        min-height: 1em;
+        min-width: 300px; // Wider to accommodate longer words
+        vertical-align: baseline;
         
         // Initially hidden until section becomes active
         opacity: 0;
         visibility: hidden;
         transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         
-        // Add underline effect with progress indicator
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: -0.5em; // Moved even further below text
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%; // Fixed width to prevent jumping
-            height: 6px;
-            background: linear-gradient(90deg, 
-                #ed1c24 0%, 
-                #ed1c24 var(--progress, 0%), 
-                rgba(255, 255, 255, 0.3) var(--progress, 0%), 
-                rgba(255, 255, 255, 0.3) 100%);
-            transform: translateX(-50%) scaleX(0);
-            transform-origin: center;
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s,
-                        background 0.3s ease;
-        }
-        
         &.animate-in {
             opacity: 1;
             visibility: visible;
-            
-            &::after {
-                transform: translateX(-50%) scaleX(1);
-            }
         }
     }
 
     &__word {
         position: absolute;
-        top: 50%;
+        top: 0;
         left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        width: max-content; // Allow natural width
-        max-width: 90vw; // Prevent overflow on very small screens
-        opacity: 0;
-        transition: opacity 0.5s ease-out;
-        white-space: nowrap; // Prevent text wrapping
-        text-align: center;
+        transform: translateX(-50%);
+        opacity: 0; // Start hidden
+        visibility: hidden; // Completely hidden
+        white-space: nowrap; // Keep nowrap for desktop
+        width: max-content;
         
-        // Gradient text effect for active word
-        background: linear-gradient(135deg, #ffffff 0%, #ed1c24 50%, #ffffff 100%);
-        background-size: 200% 200%;
+        // Fast transition for quick cycling
+        transition: opacity 0.1s ease-in-out, visibility 0.1s ease-in-out;
+        
+        // Allow wrapping on mobile devices
+        @media (max-width: 768px) {
+            white-space: normal; // Allow text wrapping on mobile
+            width: auto; // Don't use max-content on mobile
+            max-width: 95vw; // Constrain to viewport width
+            text-align: center; // Center multi-line text
+        }
+        
+        // Animated gradient text effect - smooth and subtle
+        color: #ed1c24; // Fallback
+        background: linear-gradient(90deg, #ffffff 20%, #ed1c24 50%, #ffffff 80%); // More subtle gradient
+        background-size: 300% 100%; // Larger size for smoother movement
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        animation: textGradientShift 3s ease-in-out infinite;
+        animation: smoothGradientFlow 6s ease-in-out infinite; // Much slower - 6 seconds
         
+        // Text properties to match static text
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        
+        // Fallback for browsers without background-clip support
+        @supports not (-webkit-background-clip: text) {
+            color: #ed1c24;
+            -webkit-text-fill-color: #ed1c24;
+        }
+        
+        // Only the active word is visible
         &.active {
             opacity: 1;
-            transform: translateX(-50%) translateY(-50%);
-        }
-        
-        &.exiting {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-50%);
-            transition-duration: 0.4s; // Faster exit
-        }
-    }
-
-    // Scroll indicator
-    &__scroll-indicator {
-        position: absolute;
-        bottom: 4rem; // More space from bottom since we have full height
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        z-index: 2;
-        
-        // Initially hidden until section becomes active
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, color 0.3s ease, visibility 0.3s ease;
-        
-        // Show when section is active
-        &.visible {
-            opacity: 1;
             visibility: visible;
-        }
-        
-        &::before {
-            content: '';
-            display: block;
-            width: 2px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.5);
-            margin: 0 auto 1rem;
-            animation: scrollPulse 2s ease-in-out infinite;
-            transition: background 0.3s ease;
-        }
-        
-        @media (max-width: 768px) {
-            bottom: 3rem; // Still need adequate space on mobile
-            font-size: 0.75rem;
-            
-            &::before {
-                height: 20px;
-            }
         }
     }
 }
@@ -304,14 +232,30 @@ body:not(.we-serve-active):not(.clients-active) {
     }
 }
 
-@keyframes scrollPulse {
+@keyframes nikeGradientFlow {
     0%, 100% {
-        opacity: 0.5;
-        transform: translateY(0);
+        background-position: 0% 0%;
     }
     50% {
-        opacity: 1;
-        transform: translateY(10px);
+        background-position: 100% 0%;
+    }
+}
+
+@keyframes fastGradientFlow {
+    0%, 100% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 200% 0%;
+    }
+}
+
+@keyframes smoothGradientFlow {
+    0%, 100% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 0%;
     }
 }
 
@@ -356,11 +300,6 @@ body:not(.we-serve-active):not(.clients-active) {
         opacity: 0.7;
         transition: all 0.8s ease-out; // Shortened from 1s
     }
-    
-    .we-serve-section__scroll-indicator {
-        opacity: 0;
-        transition: opacity 0.3s ease-out; // Shortened from 0.5s
-    }
 }
 
 // =============================================================================
@@ -386,22 +325,24 @@ body:not(.we-serve-active):not(.clients-active) {
         
         &__dynamic {
             min-height: 2em; // More space on mobile
-            
-            &::after {
-                height: 4px;
-                width: 90%; // Wider underline on mobile
-            }
+            min-width: 250px; // Adjusted for mobile
         }
         
         &__word {
             max-width: 95vw; // More room on mobile
+            white-space: normal; // Allow text wrapping on mobile
+            text-align: center; // Center multi-line text
+            word-wrap: break-word; // Break long words if necessary
+            overflow-wrap: break-word; // Modern syntax
+            hyphens: auto; // Enable hyphenation
+            line-height: 1.1; // Match the main text line height
             
             &.active {
-                transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%);
             }
             
             &.exiting {
-                transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%);
             }
         }
     }
@@ -415,25 +356,15 @@ body:not(.we-serve-active):not(.clients-active) {
     .we-serve-section {
         &__word {
             transition: opacity 0.5s ease !important;
-            transform: translateX(-50%) translateY(-50%) !important;
+            animation: none !important; // Disable gradient animation for reduced motion
             
             &.active {
-                transform: translateX(-50%) translateY(-50%) !important;
+                transform: translateX(-50%) !important;
             }
             
             &.exiting {
-                transform: translateX(-50%) translateY(-50%) !important;
+                transform: translateX(-50%) !important;
             }
-        }
-        
-        &__scroll-indicator::before {
-            animation: none !important;
-        }
-    }
-    
-    @keyframes textGradientShift {
-        0%, 100% {
-            background-position: 0% 50%;
         }
     }
 }
@@ -482,38 +413,15 @@ body:not(.we-serve-active):not(.clients-active) {
 }
 
 // =============================================================================
-// SCROLL SNAP BEHAVIOR FOR SMOOTH SECTION FLOW
+// WE SERVE WORD ELEMENTS - Dynamic cycling text
 // =============================================================================
 
-// Root-level scroll snap container
-html {
-    scroll-snap-type: y proximity;
-}
-
-// Individual sections that should snap
-.about-services,
-.we-serve-section,
-.clients-partners {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
-}
-
-// When WE SERVE section is active, make scroll snapping more aggressive
-.we-serve-section {
-    scroll-snap-stop: always;
-    
-    // Add a strong snap point that holds the section
-    &.active {
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
-    }
-    
-    // Lock body scroll when section is active
-    &.locked {
-        body {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-    }
+// Make sure dynamic container has proper setup for Nike-style cycling
+.we-serve-section__dynamic {
+    position: relative;
+    display: inline-block;
+    min-height: 1.2em; // Prevent height collapse
+    min-width: 300px; // Ensure minimum width to prevent jumping - wider for longer words
+    vertical-align: baseline;
+    overflow: visible; // Allow words to be positioned absolutely
 }

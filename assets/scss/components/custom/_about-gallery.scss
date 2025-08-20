@@ -13,6 +13,9 @@
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     
+    // Prevent CLS by reserving space for images
+    aspect-ratio: 16/9; // Default ratio, can be overridden per section
+    
     // Hover effect
     &:hover {
         transform: translateY(-2px);
@@ -38,6 +41,13 @@
         cursor: pointer;
         position: relative;
         z-index: 1; // Below the zoom icon
+    }
+    
+    // Picture element should fill container
+    picture {
+        display: block;
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -73,6 +83,23 @@
         background: rgba(0, 0, 0, 0.8);
         transform: translate(-50%, -50%) scale(1.1);
     }
+}
+
+// Specific aspect ratios for different sections to match actual image dimensions
+.about-trusted__image {
+    aspect-ratio: 4/3; // Wide landscape image
+}
+
+.about-designed__image-item {
+    aspect-ratio: 16/10; // Slightly wider than 16/9
+}
+
+.about-mission__image {
+    aspect-ratio: 3/2; // Standard photo ratio
+}
+
+.about-service__image {
+    aspect-ratio: 4/3; // Portrait-friendly ratio for service images
 }
 
 // Custom PhotoSwipe styling for about page

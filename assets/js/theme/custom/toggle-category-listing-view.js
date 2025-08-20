@@ -116,7 +116,11 @@ export default class ToggleCategoryListingView {
 
             this.addToggleEvents();
 
+            // Trigger events for filter restoration
             $('body').triggerHandler('productViewModeChanged');
+            
+            // Also trigger a more specific event for filter tabs
+            $('body').triggerHandler('categoryFilterTabsRefresh');
 
             this.fullWidthTemplate();
         });

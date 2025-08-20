@@ -38,6 +38,9 @@ There are a few important arguments to know about when using this component:
 <img {{#if image}}{{!-- Get the default image for legacy browsers that do not support srcset
 --}}src="{{getImageSrcset image 1x=(default fallback_size '160w')}}" alt="{{image.alt}}" title="{{image.alt}}" {{!--
   Allow lazysizes to generate the 'sizes' attribute automatically --}}data-sizes="auto"
+  {{!-- Add width/height for CLS prevention --}}
+  {{#if image.width}}width="{{image.width}}"{{else}}width="400"{{/if}}
+  {{#if image.height}}height="{{image.height}}"{{else}}height="400"{{/if}}
   {{#unless lazyload '==' 'disabled'}}
     {{#if lazyload '==' 'lazyload+lqip'}}
     {{!-- If we want a LQIP, include it as the default srcset (will be overwritten by lazysizes) --}}

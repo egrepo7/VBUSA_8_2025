@@ -49,7 +49,6 @@ class WeServeSection {
         this.setupScrollLocking();
         this.bindEvents();
         
-        console.log('WeServeSection: Initialized with scroll-driven cycling');
     }
 
     findElements() {
@@ -59,7 +58,6 @@ class WeServeSection {
 
     createWordElements() {
         if (!this.dynamicContainer) {
-            console.log('WeServeSection: Dynamic container not found');
             return;
         }
         
@@ -82,7 +80,6 @@ class WeServeSection {
             this.wordElements.push(wordElement);
         });
         
-        console.log('WeServeSection: Created', this.wordElements.length, 'word elements');
     }
 
     setupIntersectionObserver() {
@@ -108,7 +105,6 @@ class WeServeSection {
     }
 
     onEnterSection() {
-        console.log('WeServeSection: Entering section - enabling scroll lock');
         this.isLocked = true;
         this.scrollCount = 0;
         this.hasCompletedCycle = false;
@@ -132,7 +128,6 @@ class WeServeSection {
     }
 
     onExitSection() {
-        console.log('WeServeSection: Exiting section - disabling scroll lock');
         this.isLocked = false;
         this.scrollCount = 0;
         this.hasCompletedCycle = false;
@@ -174,7 +169,6 @@ class WeServeSection {
                     this.advanceWord();
                 } else {
                     // Allow scroll to continue to next section
-                    console.log('WeServeSection: Cycle complete - allowing scroll to next section');
                     this.isLocked = false;
                     this.transitionToNextSection();
                 }
@@ -262,7 +256,6 @@ class WeServeSection {
         // Check if we've completed a full cycle
         if (nextIndex === 0 && this.currentWordIndex === this.words.length - 1) {
             this.hasCompletedCycle = true;
-            console.log('WeServeSection: Completed full cycle - unlocking section');
         }
         
         this.showWord(nextIndex);

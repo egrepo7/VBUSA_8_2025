@@ -201,3 +201,8 @@
 @import "custom/scroll-animations";
 @import "custom/we-serve-section";
 @import "custom/about-gallery";
+@import "custom/font-optimization"; // Prevent CLS from font loading
+@import "custom/category-hero"; // Dynamic hero for category pages
+@import "custom/category-cards"; // Modern category cards component
+@import "custom/category-faq"; // FAQ accordion component for category pages
+@import "custom/buying-guide"; // Buying guide section with background image

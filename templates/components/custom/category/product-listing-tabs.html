@@ -1,12 +1,20 @@
 {{inject 'noCompareMessage' (lang 'compare.no_compare')}}
 
 {{#if category.products}}
-    <div class="category-toolbar">
-        <div class="category-toolbar__sort">
-            {{> components/products/filter sort=pagination.category.sort}}
+    <div class="category-toolbar container">
+        <div class="category-toolbar__left">
+            <div class="category-toolbar__count">
+                <span id="product-count">{{category.products.length}}</span> results
+            </div>
+            <div class="category-toolbar__separator">-</div>
+            <div class="category-toolbar__sort">
+                {{> components/products/filter sort=pagination.category.sort}}
+            </div>
         </div>
-        <div class="category-toolbar__view-toggle">
-            {{> components/custom/category-view-toggle type=theme_settings.product_list_display_mode}}
+        <div class="category-toolbar__right">
+            <div class="category-toolbar__view-toggle">
+                {{> components/custom/category-view-toggle type=theme_settings.product_list_display_mode}}
+            </div>
         </div>
     </div>
     

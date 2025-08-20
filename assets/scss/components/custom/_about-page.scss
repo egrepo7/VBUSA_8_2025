@@ -174,12 +174,16 @@
     }
 
     &__text {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         line-height: 1.6;
         margin: 0 0 32px 0; // Keep spacing
 
         &:last-child {
             margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
         }
     }
 
@@ -240,9 +244,13 @@
     }
 
     &__column p {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         line-height: 1.6;
         margin: 0;
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
 
     &__images {
@@ -313,12 +321,16 @@
         margin: 0 auto 48px auto;
 
         p {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             line-height: 1.6;
             margin: 0 0 24px 0;
 
             &:last-child {
                 margin-bottom: 0;
+            }
+
+            @media (max-width: 768px) {
+                font-size: 1rem;
             }
         }
     }
@@ -448,9 +460,13 @@
     }
 
     &__description {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         line-height: 1.6;
         margin: 0 0 32px 0;
+
+        @media (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
 
     &__button {
@@ -466,6 +482,17 @@
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); // Changed from red shadow to neutral
+
+        // Mobile responsive sizing
+        @media (max-width: 768px) {
+            padding: 12px 20px; // Reduced padding on mobile
+            font-size: 0.875rem; // Smaller font size
+        }
+        
+        @media (max-width: 480px) {
+            padding: 10px 16px; // Even smaller on very small screens
+            font-size: 0.8rem;
+        }
 
         &:hover {
             background: #c53030;

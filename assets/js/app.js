@@ -111,6 +111,30 @@ $(document).ready(() => {
     
     // Initialize about page gallery if on about page
     if ($('.about-trusted__img, .about-designed__img, .about-mission__img, .about-service__img').length > 0) {
-        new AboutUsGallery();
+        const aboutGallery = new AboutUsGallery();
+        
+        // Make available globally for debugging
+        window.aboutGallery = aboutGallery;
+        
+        console.log('About page gallery initialized');
     }
+
+    // Category hero scroll arrow functionality
+    $('.category-hero__scroll-btn').on('click', function(e) {
+        e.preventDefault();
+        
+        // Find the next section after the hero
+        const nextSection = $('.category-grid, .category__content-container, [name="category_below_content"]').first();
+        
+        if (nextSection.length) {
+            $('html, body').animate({
+                scrollTop: nextSection.offset().top - 20 // Small offset from top
+            }, 800, 'easeInOutQuart');
+        } else {
+            // Fallback: scroll down by viewport height
+            $('html, body').animate({
+                scrollTop: $(window).height()
+            }, 800, 'easeInOutQuart');
+        }
+    });
 });

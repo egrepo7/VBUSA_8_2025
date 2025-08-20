@@ -1,26 +1,15 @@
 // =============================================================================
-// SCROLL ANIMATIONS (CSS) - Modern fade-in effects for about page
+// UNIFIED SCROLL ANIMATIONS - Clean and consistent fade-in effects
 // =============================================================================
 
-// Base animation states
-.scroll-animate {
-    opacity: 0;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-    }
-}
-
-// =============================================================================
-// FADE IN ANIMATIONS
-// =============================================================================
-
-// Fade in from bottom (most common)
+// Base animation class - smooth fade up (this is the main animation for everything)
+// IMPORTANT: Use 'transform' instead of margin/padding changes to prevent CLS
+.scroll-animate,
 .fade-up {
     opacity: 0;
-    transform: translateY(60px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(20px); // Reduced from 30px to minimize shift
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Faster transition
+    will-change: opacity, transform; // Optimize for animations
     
     &.animate-in {
         opacity: 1;
@@ -28,81 +17,28 @@
     }
 }
 
-// Fade in from left
-.fade-left {
-    opacity: 0;
-    transform: translateX(-60px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-// Fade in from right
-.fade-right {
-    opacity: 0;
-    transform: translateX(60px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-// Scale and fade in
-.fade-scale {
-    opacity: 0;
-    transform: scale(0.9);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
 // =============================================================================
-// STAGGERED ANIMATIONS
+// STAGGERED TIMING - Simple and consistent
 // =============================================================================
 
-// Staggered delays for multiple elements
-.stagger-1 { 
-    transition-delay: 0.1s; 
-}
+// Simple stagger delays for elements that appear together
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
 
-.stagger-2 { 
-    transition-delay: 0.2s; 
-}
-
-.stagger-3 { 
-    transition-delay: 0.3s; 
-}
-
-.stagger-4 { 
-    transition-delay: 0.4s; 
-}
-
-.stagger-5 { 
-    transition-delay: 0.5s; 
-}
-
-.stagger-6 { 
-    transition-delay: 0.6s; 
-}
-
-// =============================================================================
-// SPECIFIC SECTION ANIMATIONS
-// =============================================================================
-
-// Hero section animations
+// Hero section - slightly different timing
 .about-hero {
+    // Prevent CLS by reserving space for hero content
+    min-height: 60vh; // Reserve minimum space
+    
     &__title {
         opacity: 0;
-        transform: translateY(80px);
-        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translateY(20px); // Reduced movement
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Faster
+        will-change: opacity, transform; // Optimize for animation
         
         &.animate-in {
             opacity: 1;
@@ -112,8 +48,10 @@
     
     &__subtitle {
         opacity: 0;
-        transform: translateY(40px);
-        transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+        transform: translateY(15px); // Reduced movement
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Faster
+        transition-delay: 0.1s; // Reduced delay
+        will-change: opacity, transform;
         
         &.animate-in {
             opacity: 1;
@@ -122,416 +60,82 @@
     }
 }
 
-// Section titles
-.section-title-animate {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    
-    &.animate-in {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    // Optional: Add an underline animation
-    // Red line animation removed per user request
-    &::after {
-        display: none; // Hide red line
-    }
-    
-    &.animate-in::after {
-        display: none; // Hide red line
-    }
-}
+// =============================================================================
+// SERVICES SECTION - UNIFIED AND CLEAN
+// =============================================================================
 
-// Image animations
-.image-animate {
-    opacity: 0;
-    transform: translateY(40px) scale(1.1);
-    transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    
-    img {
-        transition: transform 0.4s ease;
-    }
-    
-    &:hover img {
-        transform: scale(1.05);
-    }
-}
-
-// Service cards special animation
+// All service cards use the same simple animation
 .about-service {
     opacity: 0;
-    transform: translateY(60px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    // Alternating slide directions for visual interest
-    &:nth-child(even) {
-        transform: translateY(60px) translateX(-30px);
-        
-        &.animate-in {
-            transform: translateY(0) translateX(0);
-        }
-    }
-    
-    &:nth-child(odd) {
-        transform: translateY(60px) translateX(30px);
-        
-        &.animate-in {
-            transform: translateY(0) translateX(0);
-        }
-    }
-}
-
-// Two-column content animation
-.column-animate {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &:first-child {
-        transform: translateY(40px) translateX(-20px);
-        transition-delay: 0.1s;
-    }
-    
-    &:last-child {
-        transform: translateY(40px) translateX(20px);
-        transition-delay: 0.3s;
-    }
-    
-    &.animate-in {
-        opacity: 1;
-        transform: translateY(0) translateX(0);
-    }
-}
-
-// =============================================================================
-// ENHANCED ANIMATIONS FOR MODERN FEEL
-// =============================================================================
-
-// Blur to focus animation
-.blur-focus {
-    opacity: 0;
-    filter: blur(10px);
     transform: translateY(30px);
-    transition: all 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    &.animate-in {
-        opacity: 1;
-        filter: blur(0px);
-        transform: translateY(0);
-    }
-}
-
-// Glitch-like reveal (subtle)
-.reveal-text {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    overflow: hidden;
-    
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s;
-    }
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
     &.animate-in {
         opacity: 1;
         transform: translateY(0);
-        
-        &::before {
-            left: 100%;
-        }
-    }
-}
-
-// Progressive text reveal
-.progressive-reveal {
-    .word {
-        display: inline-block;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        
-        // Stagger each word
-        @for $i from 1 through 20 {
-            &:nth-child(#{$i}) {
-                transition-delay: #{$i * 0.1}s;
-            }
-        }
     }
     
-    &.animate-in .word {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-// =============================================================================
-// ABOUT PAGE SPECIFIC ANIMATIONS
-// =============================================================================
-
-// Section spacing and animation setup
-.about-trusted,
-.about-designed,
-.about-mission,
-.about-services {
-    overflow: hidden; // Prevent animation overflow
-}
-
-// Enhanced hero animations with parallax-like effect
-.about-hero {
-    &__background {
-        position: relative;
-        overflow: hidden;
-    }
-    
-    &__content {
-        position: relative;
-        z-index: 2;
-    }
-    
-    // Optional: Add subtle background animation
-    &__background::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(237, 28, 36, 0.1) 0%, transparent 70%);
-        opacity: 0;
-        animation: heroGlow 8s ease-in-out infinite alternate;
-        pointer-events: none;
-    }
-}
-
-@keyframes heroGlow {
-    0% {
-        transform: translateX(-10px) translateY(-10px) scale(0.8);
-        opacity: 0;
-    }
-    100% {
-        transform: translateX(10px) translateY(10px) scale(1.2);
-        opacity: 0.3;
-    }
-}
-
-// Services grid enhanced animations
-.about-services {
-    &__grid {
-        display: grid;
-        gap: 2rem;
-        position: relative;
-    }
-    
-    &__title {
-        position: relative;
-        
-        // Background animation removed per user request
-    }
-}
-
-// Individual service card enhancements
-.about-service {
-    position: relative;
-    overflow: hidden;
-    
-    // Add hover effect that works with animations
+    // Subtle hover effect
     &:hover {
         .about-service__img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
-        
-        .about-service__button {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); // Changed from red shadow to neutral
-        }
-    }
-    
-    &__image {
-        overflow: hidden;
-        border-radius: 8px;
     }
     
     &__img {
         transition: transform 0.4s ease;
-        width: 100%;
-        height: auto;
-    }
-    
-    &__button {
-        transition: all 0.3s ease;
-    }
-    
-    // Add a subtle shimmer effect on reveal
-    &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        transition: left 0.8s ease;
-        pointer-events: none;
-        z-index: 1;
-    }
-    
-    &.animate-in::after {
-        left: 100%;
-        transition-delay: 0.3s;
     }
 }
 
-// Two-column layout animations for designed section
-.about-designed {
-    &__columns {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin: 2rem 0;
-    }
+// Section titles - consistent animation
+.section-title-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    &__images {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 2rem;
-    }
-    
-    &__image-item {
-        overflow: hidden;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        
-        &:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-    }
-}
-
-// Mission section with special text animation
-.about-mission {
-    &__text p {
-        position: relative;
-        
-        // Red cursor animation removed per user request
-        &::after {
-            display: none; // Hide red cursor
-        }
-        
-        &.animate-in::after {
-            display: none; // Hide red cursor
-        }
-    }
-}
-
-@keyframes cursor-blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-@keyframes cursor-fade {
-    to { opacity: 0; }
-}
-
-// Enhanced image animations
-.about-trusted__image,
-.about-mission__image {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(237, 28, 36, 0.1), transparent 50%);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        pointer-events: none;
-        z-index: 1;
-    }
-    
-    &:hover::before {
+    &.animate-in {
         opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Image animations - consistent and smooth
+.image-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    &.animate-in {
+        opacity: 1;
+        transform: translateY(0);
     }
     
+    // Subtle hover effect for images
     img {
-        width: 100%;
-        height: auto;
         transition: transform 0.4s ease;
     }
     
     &:hover img {
-        transform: scale(1.05);
+        transform: scale(1.02);
     }
 }
 
 // =============================================================================
-// ADDITIONAL KEYFRAMES FOR ENHANCED EFFECTS
+// REDUCED MOTION SUPPORT
 // =============================================================================
 
-@keyframes textShimmer {
-    0% {
-        background-position: -200px 0;
+@media (prefers-reduced-motion: reduce) {
+    .scroll-animate,
+    .fade-up,
+    .about-service,
+    .about-hero__title,
+    .about-hero__subtitle,
+    .section-title-animate,
+    .image-animate {
+        transform: none !important;
+        transition: opacity 0.3s ease !important;
+        transition-delay: 0s !important;
     }
-    100% {
-        background-position: 200px 0;
-    }
-}
-
-// Service card glow effect - DISABLED per user request
-.service-glow {
-    &::before {
-        display: none; // Hide red glow effect
-    }
-}
-
-@keyframes serviceGlow {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    50% {
-        opacity: 0.3;
-        transform: scale(1.1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1);
-    }
-}
-
-// Typing cursor effect
-.typing-complete::after {
-    animation: none !important;
-    opacity: 0 !important;
 }
 
 // =============================================================================
@@ -539,35 +143,33 @@
 // =============================================================================
 
 @media (max-width: 768px) {
+    .scroll-animate,
     .fade-up,
-    .fade-left,
-    .fade-right {
-        transform: translateY(30px);
+    .about-service,
+    .section-title-animate,
+    .image-animate {
+        transform: translateY(20px);
         
         &.animate-in {
             transform: translateY(0);
         }
     }
     
-    .about-service {
-        &:nth-child(even),
-        &:nth-child(odd) {
+    .about-hero {
+        &__title {
             transform: translateY(30px);
             
             &.animate-in {
                 transform: translateY(0);
             }
         }
-    }
-    
-    // Reduce hero animation intensity on mobile
-    .about-hero {
-        &__title {
-            transform: translateY(40px);
-        }
         
         &__subtitle {
             transform: translateY(20px);
+            
+            &.animate-in {
+                transform: translateY(0);
+            }
         }
     }
 }
@@ -580,47 +182,12 @@
 .about-service,
 .image-animate,
 .fade-up,
-.fade-left,
-.fade-right,
-.section-title-animate {
+.section-title-animate,
+.scroll-animate {
     will-change: transform, opacity;
 }
 
 // Remove will-change after animation completes
-.animate-in {
-    animation-fill-mode: both;
-}
-
 .animate-in.animation-complete {
     will-change: auto;
-}
-
-// =============================================================================
-// REDUCE MOTION FOR ACCESSIBILITY
-// =============================================================================
-
-@media (prefers-reduced-motion: reduce) {
-    .scroll-animate,
-    .fade-up,
-    .fade-left,
-    .fade-right,
-    .fade-scale,
-    .about-hero__title,
-    .about-hero__subtitle,
-    .section-title-animate,
-    .image-animate,
-    .about-service,
-    .column-animate,
-    .blur-focus,
-    .reveal-text {
-        transition: none !important;
-        transform: none !important;
-        opacity: 1 !important;
-        filter: none !important;
-    }
-    
-    .section-title-animate::after {
-        width: 60px !important;
-        transition: none !important;
-    }
 }

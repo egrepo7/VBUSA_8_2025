@@ -41,6 +41,12 @@ export default class ImageGallery {
 
     setMainImage(imgObj) {
         this.currentImage = { ...imgObj };
+        
+        console.log('Setting main image with object:', {
+            url: imgObj.mainImageUrl,
+            thumbIndex: imgObj.$selectedThumb ? imgObj.$selectedThumb.attr('data-index') : 'none',
+            thumbType: imgObj.$selectedThumb ? imgObj.$selectedThumb.attr('data-type') : 'none'
+        });
 
         this.setActiveThumb();
         this.swapMainImage();
@@ -113,10 +119,20 @@ export default class ImageGallery {
             title: this.currentImage.mainImageAlt,
         });
 
-        this.$mainImage.find('a').attr({
-            'data-index': this.currentImage.$selectedThumb.data('index'),
-            'data-type': this.currentImage.$selectedThumb.attr('data-type'),
-        });
+        // Update the main image link with the current selection info
+        const $mainImageLink = this.$mainImage.find('a');
+        if ($mainImageLink.length && this.currentImage.$selectedThumb) {
+            const thumbIndex = this.currentImage.$selectedThumb.attr('data-index');
+            const thumbType = this.currentImage.$selectedThumb.attr('data-type');
+            
+            $mainImageLink.attr({
+                'data-index': thumbIndex,
+                'data-type': thumbType,
+                'href': this.currentImage.zoomImageUrl
+            });
+            
+            console.log('ImageGallery: Updated main image link - data-index:', thumbIndex, 'type:', thumbType, 'href:', this.currentImage.zoomImageUrl);
+        }
     }
 
     // custom image gallery
@@ -159,23 +175,132 @@ export default class ImageGallery {
                                  $target.is('a') && $target.closest('[data-image-gallery-main]').length > 0;
         
         if (isMainImageClick) {
-            // Find the currently active thumbnail to get the correct index
-            const $activeThumb = this.$selectableImages.filter('.is-active').first();
+            // For main image clicks, find the correct index based on the current image
+            let targetIndex = 0;
+            let dataType = 'image';
             
-            if ($activeThumb.length) {
-                // Use the active thumbnail's index
-                const isImage = $activeThumb.attr('data-type') === 'image';
-                const hasVideos = this.$selectableVideos.length;
-                const itemIndex = Number($activeThumb.attr('data-index'));
-                const newIndex = isImage && (this.videoFirstPos && hasVideos)
-                    ? itemIndex + this.$selectableVideos.length - this.videoFirstPos
-                    : itemIndex;
+            // First, try to match current main image with thumbnail sources
+            const currentMainSrc = this.$mainImageNested.attr('src') || this.$mainImage.find('img').attr('src');
+            console.log('Current main image src:', currentMainSrc);
+            
+            if (currentMainSrc) {
+                let foundMatch = false;
                 
-                this.openPhotoSwipe(newIndex);
-            } else {
-                // Fallback: if no active thumb, start at index 0
-                this.openPhotoSwipe(0);
+                // Function to extract filename from URL for comparison
+                const extractFileName = (url) => {
+                    if (!url) return '';
+                    return url.split('/').pop().split('?')[0]; // Remove query params too
+                };
+                
+                const mainImageFileName = extractFileName(currentMainSrc);
+                console.log('Main image filename:', mainImageFileName);
+                
+                // Check all image thumbnails for a match
+                this.$selectableImages.each((index, thumb) => {
+                    const $thumb = $(thumb);
+                    const thumbNewImageUrl = $thumb.attr('data-image-gallery-new-image-url');
+                    const thumbZoomUrl = $thumb.attr('data-image-gallery-zoom-image-url');
+                    const thumbIndex = Number($thumb.attr('data-index'));
+                    
+                    console.log(`Checking thumbnail ${thumbIndex}:`, {
+                        newImageUrl: thumbNewImageUrl,
+                        zoomUrl: thumbZoomUrl,
+                        newImageFileName: extractFileName(thumbNewImageUrl),
+                        zoomFileName: extractFileName(thumbZoomUrl)
+                    });
+                    
+                    // Try multiple matching strategies
+                    const matchStrategies = [
+                        currentMainSrc === thumbNewImageUrl,
+                        currentMainSrc === thumbZoomUrl,
+                        currentMainSrc.includes(thumbNewImageUrl),
+                        currentMainSrc.includes(thumbZoomUrl),
+                        mainImageFileName === extractFileName(thumbNewImageUrl),
+                        mainImageFileName === extractFileName(thumbZoomUrl)
+                    ];
+                    
+                    if (matchStrategies.some(strategy => strategy)) {
+                        targetIndex = thumbIndex;
+                        dataType = $thumb.attr('data-type') || 'image';
+                        foundMatch = true;
+                        console.log('✓ Matched main image to thumbnail index:', targetIndex, 'via filename/URL match');
+                        return false; // Break out of .each()
+                    }
+                });
+                
+                if (!foundMatch) {
+                    // Check video thumbnails too
+                    this.$selectableVideos.each((index, video) => {
+                        const $video = $(video);
+                        const videoImageUrl = $video.attr('data-video-gallery-new-image-url');
+                        const videoIndex = Number($video.attr('data-index'));
+                        const videoFileName = extractFileName(videoImageUrl);
+                        
+                        console.log(`Checking video ${videoIndex}:`, {
+                            imageUrl: videoImageUrl,
+                            fileName: videoFileName
+                        });
+                        
+                        if (currentMainSrc === videoImageUrl || 
+                            currentMainSrc.includes(videoImageUrl) ||
+                            mainImageFileName === videoFileName) {
+                            targetIndex = videoIndex;
+                            dataType = $video.attr('data-type') || 'video';
+                            foundMatch = true;
+                            console.log('✓ Matched main image to video index:', targetIndex);
+                            return false; // Break out of .each()
+                        }
+                    });
+                }
+                
+                if (!foundMatch) {
+                    console.log('⚠️ No src match found, falling back to active thumbnail or main image link');
+                    
+                    // Fallback 1: Use currently active thumbnail
+                    const $activeThumb = this.$selectableImages.filter('.is-active').first();
+                    if ($activeThumb.length > 0) {
+                        targetIndex = Number($activeThumb.attr('data-index'));
+                        dataType = $activeThumb.attr('data-type') || 'image';
+                        foundMatch = true;
+                        console.log('✓ Using active image thumbnail index:', targetIndex);
+                    } else {
+                        const $activeVideo = this.$selectableVideos.filter('.is-active').first();
+                        if ($activeVideo.length > 0) {
+                            targetIndex = Number($activeVideo.attr('data-index'));
+                            dataType = $activeVideo.attr('data-type') || 'video';
+                            foundMatch = true;
+                            console.log('✓ Using active video thumbnail index:', targetIndex);
+                        }
+                    }
+                    
+                    // Fallback 2: Use data-index from main image link if we still don't have a match
+                    if (!foundMatch) {
+                        const $mainImageLink = this.$mainImage.find('a');
+                        if ($mainImageLink.length > 0) {
+                            const linkIndex = $mainImageLink.attr('data-index');
+                            const linkType = $mainImageLink.attr('data-type');
+                            if (linkIndex !== undefined && linkIndex !== null && linkIndex !== '') {
+                                targetIndex = Number(linkIndex);
+                                dataType = linkType || 'image';
+                                foundMatch = true;
+                                console.log('✓ Using main image link data-index:', targetIndex);
+                            }
+                        }
+                    }
+                }
             }
+            
+            // Calculate the PhotoSwipe index considering video positioning
+            const hasVideos = this.$selectableVideos.length > 0;
+            const isImage = dataType === 'image';
+            
+            const photoSwipeIndex = isImage && (this.videoFirstPos && hasVideos)
+                ? targetIndex + this.$selectableVideos.length - this.videoFirstPos
+                : targetIndex;
+            
+            console.log('Final: Target index:', targetIndex, 'PhotoSwipe index:', photoSwipeIndex);
+            this.openPhotoSwipe(photoSwipeIndex);
+            
         } else {
             // This is a thumbnail click
             const isImage = $target.attr('data-type') === 'image';

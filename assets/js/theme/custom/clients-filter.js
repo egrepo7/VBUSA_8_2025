@@ -3,6 +3,7 @@ export default function clientsFilter() {
     
     const categoryFilters = document.getElementById('categoryFilters');
     const environmentFilters = document.getElementById('environmentFilters');
+    const clearCourtTypesBtn = document.getElementById('clearCourtTypes');
     const grid = document.getElementById('clientsGrid');
     const scrollHint = document.getElementById('scrollHint');
     
@@ -15,7 +16,7 @@ export default function clientsFilter() {
     
     let allClients = [];
     let currentFilter = 'all';
-    let selectedEnvironment = null; // Track selected environment/court type filter
+    let selectedEnvironments = []; // Track multiple selected environment/court type filters
     let visibleCount = 24;
     const loadMoreCount = 12; // How many to load each time
     let isLoading = false; // Prevent multiple simultaneous loads
@@ -110,11 +111,14 @@ export default function clientsFilter() {
     
     // Function to create a client card HTML
     function createClientCard(client) {
+        console.log('Creating card for:', client.name, 'badges:', client.badges);
         const badgesHtml = client.badges && client.badges.length > 0 ? 
             `<div class="client-card__badges">
-                ${client.badges.map(badge => 
-                    `<span class="client-card__badge client-card__badge--${badge.replace(/\s+/g, '-')}">${badge}</span>`
-                ).join('')}
+                ${client.badges.map(badge => {
+                    const badgeClass = `client-card__badge--${badge.replace(/\s+/g, '-')}`;
+                    console.log(`Badge "${badge}" -> class "${badgeClass}"`);
+                    return `<span class="client-card__badge ${badgeClass}">${badge}</span>`;
+                }).join('')}
             </div>` : '';
             
         // Use the first category as the primary category for styling
@@ -162,6 +166,7 @@ export default function clientsFilter() {
         if (!environmentFilters) return;
         
         const availableEnvironments = getAvailableEnvironments();
+        console.log('Available environments (badges):', availableEnvironments);
         
         if (availableEnvironments.length === 0) {
             environmentFilters.innerHTML = '<p class="filter-no-options">No court type filters available</p>';
@@ -169,9 +174,10 @@ export default function clientsFilter() {
         }
         
         const environmentButtons = availableEnvironments.map(environment => {
-            const isSelected = selectedEnvironment === environment;
+            const isSelected = selectedEnvironments.includes(environment);
             const environmentClass = environment.toLowerCase().replace(/\s+/g, '-');
             const displayText = capitalizeWords(environment); // Capitalize each word
+            console.log(`Creating filter button for: "${environment}" -> "${displayText}" (selected: ${isSelected})`);
             return `
                 <button class="filter-toggle ${isSelected ? 'filter-toggle--active' : ''}" 
                         data-environment="${environment}">
@@ -181,6 +187,21 @@ export default function clientsFilter() {
         }).join('');
         
         environmentFilters.innerHTML = environmentButtons;
+        console.log('Environment filters updated');
+        
+        // Update clear button visibility
+        updateClearButtonVisibility();
+    }
+
+    // Function to update the clear button visibility
+    function updateClearButtonVisibility() {
+        if (clearCourtTypesBtn) {
+            if (selectedEnvironments.length > 0) {
+                clearCourtTypesBtn.style.display = 'block';
+            } else {
+                clearCourtTypesBtn.style.display = 'none';
+            }
+        }
     }
 
     // Function to setup event listeners for filter buttons
@@ -202,21 +223,43 @@ export default function clientsFilter() {
                 
                 // Update filter state
                 currentFilter = filterValue;
-                selectedEnvironment = null; // Reset environment filter
+                selectedEnvironments = []; // Reset environment filters
                 visibleCount = 24; // Reset visible count when filtering
                 
                 console.log('Category filter changed to:', filterValue);
                 updateEnvironmentFilters();
+                updateClearButtonVisibility();
+                
+                // Get the filtered results to determine scroll behavior
+                const filteredClients = getCurrentFilteredClients();
+                const currentScrollPosition = window.pageYOffset;
+                const gridTop = grid.getBoundingClientRect().top + currentScrollPosition;
+                
                 renderClients();
                 
-                // Smooth scroll to top of grid when filter changes (with slight delay for render)
+                // Smart scroll behavior based on content length and current position
                 setTimeout(() => {
-                    const gridTop = grid.getBoundingClientRect().top + window.pageYOffset - 80;
-                    window.scrollTo({
-                        top: Math.max(0, gridTop),
-                        behavior: 'smooth'
-                    });
-                }, 100);
+                    const shouldScrollToGrid = filteredClients.length <= 24 || currentScrollPosition > (gridTop + 200);
+                    
+                    if (shouldScrollToGrid) {
+                        // Scroll to grid if showing all results or user was scrolled past grid
+                        window.scrollTo({
+                            top: Math.max(0, gridTop - 80),
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        // Keep current scroll position if there's still plenty of content
+                        // Just ensure we're not below the new content area
+                        const newDocumentHeight = document.documentElement.scrollHeight;
+                        const maxScroll = newDocumentHeight - window.innerHeight;
+                        if (currentScrollPosition > maxScroll) {
+                            window.scrollTo({
+                                top: Math.max(0, maxScroll),
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                }, 150); // Slightly longer delay to ensure rendering is complete
             });
         }
         
@@ -232,36 +275,88 @@ export default function clientsFilter() {
                 toggleEnvironmentFilter(environment, button);
             });
         }
+
+        // Clear court types button event listener
+        if (clearCourtTypesBtn) {
+            clearCourtTypesBtn.addEventListener('click', () => {
+                clearAllCourtTypeFilters();
+            });
+        }
     }
 
-    // Function to toggle environment filter selection
+    // Function to toggle environment filter selection (multi-select)
     function toggleEnvironmentFilter(environment, buttonElement) {
-        // If clicking the same environment, deselect it
-        if (selectedEnvironment === environment) {
-            selectedEnvironment = null;
+        const isCurrentlySelected = selectedEnvironments.includes(environment);
+        
+        if (isCurrentlySelected) {
+            // Remove from selected environments
+            selectedEnvironments = selectedEnvironments.filter(env => env !== environment);
             buttonElement.classList.remove('filter-toggle--active');
+            console.log(`Deselected environment filter: ${environment}`);
         } else {
-            // Deselect all other environment buttons
+            // Add to selected environments
+            selectedEnvironments.push(environment);
+            buttonElement.classList.add('filter-toggle--active');
+            console.log(`Selected environment filter: ${environment}`);
+        }
+        
+        console.log('Currently selected environments:', selectedEnvironments);
+        
+        // Update clear button visibility
+        updateClearButtonVisibility();
+        
+        visibleCount = 24; // Reset visible count when filtering
+        
+        // Get the filtered results to determine scroll behavior
+        const filteredClients = getCurrentFilteredClients();
+        const currentScrollPosition = window.pageYOffset;
+        const gridTop = grid.getBoundingClientRect().top + currentScrollPosition;
+        
+        renderClients(); // Re-render with new filters
+        
+        // Smart scroll behavior for environment filters
+        setTimeout(() => {
+            const shouldScrollToGrid = filteredClients.length <= 24 || currentScrollPosition > (gridTop + 200);
+            
+            if (shouldScrollToGrid) {
+                // Scroll to grid if showing all results or user was scrolled past grid
+                window.scrollTo({
+                    top: Math.max(0, gridTop - 80),
+                    behavior: 'smooth'
+                });
+            } else {
+                // Keep current scroll position if there's still plenty of content
+                // Just ensure we're not below the new content area
+                const newDocumentHeight = document.documentElement.scrollHeight;
+                const maxScroll = newDocumentHeight - window.innerHeight;
+                if (currentScrollPosition > maxScroll) {
+                    window.scrollTo({
+                        top: Math.max(0, maxScroll),
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }, 150);
+    }
+
+    // Function to clear all court type filters
+    function clearAllCourtTypeFilters() {
+        selectedEnvironments = [];
+        
+        // Remove active class from all environment filter buttons
+        if (environmentFilters) {
             environmentFilters.querySelectorAll('.filter-toggle').forEach(btn => {
                 btn.classList.remove('filter-toggle--active');
             });
-            
-            // Select the new environment
-            selectedEnvironment = environment;
-            buttonElement.classList.add('filter-toggle--active');
         }
         
-        visibleCount = 24; // Reset visible count when filtering
-        renderClients(); // Re-render with new filters
+        // Update clear button visibility
+        updateClearButtonVisibility();
         
-        // Smooth scroll to grid when environment filter changes
-        setTimeout(() => {
-            const gridTop = grid.getBoundingClientRect().top + window.pageYOffset - 80;
-            window.scrollTo({
-                top: Math.max(0, gridTop),
-                behavior: 'smooth'
-            });
-        }, 100);
+        visibleCount = 24; // Reset visible count
+        renderClients(); // Re-render with cleared filters
+        
+        console.log('All court type filters cleared');
     }
 
     // Function to get current filtered clients
@@ -279,14 +374,14 @@ export default function clientsFilter() {
             });
         }
         
-        // Then filter by environment if one is selected
-        if (selectedEnvironment) {
+        // Then filter by environments if any are selected
+        if (selectedEnvironments.length > 0) {
             filtered = filtered.filter(client => {
                 if (!client.badges || !Array.isArray(client.badges)) {
                     return false;
                 }
-                // Client must have the selected environment
-                return client.badges.includes(selectedEnvironment);
+                // Client must have ALL of the selected environments (AND logic)
+                return selectedEnvironments.every(env => client.badges.includes(env));
             });
         }
         

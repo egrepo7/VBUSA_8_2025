@@ -73,13 +73,14 @@
                     fallback_size=theme_settings.productgallery_size
                     lazyload=theme_settings.lazyload_mode
                     default_image=theme_settings.default_image_product
+                    otherAttributes='loading="lazy" decoding="async"'
                 }}
             </div>
         </a>
 
         <figcaption class="card-figcaption">
             <div class="card-figcaption-body">
-                {{#unless hide_product_quick_view}}
+                {{!-- {{#unless hide_product_quick_view}}
                     {{#if theme_settings.show_product_quick_view}}
                         {{#if settings.data_tag_enabled}}
                             <button type="button" class="button button--small card-figcaption-button quickview" data-event-type="product-click" data-product-id="{{id}}">{{lang 'products.quick_view'}}</button>
@@ -87,7 +88,7 @@
                             <button type="button" class="button button--small card-figcaption-button quickview" data-product-id="{{id}}">{{lang 'products.quick_view'}}</button>
                         {{/if}}
                     {{/if}}
-                {{/unless}}
+                {{/unless}} --}}
                 <!-- {{!-- {{#if show_compare}}
                     <label class="button button--small card-figcaption-button" for="compare-{{id}}">
                         {{lang 'products.compare'}} <input type="checkbox" name="products[]" value="{{id}}" id="compare-{{id}}" data-compare-id="{{id}}">
@@ -145,9 +146,9 @@
                 {{> components/common/login-for-pricing}}
             {{/or}}
         </div>
-        <label class="card-compare" for="compare-{{id}}">
+        {{!-- <label class="card-compare" for="compare-{{id}}">
             <input type="checkbox" name="products[]" value="{{id}}" id="compare-{{id}}" data-compare-id="{{id}}"> {{lang 'products.compare'}}
-        </label>
+        </label> --}}
         {{> components/products/bulk-discount-rates}}
         {{> components/custom/card-add-to-cart }}
 

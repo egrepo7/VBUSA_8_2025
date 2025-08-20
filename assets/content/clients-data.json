@@ -45,7 +45,7 @@
         {
             "name": "University of Washington",
             "location": "Seattle, WA",
-            "categories": ["colleges", "sand-supplier"],
+            "categories": ["colleges"],
             "badges": ["indoor", "outdoor", "sand supplier"]
         },
         {
@@ -411,7 +411,7 @@
         {
             "name": "UCLA",
             "location": "Los Angeles, CA",
-            "categories": ["colleges", "sand-supplier"],
+            "categories": ["colleges"],
             "badges": ["outdoor", "sand supplier"]
         },
         {
@@ -711,19 +711,19 @@
         {
             "name": "Pixar Campus",
             "location": "Emeryville, CA",
-            "categories": ["corporate", "sand-supplier"],
+            "categories": ["corporate"],
             "badges": ["outdoor", "sand supplier"]
         },
         {
             "name": "NASA Campus",
             "location": "Houston, TX",
-            "categories": ["corporate", "sand-supplier"],
+            "categories": ["corporate"],
             "badges": ["outdoor", "sand supplier"]
         },
         {
             "name": "Google Campus",
             "location": "Kirkland, WA",
-            "categories": ["corporate", "sand-supplier"],
+            "categories": ["corporate"],
             "badges": ["outdoor", "sand supplier"]
         }
     ]

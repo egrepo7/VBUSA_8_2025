@@ -676,14 +676,6 @@ export default class SplitLayoutCarousel {
         
         if (!newImageUrl) return;
         
-        // console.log('Manually changing main image:', {
-        //     newImageUrl,
-        //     newImageSrcset,
-        //     zoomImageUrl,
-        //     imageAlt,
-        //     imageIndex
-        // });
-        
         // Update the main image
         $mainImage.attr({
             src: newImageUrl,
@@ -711,7 +703,7 @@ export default class SplitLayoutCarousel {
             $zoomContainer.attr('data-zoom-image', zoomImageUrl);
         }
         
-        // console.log('Main image manually updated');
+        console.log('Split Layout: Changed main image to index', imageIndex, 'src:', newImageUrl);
     }
     
     setupMainImageSwipe() {

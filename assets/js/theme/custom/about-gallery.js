@@ -5,6 +5,7 @@ export default class AboutUsGallery {
     constructor() {
         this.$galleryImages = $('.about-trusted__img, .about-designed__img, .about-mission__img, .about-service__img');
         this.photoswipeItems = [];
+        this.initialized = false;
         
         if (this.$galleryImages.length > 0) {
             this.init();
@@ -12,9 +13,31 @@ export default class AboutUsGallery {
     }
 
     init() {
+        // Prevent double initialization
+        if (this.initialized) {
+            return;
+        }
+        
         this.buildPhotoSwipeCollection();
         this.bindEvents();
         this.makeImagesClickable();
+        this.initialized = true;
+        
+        console.log('About Gallery initialized with', this.$galleryImages.length, 'images');
+    }
+
+    reinitialize() {
+        // Force reinitialize (useful after PhotoSwipe issues)
+        this.initialized = false;
+        this.unbindEvents();
+        this.init();
+    }
+
+    unbindEvents() {
+        // Remove existing event handlers to prevent duplicates
+        $(document).off('click', '.about-trusted__img, .about-designed__img, .about-mission__img, .about-service__img');
+        $(document).off('click', '.about-trusted__image, .about-designed__image-item, .about-mission__image, .about-service__image');
+        $(document).off('click', '.photo-zoom-icon');
     }
 
     makeImagesClickable() {
@@ -62,7 +85,23 @@ export default class AboutUsGallery {
         
         this.$galleryImages.each((index, img) => {
             const $img = $(img);
-            const src = $img.attr('src') || $img.attr('data-src');
+            
+            // Handle both regular img tags and picture > img combinations
+            let src = $img.attr('src') || $img.attr('data-src');
+            
+            // If image is inside a picture element, prefer the WebP source if available
+            const $picture = $img.closest('picture');
+            if ($picture.length > 0) {
+                const $webpSource = $picture.find('source[type="image/webp"]');
+                if ($webpSource.length > 0) {
+                    const webpSrcset = $webpSource.attr('srcset');
+                    if (webpSrcset) {
+                        // Use the WebP source for PhotoSwipe (better quality)
+                        src = webpSrcset.split(' ')[0]; // Take first URL from srcset
+                    }
+                }
+            }
+            
             const alt = $img.attr('alt') || '';
             const size = this.getImageSize(img).split('x');
             
@@ -76,15 +115,17 @@ export default class AboutUsGallery {
     }
 
     bindEvents() {
-        // Handle image clicks
-        this.$galleryImages.on('click', (e) => {
+        // Use event delegation to ensure events work after PhotoSwipe closes
+        $(document).on('click', '.about-trusted__img, .about-designed__img, .about-mission__img, .about-service__img', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             this.handleClickImage(e);
         });
 
         // Handle wrapper clicks (for the zoom icon and wrapper area)
-        this.$galleryImages.parent().on('click', (e) => {
+        $(document).on('click', '.about-trusted__image, .about-designed__image-item, .about-mission__image, .about-service__image', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             
             const $img = $(e.currentTarget).find('img');
             if ($img.length) {
@@ -107,11 +148,26 @@ export default class AboutUsGallery {
                 this.handleClickImage(fakeEvent);
             }
         });
+
+        // Add PhotoSwipe lifecycle event handlers to ensure proper cleanup
+        $(document).on('pswpTap pswpClose', () => {
+            // Re-enable clicks after PhotoSwipe closes
+            console.log('PhotoSwipe closed, events should be active');
+        });
     }
 
     handleClickImage(e) {
+        console.log('About Gallery: Image clicked', e.currentTarget);
+        
         const $target = $(e.currentTarget);
-        const itemIndex = parseInt($target.attr('data-about-gallery-item')) || 0;
+        const itemIndex = parseInt($target.attr('data-about-gallery-item'));
+        
+        console.log('About Gallery: Opening PhotoSwipe with index:', itemIndex);
+        
+        if (isNaN(itemIndex)) {
+            console.error('About Gallery: Invalid item index:', itemIndex, 'for element:', $target[0]);
+            return;
+        }
         
         this.openPhotoSwipe(itemIndex);
     }
@@ -149,11 +205,58 @@ export default class AboutUsGallery {
 
         const gallery = new PhotoSwipe(pswpElement, PhotoSwipeUIDefault, this.photoswipeItems, options);
         
-        gallery.init();
-
-        // Optional: Add custom styling or behavior
+        // Add event listeners before initializing
         gallery.listen('afterChange', () => {
             // Gallery image changed - you can add custom behavior here if needed
+            console.log('PhotoSwipe: Image changed');
         });
+
+        gallery.listen('close', () => {
+            // Ensure event handlers are restored when gallery closes
+            console.log('PhotoSwipe: Gallery closed, restoring click handlers');
+            
+            // Small delay to ensure PhotoSwipe has fully closed
+            setTimeout(() => {
+                // Re-enable any disabled elements
+                this.$galleryImages.css('pointer-events', 'auto');
+                this.$galleryImages.parent().css('pointer-events', 'auto');
+                
+                // Verify that click handlers are still working
+                this.verifyEventHandlers();
+            }, 100);
+        });
+
+        gallery.listen('destroy', () => {
+            console.log('PhotoSwipe: Gallery destroyed');
+            // Cleanup any PhotoSwipe-specific modifications
+        });
+        
+        gallery.init();
+
+        // Ensure images remain clickable
+        this.$galleryImages.css('pointer-events', 'auto');
+        this.$galleryImages.parent().css('pointer-events', 'auto');
+    }
+
+    verifyEventHandlers() {
+        // Test if event handlers are still working by checking if images are properly configured
+        const $testImage = this.$galleryImages.first();
+        if ($testImage.length) {
+            const hasDataAttribute = $testImage.attr('data-about-gallery-item') !== undefined;
+            const hasPointerEvents = $testImage.css('pointer-events') !== 'none';
+            
+            console.log('Event handler verification:', {
+                hasDataAttribute,
+                hasPointerEvents,
+                imageCount: this.$galleryImages.length
+            });
+            
+            if (!hasDataAttribute || !hasPointerEvents) {
+                console.warn('Event handlers may be broken, reinitializing...');
+                setTimeout(() => {
+                    this.reinitialize();
+                }, 50);
+            }
+        }
     }
 }
