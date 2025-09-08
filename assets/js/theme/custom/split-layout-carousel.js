@@ -5,6 +5,16 @@
 
 export default class SplitLayoutCarousel {
     constructor() {
+        // EMERGENCY: Block this entire class for volleyball nets page
+        if (window.customVolleyballNetsPage || window.blockAllCarousels || window.emergencyCarouselProtection) {
+            console.log('SPLIT-LAYOUT-CAROUSEL: Completely blocked for volleyball nets page');
+            // Return safe, non-functional methods
+            this.init = () => { console.log('SplitLayoutCarousel.init() blocked'); };
+            this.destroy = () => { console.log('SplitLayoutCarousel.destroy() blocked'); };
+            this.update = () => { console.log('SplitLayoutCarousel.update() blocked'); };
+            return;
+        }
+
         this.initCarouselOverride();
         this.init(); // Initialize test helpers
     }

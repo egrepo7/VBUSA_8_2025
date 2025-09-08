@@ -3,10 +3,10 @@
     "volleyball-nets": {
       "image": "assets/img/categories/net-buying-guide.png",
       "title": "BUYING GUIDE: WHAT YOU NEED TO KNOW",
-      "subtitle": ".",
-      "ctaText": "COMING SOON",
-      "ctaEnabled": false,
-      "ctaUrl": "/volleyball-nets-guide"
+      "subtitle": "Learn the differences between vinyl weights, materials, and add-on features to find the perfect net for your needs.",
+      "ctaText": "READ THE GUIDE",
+      "ctaEnabled": true,
+      "ctaUrl": "/volleyball-nets-buying-guide/"
     },
     "volleyball-shoes": {
       "image": "assets/img/categories/shoes-buying-guide.png",

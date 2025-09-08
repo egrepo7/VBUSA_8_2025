@@ -49,7 +49,6 @@
     }
 
     @media (max-width: 768px) {
-        height: 60vh;
         min-height: 500px; // CLS prevention on mobile
     }
 
@@ -229,7 +228,7 @@
         -webkit-backdrop-filter: blur(10px);
         border: 2px solid rgba(255, 255, 255, 0.3);
         color: white;
-        cursor: pointer; /* Changed from default to pointer for clickable functionality */
+        cursor: default; /* Non-interactive scroll indicator */
         transition: all 0.3s ease;
         animation: bounce 2s infinite;
 
@@ -373,19 +372,21 @@
     & {
         // Reserve space to prevent layout shift
         aspect-ratio: 16/9; // Fallback ratio
-        min-height: 600px; // Consistent with inline style
+        min-height: 70vh; // Changed to 70vh as requested
+        height: 70vh; // Set explicit height to 70vh
         
         @media (min-width: 769px) {
             aspect-ratio: 21/9; // Wider on desktop
-            min-height: 600px; // Maintain consistent height
+            min-height: 70vh; // Maintain 70vh height
+            height: 70vh;
         }
         
         @media (max-width: 768px) {
-            min-height: 500px; // Shorter on mobile
+            min-height: 60vh; // Shorter on mobile
         }
         
         @media (max-width: 480px) {
-            min-height: 400px; // Even shorter on small mobile
+            min-height: 100vh; // Even shorter on small mobile
         }
     }
     
@@ -406,6 +407,74 @@
         background-position: center;
         background-repeat: no-repeat;
     }
+
+    // Navigation CTA Buttons (for category exploration)
+    &__cta-group {
+        margin: 2rem 0;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        @media (max-width: 768px) {
+            margin: 1.5rem 0;
+            gap: 0.75rem;
+        }
+        
+        @media (max-width: 480px) {
+            margin: 1.25rem 0;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+
+    &__cta-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        min-width: 160px;
+        text-align: center;
+
+        // White ghost button styling for hero overlays
+        &.button--white-ghost {
+            background-color: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                border-color: white;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                color: white; // Ensure text stays white on hover
+            }
+        }
+
+        @media (max-width: 768px) {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.85rem;
+            min-width: 140px;
+        }
+        
+        @media (max-width: 480px) {
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            min-width: 120px;
+            width: auto;
+            max-width: 200px;
+        }
+    }
+
+    // ...existing code...
 }
 
 // =============================================================================
@@ -414,8 +483,8 @@
 
 // Filter tabs variation - shorter hero for product-focused pages
 .category-hero--filter-tabs {
-    height: 450px; // Fixed height for filter tabs
-    min-height: 450px; // CLS prevention - match height
+    height: 50vh; // Fixed height for filter tabs
+    min-height: 500px; // CLS prevention - match height
     
     @media (max-width: 768px) {
         height: 400px; // Keep consistent on mobile

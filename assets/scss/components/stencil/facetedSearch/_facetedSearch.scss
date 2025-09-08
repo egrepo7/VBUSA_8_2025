@@ -15,7 +15,7 @@
     border-radius: $facetedSearch-toggle-borderRadius;
     border-width: $facetedSearch-toggle-borderWidth;
     display: block;
-    margin-bottom: $facetedSearch-toggle-verticalSpacing;
+    // margin-bottom: $facetedSearch-toggle-verticalSpacing;
     padding: $facetedSearch-toggle-padding;
 
     @include breakpoint("medium") {

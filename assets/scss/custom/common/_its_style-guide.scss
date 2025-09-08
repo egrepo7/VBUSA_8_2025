@@ -32,7 +32,7 @@ h1 {
     text-transform: uppercase;
 
     @include breakpoint('medium') {
-        font-size: $fontSize-largest;
+        font-size: 2.5rem;
     }
 }
 
@@ -266,6 +266,21 @@ a {
             text-decoration: none;
             transform: translateY(0);
         }
+
+        // Responsive styles - match theme button patterns
+        @media (max-width: 768px) {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.85rem;
+            min-width: 140px;
+        }
+        
+        @media (max-width: 480px) {
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            min-width: 120px;
+            width: auto;
+            max-width: 200px;
+        }
     }
 
     &.card-figcaption-button {
@@ -416,6 +431,7 @@ a {
  .productGrid .product {
      border: $input-border;
      border-radius: 4px;
+     background-color: white;
      border-color: $color-alt--hover;
      padding: 1rem;
      transition: box-shadow 0.25s;

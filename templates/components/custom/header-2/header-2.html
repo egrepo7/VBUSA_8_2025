@@ -52,6 +52,16 @@
         <div class="dropdown dropdown--quickSearch header-2__nav-search" id="quickSearch" aria-hidden="true" data-prevent-quick-search-close>
             {{> components/common/quick-search name='nav-quick-search'}}
         </div>
+        
+        {{!-- Mobile Search Dropdown --}}
+        <div class="mobile-search-dropdown" id="mobile-search-dropdown" aria-hidden="true">
+            <div class="mobile-search-dropdown__content">
+                <div class="mobile-search-dropdown__form">
+                    {{> components/common/quick-search name='mobile-quick-search'}}
+                </div>
+            </div>
+        </div>
+        
         {{> components/custom/header-2/header-2_navigation}}
     </div>
     

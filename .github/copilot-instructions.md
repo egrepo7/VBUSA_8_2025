@@ -3,6 +3,22 @@
 ## Project Context
 This is a BigCommerce Stencil theme for Volleyball USA (vbusa_theme_2025-08). Follow these conventions when generating code suggestions.
 
+## Usage Instructions
+
+- Follow all Volleyball USA theme conventions for code generation.
+- Prioritize CLS prevention by reserving space for all dynamic content.
+- Always reuse existing theme classes before introducing new ones.
+- Use BEM naming for any new classes.
+- Preload critical images and fonts in the `<head>` section.
+- Never use layout-affecting animations or `!important` in styles.
+- Ensure all image containers have explicit dimensions and aspect-ratio.
+- Use category-aware Handlebars conditionals for template logic.
+- Avoid using the `eq` helper entirely, as it can cause runtime errors like "options.inverse is not a function"; always prefer safe conditionals such as `contains` or other built-in Handlebars helpers.
+- Never use complex helper syntax like `{{#if (eq id 123)}}` - BigCommerce's Handlebars implementation doesn't support it.
+- For product filtering, use simple approaches like `{{#contains sku "product-sku"}}` or create custom product collections.
+- Test all components for Web Vitals compliance (CLS, LCP, FID/INP).
+
+
 ## Core Principles
 
 ### Web Vitals & CLS Prevention - PRIORITY #0 (HIGHEST)

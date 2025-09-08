@@ -4,6 +4,7 @@ import Global from './theme/global';
 import clientsFilter from './theme/custom/clients-filter';
 import './theme/custom/scroll-animations';
 import './theme/custom/we-serve-section';
+import './theme/custom/mobile-search'; // Mobile search functionality
 import ClientsSectionTracker from './theme/custom/clients-section-tracker';
 import AboutUsGallery from './theme/custom/about-gallery';
 

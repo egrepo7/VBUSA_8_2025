@@ -1,5 +1,5 @@
 <article
-    class="card
+    class="card cls-safe-transition cls-safe-hover
     {{#if alternate}} card--alternate{{/if}}"
     data-test="card-{{id}}"
     {{#if settings.data_tag_enabled}}
@@ -28,7 +28,7 @@
             {{lang 'common.login_for_pricing'}}
         {{/or}}"
     {{/if}}>
-    <figure class="card-figure">
+    <figure class="card-figure cls-aspect-ratio cls-aspect-ratio--square">
         {{#if stock_level '===' 0}}
             {{#if theme_settings.pdp_sold_out_label '===' ''}}
                 {{> components/products/product-badge
@@ -66,14 +66,14 @@
            {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}
            {{#if theme_settings.its.image_swap_on_hover}} data-image-swap-link {{/if}}
         >
-            <div class="card-img-container" {{#if theme_settings.its.image_swap_on_hover}} data-image-swap-src="{{#each images}}{{#if @index '===' 1}}{{getImage data 'productgallery_size'}}{{/if}}{{/each}}"{{/if}}>
+            <div class="card-img-container cls-aspect-ratio cls-aspect-ratio--square" {{#if theme_settings.its.image_swap_on_hover}} data-image-swap-src="{{#each images}}{{#if @index '===' 1}}{{getImage data 'productgallery_size'}}{{/if}}{{/each}}"{{/if}}>
                 {{> components/common/responsive-img
                     image=image
                     class="card-image"
                     fallback_size=theme_settings.productgallery_size
                     lazyload=theme_settings.lazyload_mode
                     default_image=theme_settings.default_image_product
-                    otherAttributes='loading="lazy" decoding="async"'
+                    otherAttributes='loading="lazy" decoding="async" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"'
                 }}
             </div>
         </a>
@@ -150,7 +150,19 @@
             <input type="checkbox" name="products[]" value="{{id}}" id="compare-{{id}}" data-compare-id="{{id}}"> {{lang 'products.compare'}}
         </label> --}}
         {{> components/products/bulk-discount-rates}}
-        {{> components/custom/card-add-to-cart }}
+        
+        {{!-- Always show VIEW PRODUCT button for grid cards --}}
+        <div class="card-atc">
+            <div class="card-atc__section card-atc__section--action">
+                <a href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}} class="card-atc__button button button--primary" data-product-id="{{id}}">
+                    {{#if has_options}}
+                        {{lang 'products.choose_options'}}
+                    {{else}}
+                        VIEW PRODUCT
+                    {{/if}}
+                </a>
+            </div>
+        </div>
 
     </div>
 </article>

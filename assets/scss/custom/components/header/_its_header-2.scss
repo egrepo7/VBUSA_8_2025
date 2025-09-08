@@ -54,8 +54,6 @@ $header-mid-columns-desktop: auto auto 1fr auto;
     display: flex;
     justify-content: flex-end;
     background-color: #F8F8F8;
-    @include breakpoint("medium") {
-    }
 }
 .header-2__top-nav-list {
     list-style: none;
@@ -68,8 +66,6 @@ $header-mid-columns-desktop: auto auto 1fr auto;
         position: relative;
         grid-template-columns: $header-mid-columns-desktop;
         grid-auto-columns: auto;
-    }
-    @include breakpoint("medium") {
     }
     @media all and (-ms-high-contrast:none) {
         grid-template-columns: repeat(5, auto);
@@ -109,21 +105,18 @@ $header-mid-columns-desktop: auto auto 1fr auto;
 .header-2 .navUser-item--search {
     display: block;
 
-    @include breakpoint("medium") {
         display: none;
-    }
 }
 .header-2 .navUser-item--cart__hidden-s {
     display: flex;
     align-items: center;
 }
 .header-2 .navPages-container .navPages {
-    @include breakpoint("medium") {
         display: flex;
-        align-items: center;
+        align-items: start;
         justify-content: flex-start;
         max-width: none;
-    }
+        flex-direction: column;
 
     @media only screen and (min-width: 1920px) {
         justify-content: center;
@@ -131,63 +124,49 @@ $header-mid-columns-desktop: auto auto 1fr auto;
     }
 }
 .header-2__navPages-list--custom {
-    @include breakpoint("medium") {
         display: none;
-    }
 }
 .header-2__nav-search.dropdown.dropdown--quickSearch {
-    @include breakpoint("medium") {
         position: static;
         display: flex;
         align-items: center;
-    }
 }
 .header-2__nav-search {
     background: none;
     padding: 0;
     max-width: none;
-    @include breakpoint("medium") {
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 2;
-    }
 }
 .header-2__nav-search .container {
     padding: 0;
 }
 .header-2__nav-search .form {
-    @include breakpoint("medium") {
         max-width: none;
-    }
 }
 .header-2__nav-search.is-open {
-    @include breakpoint("medium") {
         display: flex;
         align-items: center;
         justify-content: center;
         top: 0 !important;
         bottom: 0 !important;
-    }
 }
 .header-2__nav-search .quickSearchResults .modal-close {
     display: none;
-    @include breakpoint("medium") {
         display: block;
-    }
 }
 .header-2__nav-search.dropdown--quickSearch .productGrid {
     display: none;
     height: 58vw;
     overflow: scroll;
     margin: 0 auto;
-    @include breakpoint("medium") {
         display: flex;
         flex-wrap: wrap;
         // grid-template-columns: repeat(3, 1fr);
         padding-left: 1rem;
         padding-right: 1rem;
-    }
 
     @include breakpoint('large') {
         // 1261px and up
@@ -247,6 +226,26 @@ $header-mid-columns-desktop: auto auto 1fr auto;
         
     }
 }
+
+// Full-width mobile search background overlay
+.header-2__nav-search.dropdown--quickSearch.is-open {
+    // Full-width background for mobile and tablet only
+    @media (max-width: 767px) {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background-color: white !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        padding: 1rem !important;
+    }
+}
+
 .header-2--default .header-2__top-nav-list-item {
     padding: 1rem;
 }
@@ -274,7 +273,6 @@ $header-mid-columns-desktop: auto auto 1fr auto;
     }
 }
 .header-2--default .header-2__nav-search .quickSearchResults {
-    @include breakpoint("medium") {
         position: absolute;
         top: 40px;
         width: 160%;
@@ -282,7 +280,6 @@ $header-mid-columns-desktop: auto auto 1fr auto;
 
         @media only screen and (min-width: 1100px) {
             width: 100%;
-        }
     }
 }
 .header-2--default .quickSearchResults {
@@ -1113,8 +1110,6 @@ body {
     display: flex;
     justify-content: flex-end;
     background-color: #F8F8F8;
-    @include breakpoint("medium") {
-    }
 }
 .header-2__top-nav-list {
     list-style: none;
@@ -1127,8 +1122,6 @@ body {
         position: relative;
         grid-template-columns: $header-mid-columns-desktop;
         grid-auto-columns: auto;
-    }
-    @include breakpoint("medium") {
     }
     @media all and (-ms-high-contrast:none) {
         grid-template-columns: repeat(5, auto);
@@ -1168,85 +1161,57 @@ body {
 .header-2 .navUser-item--search {
     display: block;
 
-    @include breakpoint("medium") {
         display: none;
-    }
 }
 .header-2 .navUser-item--cart__hidden-s {
     display: flex;
     align-items: center;
 }
-.header-2 .navPages-container .navPages {
-    @include breakpoint("medium") {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        max-width: none;
-    }
 
-    @media only screen and (min-width: 1920px) {
-        justify-content: center;
-        
-    }
-}
 .header-2__navPages-list--custom {
-    @include breakpoint("medium") {
         display: none;
-    }
 }
 .header-2__nav-search.dropdown.dropdown--quickSearch {
-    @include breakpoint("medium") {
         position: static;
         display: flex;
         align-items: center;
-    }
 }
 .header-2__nav-search {
     background: none;
     padding: 0;
     max-width: none;
-    @include breakpoint("medium") {
         grid-column-start: 3;
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 2;
-    }
 }
 .header-2__nav-search .container {
     padding: 0;
 }
 .header-2__nav-search .form {
-    @include breakpoint("medium") {
         max-width: none;
-    }
 }
 .header-2__nav-search.is-open {
-    @include breakpoint("medium") {
         display: flex;
         align-items: center;
         justify-content: center;
         top: 0 !important;
         bottom: 0 !important;
-    }
 }
 .header-2__nav-search .quickSearchResults .modal-close {
     display: none;
-    @include breakpoint("medium") {
         display: block;
-    }
 }
 .header-2__nav-search.dropdown--quickSearch .productGrid {
     display: none;
     height: 58vw;
     overflow: scroll;
     margin: 0 auto;
-    @include breakpoint("medium") {
         display: flex;
         flex-wrap: wrap;
         // grid-template-columns: repeat(3, 1fr);
         padding-left: 1rem;
         padding-right: 1rem;
-    }
 
     @include breakpoint('large') {
         // 1261px and up
@@ -1306,6 +1271,26 @@ body {
         
     }
 }
+
+// Full-width mobile search background overlay
+.header-2__nav-search.dropdown--quickSearch.is-open {
+    // Full-width background for mobile and tablet only
+    @media (max-width: 767px) {
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background-color: white !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        z-index: 9999 !important;
+        padding: 1rem !important;
+    }
+}
+
 .header-2--default .header-2__top-nav-list-item {
     padding: 1rem;
 }
@@ -1333,7 +1318,6 @@ body {
     }
 }
 .header-2--default .header-2__nav-search .quickSearchResults {
-    @include breakpoint("medium") {
         position: absolute;
         top: 40px;
         width: 160%;
@@ -1341,7 +1325,6 @@ body {
 
         @media only screen and (min-width: 1100px) {
             width: 100%;
-        }
     }
 }
 .header-2--default .quickSearchResults {
@@ -2155,4 +2138,280 @@ body {
     margin-top: 0; // Remove existing margins
     position: relative;
     z-index: 1;
+}
+
+// ========================================
+// MOBILE SEARCH FUNCTIONALITY
+// ========================================
+
+// Mobile search icon - only visible on tablet/mobile
+.navUser-item--search-mobile {
+    display: none; // Hidden by default (desktop)
+    
+    @media only screen and (max-width: 1024px) {
+        display: flex; // Show on tablet/mobile
+        align-items: center;
+        border-left: 1px solid #EDEDED; // Match cart styling
+        width: 60px; // Match cart width
+    }
+    
+    .navUser-action--mobileSearch {
+        padding: 0;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        min-height: 56px; // Match header height
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        color: #666;
+        
+        
+        &:active {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        &[aria-expanded="true"] {
+            background: $color-primary;
+            color: white;
+            
+            .icon svg {
+                fill: white;
+            }
+        }
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+            
+            svg {
+                fill: currentColor;
+                transition: fill 0.3s ease;
+            }
+        }
+        
+        // Subtle hover animation
+        &:hover .icon {
+            transform: scale(1.1);
+            transition: transform 0.2s ease;
+        }
+    }
+}
+
+// Hide desktop search on mobile/tablet
+.navUser-item--search {
+    @media only screen and (max-width: 1024px) {
+        display: none; // Hide desktop search on tablet/mobile
+    }
+}
+
+// Hide desktop quick search dropdown on mobile/tablet
+.dropdown--quickSearch,
+.header-2__nav-search {
+    @media only screen and (max-width: 1024px) {
+        display: none !important; // Hide desktop search dropdown on tablet/mobile
+    }
+}
+
+// Mobile search dropdown
+.mobile-search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 1px solid #e6e6e6;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    
+    &[aria-hidden="false"] {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    &__content {
+        padding: 24px 20px;
+        max-width: 100%;
+        
+        @media only screen and (min-width: 768px) {
+            padding: 32px 40px;
+        }
+    }
+    
+    &__form {
+        .form {
+            margin: 0;
+            position: relative;
+        }
+        
+        .form-field {
+            position: relative;
+            margin: 0;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px 56px 16px 20px; // Extra padding for search icon
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 16px; // Prevent zoom on iOS
+            line-height: 1.5;
+            background: #fafafa;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            
+            &::placeholder {
+                color: #888;
+                font-weight: 400;
+            }
+            
+            &:focus {
+                outline: none;
+                border-color: $color-primary;
+                background: #ffffff;
+                box-shadow: 0 0 0 4px rgba($color-primary, 0.1), 
+                           0 4px 16px rgba(0, 0, 0, 0.1);
+                transform: translateY(-2px);
+            }
+        }
+        
+        // Hide the original search icon from quick-search template
+        .icon--search {
+            display: none;
+        }
+        
+        // Position search icon inside the input field
+        .form-field {
+            position: relative;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 20px;
+                height: 20px;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cpath d='m21 21-4.35-4.35'%3E%3C/path%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 20px 20px;
+                opacity: 0.6;
+                pointer-events: none;
+                z-index: 2;
+            }
+        }
+        
+        .form-actions {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            
+            @media only screen and (max-width: 480px) {
+                flex-direction: column;
+            }
+        }
+        
+        .button {
+            min-width: 120px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            &--primary {
+                background: $color-primary;
+                border-color: $color-primary;
+                
+                &:hover {
+                    background: darken($color-primary, 8%);
+                    border-color: darken($color-primary, 8%);
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba($color-primary, 0.3);
+                }
+            }
+            
+            @media only screen and (max-width: 480px) {
+                min-width: 100%;
+            }
+        }
+    }
+    
+    // Close animation
+    &.closing {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+    }
+    
+    // Add a subtle gradient overlay
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, 
+            $color-primary 0%, 
+            lighten($color-primary, 10%) 50%, 
+            $color-primary 100%);
+        opacity: 0.8;
+    }
+}
+
+// Ensure mobile search dropdown appears below fixed header
+.header-2 {
+    .mobile-search-dropdown {
+        position: fixed; // Use fixed positioning for better mobile behavior
+        top: 100%; // Position below header
+        left: 0;
+        right: 0;
+        z-index: 9999; // Above header z-index
+        border-radius: 0 0 16px 16px; // Rounded bottom corners
+        overflow: hidden; // Ensure border-radius works with gradient
+        
+        // Smooth slide animation from header
+        @media only screen and (max-width: 1024px) {
+            margin-top: -1px; // Seamless connection with header
+        }
+    }
+}
+
+// Mobile search body state
+body.mobile-search-open {
+    // Prevent background scroll on mobile when search is open
+    @media only screen and (max-width: 768px) {
+        overflow: hidden;
+    }
+}
+
+// Ensure mobile search dropdown positioning with fixed header
+.header-2 {
+    &.header--fixed,
+    &.header--scrolled {
+        .mobile-search-dropdown {
+            top: 100%; // Always position below the header
+            
+            // Adjust for fixed header height
+            @media only screen and (max-width: 1024px) {
+                top: 74px; // Header height on mobile/tablet
+            }
+            
+            @media only screen and (max-width: 768px) {
+                top: 56px; // Header height on mobile
+            }
+        }
+    }
 }

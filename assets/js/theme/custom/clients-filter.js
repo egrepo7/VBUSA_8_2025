@@ -94,7 +94,8 @@ export default function clientsFilter() {
             'clubs': document.getElementById('count-clubs'),
             'facilities': document.getElementById('count-facilities'),
             'organizations': document.getElementById('count-organizations'),
-            'corporate': document.getElementById('count-corporate')
+            'corporate': document.getElementById('count-corporate'),
+            'schools': document.getElementById('count-schools')
         };
         
         Object.keys(countElements).forEach(key => {

@@ -1,7 +1,7 @@
 {{inject 'noCompareMessage' (lang 'compare.no_compare')}}
 
 {{#if category.products}}
-    <div class="category-toolbar">
+    <div class="category-toolbar cls-safe-transition">
         <div class="category-toolbar__sort">
             {{> components/products/filter sort=pagination.category.sort}}
         </div>
@@ -38,6 +38,7 @@
         page_type=page_type
         show_dropdown=theme_settings.its.paginator_dropdown
         paginator_dropdown_page_count=(ceil (divide category.total_products theme_settings.categorypage_products_per_page))
+        class="pagination cls-safe-transition"
     }}
 {{else}}
     {{#if category.search_error}}

@@ -6,6 +6,7 @@ category:
 ---
 {{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
 {{inject "categoryId" category.id}}
+{{inject "defaultViewType" "list"}}
 
 {{#partial "head"}}
     {{#if pagination.category.previous}}
@@ -32,26 +33,43 @@ category:
 <section class="category-hero category-hero--filter-tabs">
     <div class="category-hero__background" 
          data-category="{{category.url}}"
-         style="background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('{{getImage category.image 'zoom_size'}}') bottom/cover;">
+         style="background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('{{getImage category.image 'zoom_size'}}') 50% 60%/cover;">
         <div class="container">
             <div class="category-hero__content">
                 {{!-- Dynamic content based on category URL - careful syntax --}}
-                {{#contains category.url "test_outdoor_nets"}}
+                {{#contains category.url "outdoor-volleyball-nets-test/"}}
                     <h1 class="category-hero__title h1">Make Your Net Stand Out with <strong>Custom Branding</strong></h1>
                     <div class="category-hero__subtitle">From college teams to beach tournaments and sports bars, our printed nets combine pro-grade durability with full-color branding that turns heads.</div>
 
                     {{!-- CTA Button --}}
                     <div class="category-hero__cta">
-                        <button class="button button--primary" onclick="activateCategoryTab('test_custom_nets')" aria-label="Browse Products">Browse Products</button>
+                        <button class="button button--primary" onclick="activateCategoryTab('custom printed nets (test)')" aria-label="Browse Products">Browse Products</button>
                     </div>
                     <!-- Scroll Down Arrow -->
-                    <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab('test_custom_nets')" aria-label="Scroll to categories">
+                    {{!-- <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
+                    </div> --}}
+                {{/contains}}
+                {{#contains category.url "indoor-volleyball-nets"}}
+                    <h1 class="category-hero__title h1">Make Your Net Stand Out with <strong>Custom Branding</strong></h1>
+                    <div class="category-hero__subtitle">From middle schools to Division 1 colleges, our printed nets combine pro-grade durability with full-color branding that turns heads.</div>
+
+                    {{!-- CTA Button --}}
+                    <div class="category-hero__cta">
+                        <button class="button button--primary" onclick="activateCategoryTab('custom printed indoor nets')" aria-label="Browse Products">Browse Products</button>
                     </div>
+                    <!-- Scroll Down Arrow -->
+                    {{!-- <div class="category-hero__scroll-arrow">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div> --}}
                 {{/contains}}
                 {{#contains category.url "volleyball-poles"}}
                     <h1 class="category-hero__title h1">Heavy-Duty <strong>Volleyball Poles</strong></h1>
@@ -62,7 +80,7 @@ category:
                     </div>
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -78,7 +96,7 @@ category:
                     </div>
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -94,39 +112,39 @@ category:
                     </div>
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                     </div>
                 {{/contains}}
-                {{#contains category.url "complete-systems"}}
+                {{#contains category.url "outdoor-systems"}}
                     <h1 class="category-hero__title h1">Complete <strong>Volleyball Systems</strong></h1>
                     <div class="category-hero__subtitle">Everything you need for professional volleyball installations. Tournament-ready systems trusted by schools, clubs, and professional venues nationwide.</div>
                     
-                    <div class="category-hero__cta">
+                    {{!-- <div class="category-hero__cta">
                         <button class="button button--primary" onclick="activateCategoryTab()">View Systems</button>
-                    </div>
+                    </div> --}}
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
                     </div>
                 {{/contains}}
-                {{#contains category.url "shoes"}}
+                {{#contains category.url "indoor-systems"}}
                     <h1 class="category-hero__title h1">High-Performance <strong>Volleyball Shoes</strong></h1>
                     <div class="category-hero__subtitle">Professional volleyball footwear designed for superior traction, comfort, and performance. Shop brands trusted by elite players and teams worldwide.</div>
                     
                     <div class="category-hero__cta">
-                        <button class="button button--primary" onclick="activateCategoryTab()">Shop Shoes</button>
+                        <button class="button button--primary" onclick="activateCategoryTab('roll_away_volleyball_poles ')">Shop Shoes</button>
                     </div>
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -142,7 +160,7 @@ category:
                     </div>
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -158,7 +176,7 @@ category:
                     </div>
                     <!-- Scroll Down Arrow -->
                     <div class="category-hero__scroll-arrow">
-                        <div class="category-hero__scroll-btn" onclick="activateCategoryTab()" aria-label="Scroll to categories">
+                        <div class="category-hero__scroll-btn" aria-label="Scroll indicator">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -419,17 +437,21 @@ category:
         // Initialize tab functionality
         initializeTabFunctionality();
         
-        // Try to restore previous filter state first
-        if (!restoreFilterState()) {
-            // If no previous state, initialize with first tab active by default
-            const firstTab = document.querySelector('.subcategory-tab-alt.active');
-            if (firstTab && !currentActiveFilter) {
-                const firstSubcatName = firstTab.getAttribute('data-subcategory-id').trim().toLowerCase();
-                currentActiveFilter = firstSubcatName;
-                sessionStorage.setItem('activeSubcategoryFilter', currentActiveFilter);
-                filterProductsBySubcategory(firstSubcatName);
-                console.log('Initialized with first tab:', firstSubcatName);
-            }
+        // Always start with the first tab active (don't restore previous state)
+        const firstTab = document.querySelector('.subcategory-tab-alt');
+        if (firstTab) {
+            // Remove active class from all tabs
+            const allTabs = document.querySelectorAll('.subcategory-tab-alt');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Add active class to first tab
+            firstTab.classList.add('active');
+            
+            const firstSubcatName = firstTab.getAttribute('data-subcategory-id').trim().toLowerCase();
+            currentActiveFilter = firstSubcatName;
+            sessionStorage.setItem('activeSubcategoryFilter', currentActiveFilter);
+            filterProductsBySubcategory(firstSubcatName);
+            console.log('Initialized with first tab:', firstSubcatName);
         }
     }
 

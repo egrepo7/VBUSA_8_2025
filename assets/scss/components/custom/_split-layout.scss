@@ -41,6 +41,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 1rem;
         
         @media (max-width: 768px) {
             max-height: 60vh; // Smaller on mobile
@@ -114,6 +115,7 @@
             gap: 12px;
             margin: 0;
             padding: 0;
+            padding-bottom:1rem;
         }
         
         .slick-slide {
@@ -194,6 +196,7 @@
             min-height: auto;
             margin-top: 0;
             padding-top: 0;
+            box-shadow: none; // Remove shadow on mobile
         }
     }
 
@@ -203,7 +206,7 @@
         background: #ffffff;
         
         .media-content {
-            padding: 0 2rem 2rem 2rem;
+            // padding: 0 2rem 2rem 2rem;
             min-height: calc(100vh - var(--header-height, 80px));
             display: flex;
             flex-direction: column;
@@ -211,13 +214,17 @@
             
             @media (max-width: 1024px) {
                 min-height: auto;
-                padding: 1rem;
+                // padding: 1rem;
+            }
+
+            .breadcrumbs-bar {
+                padding: 0 1rem;
             }
             
             // Product images section - main image and thumbnails
             .productView-images {
                 margin-bottom: 0;
-                padding: 0;
+                padding-left: 1rem;
                 display: flex;
                 gap: 1.5rem;
                 align-items: flex-start;
@@ -233,10 +240,12 @@
                     flex: 1;
                     order: 2;
                     margin-bottom: 0;
-                    
+                    border-radius: 12px;
+
                     @media (max-width: 768px) {
                         order: 1;
                         width: 100%;
+                        padding: 0 1rem;
                     }
                     
                     .productView-img-container {
@@ -244,7 +253,7 @@
                         width: 100%;
                         max-height: 800px;
                         border-radius: 12px;
-                        box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+                        // box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
                         border: 1px solid rgba(0,0,0,0.06);
                         // background: #ffffff;
                         padding: 1rem;
@@ -559,7 +568,9 @@
             overflow-y: visible;
             display: block;
             width: 100%;
-            padding: 1rem;
+            padding: 0; // Remove padding to integrate better with mobile flow
+            background: transparent; // Transparent background on mobile
+            border-left: none; // Remove border on mobile
         }
         
         .details-content {
@@ -607,6 +618,10 @@
                 border-top: none;
                 padding: 1rem 0;
             }
+
+            .button {
+                width: 100%;
+            }
         }
     }
 
@@ -620,9 +635,9 @@
             margin-bottom: 0.25rem;
             line-height: 1.2;
             
-            @media (max-width: 1024px) {
-                font-size: 2rem;
-            }
+            // @media (max-width: 1024px) { 
+            //     font-size: 2rem;
+            // }
         }
         
         .productView-brand {
@@ -858,56 +873,189 @@
 
 .main-image-slick {
     display: none;
+    position: relative; /* Add positioning context for absolute dots */
+    /* CLS prevention for mobile images */
+    min-height: 300px;
+    background: white;
+    aspect-ratio: 1/1;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    
+    .productView-image {
+        aspect-ratio: 1/1;
+        min-height: 300px;
+        background: white;
+    }
+    
+    .productView-img-container {
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+    }
+    
+    /* Mobile image styling with contain fit */
+    img {
+        object-fit: contain !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    .slick-slide {
+        img {
+            object-fit: contain !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
 }
 
 // Tablet and Desktop: hide main-image-slick and slick-dots
 @media (min-width: 769px) {
   .main-image-slick {
-    display: none !important;
+    display: none;
   }
   .main-image-slick .slick-dots {
-    display: none !important;
+    display: none;
+  }
+  
+  // Hide dots for desktop thumbnails carousel
+  .productView-thumbnails .slick-dots {
+    display: none;
   }
 }
 // Mobile: show main-image-slick, hide main-image-desktop
 @media (max-width: 768px) {
-  .main-image-desktop { display: none !important; }
-  .main-image-slick { display: block !important; }
+  .main-image-desktop { display: none; }
+  .main-image-slick { display: block; }
+  
+  // Hide the desktop image container on mobile
+  .productView.split-layout .media-panel .media-content .productView-images .productView-image .productView-img-container {
+    display: none;
+  }
+  
+  // Also hide the main productView-image wrapper on mobile
+  .productView.split-layout .media-panel .media-content .productView-images .productView-image.main-image-desktop {
+    display: none;
+  }
+  
+  // Show dots for mobile main-image-slick carousel with proper positioning
+  .main-image-slick .slick-dots {
+    display: block;
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      display: inline-block;
+      margin: 0 4px;
+      
+      button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        padding: 0;
+        font-size: 0;
+        line-height: 0;
+        text-indent: -9999px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        outline: none;
+        position: relative;
+        
+        &:before {
+          content: "";
+          display: block;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: transparent;
+          border: none;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          margin: 0;
+          padding: 0;
+        }
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.8);
+          border-color: rgba(0, 0, 0, 0.6);
+          transform: scale(1.1);
+        }
+      }
+      
+      &.slick-active button {
+        width: 10px;
+        height: 10px;
+        background: rgba(255, 255, 255, 1);
+        border: 1px solid rgba(0, 0, 0, 0.8);
+        transform: none;
+        
+        &:before {
+          background: rgba(0, 0, 0, 0.8);
+          border: none;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+        }
+        
+        &:hover {
+          transform: none;
+          background: rgba(255, 255, 255, 1);
+        }
+      }
+    }
+  }
 }
 
 // Sidebar details panel: show only on desktop
 @media (min-width: 1025px) {
   .details-panel {
-    display: flex !important;
-    position: sticky !important;
-    top: var(--panel-top-offset, var(--header-height, 80px)) !important;
-    height: var(--panel-available-height, calc(100vh - var(--header-height, 80px))) !important;
-    max-height: var(--panel-available-height, calc(100vh - var(--header-height, 80px))) !important;
-    flex-direction: column !important;
+    display: flex;
+    position: sticky;
+    top: var(--panel-top-offset, var(--header-height, 80px));
+    height: var(--panel-available-height, calc(100vh - var(--header-height, 80px)));
+    max-height: var(--panel-available-height, calc(100vh - var(--header-height, 80px)));
+    flex-direction: column;
     transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  
+  // Hide sticky cart section on desktop - not needed since details panel is visible
   .sticky-cart-section {
-    display: flex !important;
+    display: none;
   }
   .sticky-cart-section-mobile {
-    display: none !important;
+    display: none;
   }
   
   .details-panel-inline {
-    display: none !important;
-  }
-}
-@media (max-width: 1024px) {
-  .details-panel-inline {
-    display: block !important;
+    display: none;
   }
 }
 // Inline details panel: show only on mobile/tablet
 @media (max-width: 1024px) {
-  .details-panel { display: none !important; }
+  .details-panel,
+  .productView.split-layout .details-panel,
+  #detailsPanel { 
+    display: none; 
+  }
+  .media-panel { 
+    display: block; // Keep media panel visible for content
+
+  }
   .details-panel-inline {
+    display: block;
     width: 100vw;
     max-width: 100vw;
     /* margin-top: 1rem; */
@@ -927,16 +1075,16 @@
     }
   }
   .media-content {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
   }
   .productView-images {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    margin-top: 0 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 0;
   }
   .sticky-cart-section {
-    display: none !important;
+    display: none;
   }
 
   .sticky-cart-product-title {
@@ -959,12 +1107,12 @@
   }
   
   .sticky-cart-section-mobile {
-    display: flex !important;
+    display: flex;
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
     z-index: 1000;
     background: #f8f9fa;
     padding: 1rem 1.5rem;
@@ -1073,16 +1221,14 @@
     gap: 2rem;
     justify-content: space-between;
 }
+
 @media (min-width: 1025px) {
   .sticky-cart-section-mobile {
     display: none;
   }
+  // Hide sticky cart section on desktop - details panel handles cart functionality
   .sticky-cart-section {
-    display: flex;
-        .button {
-            margin-bottom: 0;
-            width: 100%;
-        }
+    display: none;
   }
 }
 

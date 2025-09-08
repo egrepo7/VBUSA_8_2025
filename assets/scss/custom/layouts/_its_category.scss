@@ -237,7 +237,7 @@
 }
 
 .facetedSearch-toggle {
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
 }
 
 .facetedSearch-toggle-indicator {
@@ -339,7 +339,7 @@
 }
 
 .accordion--navList .accordion-title {
-    font-weight: 900;
+    font-weight: 700;
 }
 
 .accordion--navList .accordion-navigation {
@@ -600,7 +600,7 @@
 
 // Ensure consistent spacing for product listing container
 #product-listing-container {
-    margin-top: 1.5rem; // Remove any default margins that might collapse
+    // margin-top: 1.5rem; // Remove any default margins that might collapse
 
     // On mobile, remove top margin
     @media (max-width: 768px) {

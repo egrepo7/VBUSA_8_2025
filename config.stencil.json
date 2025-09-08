@@ -7,7 +7,8 @@
       "volleyball-nets-custom.html": ["/volleyball-nets/", "/test_volleyballnets/"]
     },
     "page": {
-      "about-us-custom.html": "/about-us/"
+      "about-us-custom.html": "/about-us/",
+      "volleyball-nets-buying-guide.html": "/volleyball-nets/buying-guide/"
     },
     "product": {
       "product-view-v2.html": "/copy-of-3-patriot-pin-stop-carbon-fiber-volleyball-system-with-stainless-steel-shields/"

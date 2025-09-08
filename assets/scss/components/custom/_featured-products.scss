@@ -1,0 +1,599 @@
+// =============================================================================
+// FEATURED PRODUCTS SECTION - Carousel-based featured products
+// =============================================================================
+
+.featured-products-section {
+    padding: 2rem 0;
+    background: #f8f9fa;
+    
+    @media (max-width: 768px) {
+        padding: 3rem 0;
+    }
+    
+    .section-header {
+        text-align: left;
+        margin-bottom: 3rem;
+        
+        @media (max-width: 768px) {
+            margin-bottom: 2.5rem;
+        }
+    }
+    
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+        
+        @media (max-width: 768px) {
+            font-size: 2rem;
+        }
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: #666;
+        max-width: 600px;
+        line-height: 1.6;
+        
+        @media (max-width: 768px) {
+            font-size: 1rem;
+        }
+    }
+}
+
+// Use default carousel styling from theme
+
+// =============================================================================
+// CATEGORY SHOWCASE SECTION - Large image cards for category navigation
+// =============================================================================
+
+.category-showcase {
+    padding: 2rem 0;
+    background: #f8f9fa;
+    
+
+    &__title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-align: left;
+        margin-bottom: 2rem;
+        letter-spacing: -0.1px;
+        
+        @media (max-width: 768px) {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+    }
+    
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        @media (max-width: 480px) {
+            gap: 1rem;
+        }
+    }
+    
+    // Single column grid variant
+    &__grid--single {
+        grid-template-columns: 1fr;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    
+    &__card {
+        position: relative;
+        width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        aspect-ratio: 16/10;
+        min-height: 300px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        &:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2);
+            
+            .category-showcase__image {
+                transform: scale(1.007);
+            }
+            
+            .category-showcase__cta {
+                transform: translateX(4px);
+            }
+        }
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            aspect-ratio: 16/9;
+            min-height: 280px;
+            
+            &:hover {
+                transform: translateY(-3px) scale(1.01);
+                box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            aspect-ratio: 4/3;
+            min-height: 250px;
+            
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+                
+                .category-showcase__image {
+                    transform: scale(1.01);
+                }
+                
+                .category-showcase__cta {
+                    transform: none;
+                }
+            }
+        }
+        
+        @media (max-width: 480px) {
+            aspect-ratio: 5/4;
+            min-height: 220px;
+        }
+    }
+    
+    &__image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.45) 100%);
+        display: flex;
+        align-items: flex-end;
+        padding: 1rem;
+        
+        &::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            padding: 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            padding: 1rem;
+        }
+    }
+    
+    &__content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+    }
+    
+    &__card-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: 0.5px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 0, 0, 0.5);
+        margin-bottom: 0.5rem;
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 480px) {
+            font-size: 1.25rem;
+        }
+    }
+    
+    &__card-subtitle {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.95);
+        line-height: 1.5;
+        max-width: 90%;
+        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 0, 0, 0.4);
+        font-weight: 500;
+        margin-bottom: 1rem;
+        
+        @media (max-width: 1024px) and (min-width: 769px) {
+            font-size: 0.9rem;
+            margin-bottom: 0.875rem;
+            max-width: 95%;
+        }
+        
+        @media (max-width: 768px) {
+            font-size: 0.9rem;
+            margin-bottom: 0.875rem;
+        }
+        
+        @media (max-width: 480px) {
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+    }
+    
+    &__cta {
+        display: inline-block;
+        background: #e53e3e;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-radius: 4px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        &:hover {
+            background: #c53030;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(197, 48, 48, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 480px) {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+    }
+    
+    // Featured section modifier for centered content (like Slip Net System)
+    &--featured {
+        .category-showcase__overlay {
+            align-items: center; // Center vertically
+            justify-content: center; // Center horizontally
+            text-align: center; // Center text alignment
+            padding: 2rem; // Increase padding for better spacing
+            
+            // Remove the gradient overlay for better readability when centered
+            &::before {
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
+                height: 100%;
+            }
+            
+            @media (max-width: 768px) {
+                padding: 1.5rem;
+            }
+            
+            @media (max-width: 480px) {
+                padding: 1rem;
+            }
+        }
+        
+        .category-showcase__content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 600px; // Limit width for better readability
+        }
+        
+        .category-showcase__card-title {
+            text-align: center;
+            margin-top: 0;
+            text-transform: capitalize;
+            
+            @media (max-width: 768px) {
+                margin-bottom: 0.875rem;
+            }
+        }
+        
+        .category-showcase__card-subtitle {
+            text-align: center;
+            max-width: 100%; // Use full available width
+            margin-bottom: 1.5rem;
+            
+            @media (max-width: 768px) {
+                margin-bottom: 1.25rem;
+            }
+        }
+    }
+    
+    // Category tag styling
+    &__tag {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+    }
+}
+
+// =============================================================================
+// SLIP SYSTEM CARD MODIFIER - Special styling for featured slip net system
+// =============================================================================
+
+.category-showcase--slip-system {
+    .category-showcase__card {
+        // Make the slip system card taller on mobile for better visual impact
+        @media (max-width: 768px) {
+            aspect-ratio: 16/10; // Taller ratio on tablet
+            min-height: 350px; // Increased from 250px
+        }
+        
+        @media (max-width: 480px) {
+            aspect-ratio: 4/3; // Much taller ratio on mobile
+            min-height: 320px; // Significantly increased from 220px
+        }
+        
+        @media (max-width: 360px) {
+            min-height: 300px; // Ensure minimum height on very small screens
+        }
+    }
+    
+    .category-showcase__content {
+        // Better spacing for the larger mobile card
+        @media (max-width: 480px) {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+    }
+    
+    .category-showcase__card-title {
+        // Larger title on mobile for the slip system
+        @media (max-width: 480px) {
+            font-size: 1.4rem; // Increased from 1.25rem
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+        }
+        
+        @media (max-width: 360px) {
+            font-size: 1.3rem;
+        }
+    }
+    
+    .category-showcase__card-subtitle {
+        // Better spacing and sizing for mobile
+        @media (max-width: 480px) {
+            font-size: 0.9rem; // Slightly larger
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+// =============================================================================
+// CAROUSEL ARROW STYLING - Custom red chevron arrows
+// =============================================================================
+
+.productCarousel {
+    position: relative;
+    
+    .slick-arrow {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        border-radius: 50% !important;
+        width: 48px !important;
+        height: 48px !important;
+        z-index: 10 !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15) !important;
+        transition: all 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transform: none !important;
+        
+        // Remove default Slick arrow icon
+        &:before {
+            display: none !important;
+        }
+        
+        // Create custom red chevron with CSS
+        &:after {
+            content: '' !important;
+            width: 8px !important;
+            height: 8px !important;
+            border-right: 2px solid #e53e3e !important;
+            border-bottom: 2px solid #e53e3e !important;
+            display: block !important;
+        }
+        
+        &:hover,
+        &:focus:hover {
+            background: rgba(255, 255, 255, 1) !important;
+            transform: translateY(-2px) scale(1.05) !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+            
+            &:after {
+                border-color: #c53030 !important;
+            }
+        }
+        
+        &:focus {
+            outline: 2px solid #e53e3e !important;
+            outline-offset: 2px !important;
+        }
+    }
+    
+    // Left arrow - point left
+    .slick-prev {
+        left: -20px !important;
+        
+        &:after {
+            transform: rotate(135deg) !important;
+        }
+        
+        &:hover {
+            transform: translateY(-2px) scale(1.05) !important;
+            
+            &:after {
+                transform: rotate(135deg) !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            left: -15px !important;
+        }
+        
+        @media (max-width: 480px) {
+            left: 5px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 44px !important;
+            height: 44px !important;
+            border-width: 2px !important;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2) !important;
+            
+            &:after {
+                width: 10px !important;
+                height: 10px !important;
+                border-width: 2px !important;
+            }
+            
+            &:hover {
+                transform: translateY(-50%) translateY(-2px) scale(1.05) !important;
+            }
+        }
+    }
+    
+    // Right arrow - point right  
+    .slick-next {
+        right: -20px !important;
+        
+        &:after {
+            transform: rotate(-45deg) !important;
+        }
+        
+        &:hover {
+            transform: translateY(-2px) scale(1.05) !important;
+            
+            &:after {
+                transform: rotate(-45deg) !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            right: -15px !important;
+        }
+        
+        @media (max-width: 480px) {
+            right: 5px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            width: 44px !important;
+            height: 44px !important;
+            border-width: 2px !important;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2) !important;
+            
+            &:after {
+                width: 10px !important;
+                height: 10px !important;
+                border-width: 2px !important;
+            }
+            
+            &:hover {
+                transform: translateY(-50%) translateY(-2px) scale(1.05) !important;
+            }
+        }
+    }
+}
+
+// =============================================================================
+// CLICKABLE CARD STYLES - For volleyball nets category cards
+// =============================================================================
+
+.category-showcase__card--clickable {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    
+    // Ensure proper hover states when card is clickable
+    &:hover {
+        text-decoration: none;
+        color: inherit;
+        
+        .category-showcase__cta {
+            background: #c53030;
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(197, 48, 48, 0.4);
+            
+            @media (max-width: 768px) {
+                transform: none;
+            }
+        }
+    }
+    
+    // Disable pointer events on the CTA span to prevent nested link issues
+    .category-showcase__cta {
+        pointer-events: none;
+        cursor: inherit;
+    }
+    
+    // Enhanced accessibility for keyboard navigation
+    &:focus {
+        outline: 2px solid #e53e3e;
+        outline-offset: 2px;
+    }
+    
+    // Better touch target for mobile
+    @media (max-width: 768px) {
+        &:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+    }
+}
+
+// No products message styling
+.no-products-message {
+    padding: 20px;
+    background: #fff3cd;
+    border-radius: 4px;
+    color: #856404;
+    margin: 20px 0;
+    text-align: center;
+    border: 1px solid #ffeaa7;
+}
+
+// CLS Prevention for content sections only (not navigation)
+.page--category .category-showcase, 
+.page--category .featured-products-section {
+    min-height: 400px; // Prevent layout shift during content load
+}
+
+// =============================================================================
+// CATEGORY SHOWCASE SECTION - Large image cards for category navigation
+// =============================================================================

@@ -6,6 +6,7 @@ category:
 ---
 {{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
 {{inject "categoryId" category.id}}
+{{inject "defaultViewType" theme_settings.product_list_display_mode}}
 
 {{#partial "head"}}
     {{#if pagination.category.previous}}

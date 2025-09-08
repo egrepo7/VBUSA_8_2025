@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients Filter Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .filter-test {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .debug-info {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .count {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Clients Filter Debug Test</h1>
+        
+        <div class="filter-test">
+            <h3>Filter Count Test</h3>
+            <p>This simulates the filter count logic from the clients-filter.js file.</p>
+            
+            <!-- Simulated filter buttons with counts -->
+            <button data-filter="all">All <span class="count" id="count-all">(0)</span></button>
+            <button data-filter="partnerships">Partnerships <span class="count" id="count-partnerships">(0)</span></button>
+            <button data-filter="colleges">Colleges <span class="count" id="count-colleges">(0)</span></button>
+            <button data-filter="clubs">Clubs <span class="count" id="count-clubs">(0)</span></button>
+            <button data-filter="facilities">Facilities <span class="count" id="count-facilities">(0)</span></button>
+            <button data-filter="organizations">Organizations <span class="count" id="count-organizations">(0)</span></button>
+            <button data-filter="corporate">Corporate <span class="count" id="count-corporate">(0)</span></button>
+            <button data-filter="schools">K-12 Schools <span class="count" id="count-schools">(0)</span></button>
+            
+            <div class="debug-info" id="debug-output">
+                Debug information will appear here...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample client data that matches the actual structure
+        const testClients = [
+            {
+                "name": "Test High School",
+                "location": "California, USA",
+                "categories": ["schools"],
+                "badges": ["indoor", "outdoor"]
+            },
+            {
+                "name": "Sample Middle School",
+                "location": "Texas, USA", 
+                "categories": ["schools"],
+                "badges": ["grass", "outdoor"]
+            },
+            {
+                "name": "University of Test",
+                "location": "Florida, USA",
+                "categories": ["colleges"],
+                "badges": ["indoor"]
+            },
+            {
+                "name": "Test Volleyball Club",
+                "location": "New York, USA",
+                "categories": ["clubs"],
+                "badges": ["indoor", "sand-supplier"]
+            },
+            {
+                "name": "Corporate Partner Inc",
+                "location": "Illinois, USA",
+                "categories": ["corporate"],
+                "badges": ["outdoor"]
+            }
+        ];
+
+        function updateFilterCounts(clients) {
+            console.log('Updating filter counts with', clients.length, 'clients');
+            
+            // Count clients by category
+            const categoryCounts = {};
+            clients.forEach(client => {
+                client.categories.forEach(category => {
+                    categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+                });
+            });
+
+            console.log('Category counts:', categoryCounts);
+
+            // Update each count display - THIS IS THE FIXED VERSION
+            const countElements = {
+                'all': document.getElementById('count-all'),
+                'partnerships': document.getElementById('count-partnerships'),
+                'colleges': document.getElementById('count-colleges'),
+                'clubs': document.getElementById('count-clubs'),
+                'facilities': document.getElementById('count-facilities'),
+                'organizations': document.getElementById('count-organizations'),
+                'corporate': document.getElementById('count-corporate'),
+                'schools': document.getElementById('count-schools') // ✅ THIS WAS MISSING
+            };
+
+            let debugOutput = 'Filter counts updated:\n';
+            
+            Object.keys(countElements).forEach(key => {
+                const element = countElements[key];
+                if (element) {
+                    if (key === 'all') {
+                        element.textContent = `(${clients.length})`;
+                        debugOutput += `${key}: ${clients.length}\n`;
+                    } else {
+                        const count = categoryCounts[key] || 0;
+                        element.textContent = `(${count})`;
+                        debugOutput += `${key}: ${count}\n`;
+                    }
+                }
+            });
+            
+            document.getElementById('debug-output').textContent = debugOutput;
+        }
+
+        // Initialize the test
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded, updating counts...');
+            updateFilterCounts(testClients);
+        });
+    </script>
+</body>
+</html>

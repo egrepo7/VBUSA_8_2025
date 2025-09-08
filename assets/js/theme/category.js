@@ -4,7 +4,13 @@ import compareProducts from './global/compare-products';
 import FacetedSearch from './common/faceted-search';
 import { createTranslationDictionary } from '../theme/common/utils/translations-utils';
 import ITSCategory from './custom/its-category';
-import ToggleCategoryListingView from './custom/toggle-category-listing-view';
+// Conditional import - only load ToggleCategoryListingView if not blocked
+let ToggleCategoryListingView;
+if (!window.blockToggleCategoryListingView && !window.customVolleyballNetsPage) {
+    ToggleCategoryListingView = require('./custom/toggle-category-listing-view').default;
+} else {
+    console.log('ToggleCategoryListingView import blocked for custom volleyball nets page');
+}
 
 export default class Category extends CatalogPage {
     constructor(context) {
@@ -15,7 +21,27 @@ export default class Category extends CatalogPage {
          * IntuitSolutions - Custom Category
          */
         this.ITSCategory = new ITSCategory(context);
-        this.toggleCategoryListingView = new ToggleCategoryListingView(context);
+        
+        // Check for emergency blocking flags and prevent ToggleCategoryListingView instantiation completely
+        if (window.blockToggleCategoryListingView || window.customVolleyballNetsPage || !ToggleCategoryListingView) {
+            console.log('ToggleCategoryListingView completely blocked for custom volleyball nets page');
+            this.toggleCategoryListingView = {
+                getRequestTemplateType: () => 'grid',
+                init: () => { console.log('ToggleCategoryListingView.init() blocked'); },
+                fullWidthTemplate: () => { console.log('ToggleCategoryListingView.fullWidthTemplate() blocked'); }
+            };
+        } else {
+            try {
+                this.toggleCategoryListingView = new ToggleCategoryListingView(context);
+            } catch (error) {
+                console.error('ToggleCategoryListingView failed to initialize:', error);
+                this.toggleCategoryListingView = {
+                    getRequestTemplateType: () => 'grid',
+                    init: () => {},
+                    fullWidthTemplate: () => {}
+                };
+            }
+        }
     }
 
     setLiveRegionAttributes($element, roleType, ariaLiveStatus) {
@@ -36,6 +62,12 @@ export default class Category extends CatalogPage {
     }
 
     onReady() {
+        // EMERGENCY: Completely block execution for volleyball nets page
+        if (window.customVolleyballNetsPage || window.emergencyCarouselProtection || window.blockToggleCategoryListingView) {
+            console.log('CATEGORY.JS: Emergency stop - no initialization for volleyball nets page');
+            return;
+        }
+
         this.arrangeFocusOnSortBy();
 
         $('[data-button-type="add-cart"]').on('click', (e) => this.setLiveRegionAttributes($(e.currentTarget).next(), 'status', 'polite'));

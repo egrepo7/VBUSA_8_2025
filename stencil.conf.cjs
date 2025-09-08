@@ -26,8 +26,12 @@ var watchOptions = {
 function development() {
     var devConfig = require('./webpack.dev.js');
 
-    // Rebuild the bundle once at bootup
-    webpack(devConfig).watch({}, (err, stats) => {
+    // Rebuild the bundle once at bootup with optimizations
+    webpack(devConfig).watch({
+        aggregateTimeout: 300,
+        poll: undefined,
+        ignored: /node_modules/
+    }, (err, stats) => {
         if (err) {
             console.error(err.message, err.details);
         }

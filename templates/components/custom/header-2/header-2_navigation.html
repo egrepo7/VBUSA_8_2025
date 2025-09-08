@@ -14,6 +14,21 @@
             </button>
         </li>
 
+        {{!-- Mobile Search Icon (visible only on tablet/mobile) --}}
+        <li class="navUser-item navUser-item--search-mobile">
+            <button class="navUser-action navUser-action--mobileSearch" type="button" id="mobile-search-toggle"
+                aria-controls="mobile-search-dropdown" aria-label="{{lang 'common.search'}}" aria-expanded="false">
+                <span class="icon icon--search">
+                    <svg>
+                        <use xlink:href="#icon-search"></use>
+                    </svg>
+                </span>
+                <span class="is-srOnly">
+                    {{lang 'common.search'}}
+                </span>
+            </button>
+        </li>
+
         <li class="navUser-item navUser-item--account">
             {{#if customer}}
             <a class="navUser-action" href="{{urls.account.index}}" aria-label="{{lang 'common.account'}}"

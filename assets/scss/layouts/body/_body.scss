@@ -72,7 +72,7 @@ body {
         @include grid-column(3);
 
         + .page-content {
-            @include grid-column(12);
+            @include grid-column(9);
         }
     }
 }

@@ -8,6 +8,7 @@ import Url from 'url';
 import collapsibleFactory from './common/collapsible';
 import 'jstree';
 import nod from './common/nod';
+import ToggleCategoryListingView from './custom/toggle-category-listing-view';
 
 const leftArrowKey = 37;
 const rightArrowKey = 39;
@@ -65,7 +66,8 @@ export default class Search extends CatalogPage {
     showContent(navigate = true) {
         this.$contentResultsContainer.removeClass('u-hidden');
         this.$productListingContainer.addClass('u-hidden');
-        this.$facetedSearchContainer.addClass('u-hidden');
+        // Keep faceted search visible for side-by-side layout
+        // this.$facetedSearchContainer.addClass('u-hidden');
 
         $('[data-product-results-toggle]').removeClass('navBar-action-color--active');
         $('[data-product-results-toggle]').addClass('navBar-action');
@@ -136,6 +138,11 @@ export default class Search extends CatalogPage {
     onReady() {
         compareProducts(this.context);
         this.arrangeFocusOnSortBy();
+
+        // Initialize view toggle for search results
+        this.toggleCategoryListingView = new ToggleCategoryListingView(this.context);
+        
+        // Note: View toggling now uses proper template switching, no manual CSS needed
 
         const $searchForm = $('[data-advanced-search-form]');
         const $categoryTreeContainer = $searchForm.find('[data-search-category-tree]');
@@ -275,7 +282,7 @@ export default class Search extends CatalogPage {
         const productsPerPage = this.context.searchProductsPerPage;
         const requestOptions = {
             template: {
-                productListing: 'search/product-listing',
+                productListing: 'custom/search/full-width-product-listing',
                 contentListing: 'search/content-listing',
                 sidebar: 'search/sidebar',
                 heading: 'search/heading',
@@ -303,6 +310,27 @@ export default class Search extends CatalogPage {
                 $facetedSearchContainer.html(content.sidebar);
                 $searchCount.html(content.productCount);
                 this.showProducts(false);
+                
+                // Re-initialize view toggle after faceted search update
+                if (this.toggleCategoryListingView) {
+                    // Apply stored search view preference
+                    const storedViewType = sessionStorage.getItem('search-view-type');
+                    const defaultViewType = this.context.defaultViewType || 'list';
+                    const currentViewType = storedViewType || defaultViewType;
+                    
+                    console.log('Applying search view after faceted search:', currentViewType);
+                    
+                    // Update toggle button active states
+                    $('.js-category__toggle-view').removeClass('active-category-view');
+                    $(`.js-category__toggle-view[data-view-type="${currentViewType}"]`).addClass('active-category-view');
+                    
+                    // Re-attach toggle events
+                    this.toggleCategoryListingView.addToggleEvents();
+                    this.toggleCategoryListingView.addStyleClass();
+                    
+                    // Trigger the faceted search refresh event for the toggle system
+                    $('body').triggerHandler('facetedSearchRefresh');
+                }
             }
 
             $('body').triggerHandler('compareReset');

@@ -67,6 +67,10 @@
         border-left-color: #06b6d4; // cyan
     }
 
+    &[data-category="schools"] {
+        border-left-color: #f97316; // orange
+    }
+
     &:hover {
         transform: translateY(-4px);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -139,6 +143,11 @@
         
         &--sand-supplier {
             background-color: #f97316;
+            color: #ffffff;
+        }
+
+        &--grass {
+            background-color: #22c55e;
             color: #ffffff;
         }
     }

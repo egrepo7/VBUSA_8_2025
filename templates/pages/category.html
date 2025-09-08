@@ -6,6 +6,7 @@ category:
 ---
 {{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
 {{inject "categoryId" category.id}}
+{{inject "defaultViewType" theme_settings.product_list_display_mode}}
 
 {{#partial "head"}}
     {{#if pagination.category.previous}}
@@ -13,6 +14,11 @@ category:
     {{/if}}
     {{#if pagination.category.next}}
         <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+    
+    {{!-- Preload critical category image to prevent CLS --}}
+    {{#if category.image}}
+        <link rel="preload" as="image" href="{{getImage category.image 'zoom_size'}}" />
     {{/if}}
 {{/partial}}
 
@@ -40,7 +46,7 @@ category:
         {{/if}}
     {{/if}}
     {{/if}}
-    <div class="page-content" >
+    <div class="page-content cls-dynamic-content" >
         <section class="category__content-container">
             {{!-- {{#if category.image}}
                 {{> components/common/responsive-img
