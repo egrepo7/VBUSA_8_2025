@@ -3,8 +3,8 @@
     "brand": {},
     "category": {
       "category-list-full-width.html": "/padding/",
-      "category-filter-tabs.html": ["/volleyball-nets/indoor-volleyball-nets", "/volleyball-nets/outdoor-volleyball-nets", "/complete-systems/indoor-systems", "/complete-systems/outdoor-systems", "/volleyball-nets-test/outdoor-volleyball-nets-test/"], 
-      "volleyball-nets-custom.html": ["/volleyball-nets/", "/test_volleyballnets/"]
+      "volleyball-nets-custom.html": ["/volleyball-nets/", "/test_volleyballnets/"],
+      "complete-systems-custom.html": "/complete-systems"
     },
     "page": {
       "about-us-custom.html": "/about-us/",

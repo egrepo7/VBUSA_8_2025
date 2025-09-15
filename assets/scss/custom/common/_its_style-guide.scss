@@ -153,6 +153,23 @@ a {
             border-color: $button-border-color-primary--active;
             text-decoration: $button-text-decoration-primary--active;
         }
+        
+        // Responsive sizing for better mobile and tablet experience
+        @media (max-width: 1024px) and (min-width: 769px) {
+            padding: 0.4rem 0.7rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.2px;
+        }
+        
+        @media (max-width: 768px) {
+            padding: 0.55rem 1rem;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 480px) {
+            padding: 0.45rem 0.8rem;
+            font-size: 0.75rem;
+        }
     }
 
     &.button--secondary {

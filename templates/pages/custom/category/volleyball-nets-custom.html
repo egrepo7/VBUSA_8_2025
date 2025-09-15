@@ -59,7 +59,7 @@ page_type: category
         <link rel="preload" as="image" href="{{getImage category.image 'zoom_size'}}" />
     {{/if}}
     {{!-- Preload critical buying guide images for volleyball nets --}}
-    <link rel="preload" as="image" href="{{cdn 'assets/img/categories/net-buying-guide.png'}}" />
+    <link rel="preload" as="image" href="{{cdn 'assets/img/categories/volleyball-nets/net-buying-guide.png'}}" />
     
     {{!-- Preload critical Google Fonts to prevent CLS --}}
     <link rel="preload" as="font" href="https://fonts.gstatic.com/s/poppins/v23/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk.woff2" crossorigin>
@@ -134,12 +134,12 @@ page_type: category
         <div class="category-showcase__grid">
             <!-- Standard Outdoor Nets -->
             <a href="/volleyball-nets/outdoor/regular" class="category-showcase__card category-showcase__card--clickable">
-                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/outdoor-volleyball-nets.jpg'}}');">
+                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/volleyball-nets/outdoor-volleyball-nets.jpg'}}');">
                     <div class="category-showcase__overlay">
                         <div class="category-showcase__content">
                             <h3 class="category-showcase__card-title">OUTDOOR NETS</h3>
                             <p class="category-showcase__card-subtitle">Built for parks, backyards, and rec play, these durable outdoor nets meet official sizing standards.</p>
-                            <span class="button button--primary category-showcase__cta">
+                            <span class="button button--primary">
                                 SHOP OUTDOOR NETS
                             </span>
                         </div>
@@ -149,12 +149,12 @@ page_type: category
             
             <!-- Custom Printed Outdoor Nets -->
             <a href="/volleyball-nets/outdoor/custom" class="category-showcase__card category-showcase__card--clickable">
-                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/custom-printed-outdoor-nets.jpg'}}');">
+                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/volleyball-nets/custom-printed-outdoor-nets.jpg'}}');">
                     <div class="category-showcase__overlay">
                         <div class="category-showcase__content">
                             <h3 class="category-showcase__card-title">CUSTOM PRINTED OUTDOOR NETS</h3>
                             <p class="category-showcase__card-subtitle">Promote your team, city, or sponsor with professional outdoor nets customized with your branding.</p>
-                            <span class="button button--primary category-showcase__cta">
+                            <span class="button button--primary">
                                 SHOP CUSTOM PRINTED NETS
                             </span>
                         </div>
@@ -181,13 +181,13 @@ page_type: category
         <div class="category-showcase__grid category-showcase__grid--single">
             <!-- United Volleyball Slip Net System -->
             <div class="category-showcase__card">
-                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/slipsystem.jpg'}}');">
+                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/volleyball-nets/slipsystem.jpg'}}');">
                     <div class="category-showcase__overlay">
                         <div class="category-showcase__content">
                             <p class="category-showcase__tag">FAST SETUP, AFFORDABLE, WEATHER-RESISTANT</p>
                             <h3 class="category-showcase__card-title">UNITED VOLLEYBALL SLIP NET SYSTEM — High Performance, Low Cost</h3>
                             <p class="category-showcase__card-subtitle">Take your game wherever you go. Built for durability, designed for fast setup, and priced for players who demand performance without overspending.</p>
-                            <a href="#" class="button button--primary category-showcase__cta">
+                            <a href="#" class="button button--primary">
                                 VIEW PRODUCT
                             </a>
                         </div>
@@ -206,12 +206,12 @@ page_type: category
         <div class="category-showcase__grid">
             <!-- Standard Indoor Nets -->
             <a href="/volleyball-nets/indoor/regular" class="category-showcase__card category-showcase__card--clickable">
-                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/indoor-volleyball-nets.jpg'}}');">
+                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/volleyball-nets/indoor-volleyball-nets.jpg'}}');">
                     <div class="category-showcase__overlay">
                         <div class="category-showcase__content">
                             <h3 class="category-showcase__card-title">INDOOR NETS</h3>
                             <p class="category-showcase__card-subtitle">Perfect for gyms and training, our indoor nets meet NCAA, USAV, and NFHS competition standards.</p>
-                            <span class="button button--primary category-showcase__cta">
+                            <span class="button button--primary">
                                 SHOP INDOOR NETS
                             </span>
                         </div>
@@ -221,12 +221,12 @@ page_type: category
             
             <!-- Custom Printed Indoor Nets -->
             <a href="/volleyball-nets/indoor/custom" class="category-showcase__card category-showcase__card--clickable">
-                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/custom-printed-indoor-nets.jpg'}}');">
+                <div class="category-showcase__image" style="background-image: url('{{cdn 'assets/img/categories/volleyball-nets/custom-printed-indoor-nets.jpg'}}');">
                     <div class="category-showcase__overlay">
                         <div class="category-showcase__content">
                             <h3 class="category-showcase__card-title">CUSTOM PRINTED INDOOR NETS</h3>
                             <p class="category-showcase__card-subtitle">Show off your program's identity with indoor nets customized with team logos and colors.</p>
-                            <span class="button button--primary category-showcase__cta">
+                            <span class="button button--primary">
                                 SHOP CUSTOM PRINTED NETS
                             </span>
                         </div>
@@ -446,10 +446,24 @@ page_type: category
                         "slide": "[data-product-slide]",
                         "responsive": [
                             {
+                                "breakpoint": 768,
+                                "settings": {
+                                    "slidesToShow": 3,
+                                    "slidesToScroll": 3
+                                }
+                            },
+                            {
+                                "breakpoint": 1000,
+                                "settings": {
+                                    "slidesToShow": 4,
+                                    "slidesToScroll": 1
+                                }
+                            },
+                            {
                                 "breakpoint": 1260,
                                 "settings": {
                                     "slidesToShow": 5,
-                                    "slidesToScroll": 5
+                                    "slidesToScroll": 1
                                 }
                             }
                         ]

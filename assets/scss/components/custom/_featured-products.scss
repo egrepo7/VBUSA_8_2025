@@ -2,6 +2,50 @@
 // FEATURED PRODUCTS SECTION - Carousel-based featured products
 // =============================================================================
 
+// Global override: Always show View Product buttons
+// This ensures all product cards show buttons without requiring hover
+.featured-products-section,
+.productCarousel,
+.card {
+    .card-actions {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        position: static !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+    }
+    
+    .card-figcaption-button,
+    .card-actions .button {
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: block !important;
+    }
+    
+    .card-body {
+        padding-bottom: 1rem;
+    }
+    
+    // CLS-safe hover effect for buttons
+    .card-figcaption-button:hover,
+    .card-actions .button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        transition: all 0.3s ease;
+    }
+    
+    // Override any card figure overlay that might hide buttons
+    .card-figure .card-figcaption,
+    .card-figcaption {
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: static !important;
+        transform: none !important;
+    }
+}
+
 .featured-products-section {
     padding: 2rem 0;
     background: #f8f9fa;
@@ -94,6 +138,119 @@
         margin: 0 auto;
     }
     
+    // Five-card grid variant for indoor complete systems
+    // Layout: First 2 cards side by side (50/50 width), then 3 cards in a row below (33.33% each)
+    &__grid--five-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            
+            // First two cards side by side, each taking 1.5 columns (50% width each)
+            .category-showcase__card:nth-child(1) {
+                grid-column: 1 / 3;
+                grid-row: 1;
+            }
+            
+            .category-showcase__card:nth-child(2) {
+                grid-column: 3 / 4;
+                grid-row: 1;
+            }
+            
+            // Wait, that's not right. Let me fix this properly...
+        }
+        
+        @media (min-width: 768px) {
+            // Use a 6-column grid for perfect 50/50 and 33.33% splits
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: auto auto;
+            gap: 2rem;
+            
+            // First two cards side by side - each taking 3 columns (50% each)
+            .category-showcase__card:nth-child(1) {
+                grid-column: 1 / 4;
+                grid-row: 1;
+            }
+            
+            .category-showcase__card:nth-child(2) {
+                grid-column: 4 / 7;
+                grid-row: 1;
+            }
+            
+            // Last three cards in a row below - each taking 2 columns (33.33% each)
+            .category-showcase__card:nth-child(3) {
+                grid-column: 1 / 3;
+                grid-row: 2;
+            }
+            
+            .category-showcase__card:nth-child(4) {
+                grid-column: 3 / 5;
+                grid-row: 2;
+            }
+            
+            .category-showcase__card:nth-child(5) {
+                grid-column: 5 / 7;
+                grid-row: 2;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        // Card sizing and aspect ratios for the 2+3 layout
+        .category-showcase__card {
+            min-height: 300px;
+            aspect-ratio: 4/3;
+            
+            @media (min-width: 768px) {
+                // First two cards - match outdoor card dimensions exactly
+                &:nth-child(1),
+                &:nth-child(2) {
+                    aspect-ratio: 16/10;
+                    min-height: 300px;
+                }
+                
+                // Last three cards - smaller, in a row
+                &:nth-child(3),
+                &:nth-child(4),
+                &:nth-child(5) {
+                    min-height: 200px;
+                    aspect-ratio: 4/3;
+                }
+            }
+            
+            @media (max-width: 1024px) and (min-width: 769px) {
+                // First two cards - match outdoor tablet dimensions
+                &:nth-child(1),
+                &:nth-child(2) {
+                    aspect-ratio: 16/9;
+                    min-height: 280px;
+                }
+            }
+            
+            @media (max-width: 768px) {
+                // All cards use mobile dimensions
+                aspect-ratio: 4/3;
+                min-height: 250px;
+            }
+            
+            @media (max-width: 480px) {
+                min-height: 250px;
+                aspect-ratio: 16/9;
+            }
+        }
+        
+        // Title sizing handled by global .category-showcase__card-title rule
+        
+        // Text sizing removed - handled by main .category-showcase__card-subtitle
+    }
+    
     &__card {
         position: relative;
         width: 100%;
@@ -110,10 +267,6 @@
             
             .category-showcase__image {
                 transform: scale(1.007);
-            }
-            
-            .category-showcase__cta {
-                transform: translateX(4px);
             }
         }
         
@@ -137,10 +290,6 @@
                 
                 .category-showcase__image {
                     transform: scale(1.01);
-                }
-                
-                .category-showcase__cta {
-                    transform: none;
                 }
             }
         }
@@ -184,11 +333,15 @@
         }
         
         @media (max-width: 1024px) and (min-width: 769px) {
-            padding: 1rem;
+            padding: 0.75rem;
+        }
+        
+        @media (max-width: 768px) {
+            padding: 0.875rem;
         }
         
         @media (max-width: 480px) {
-            padding: 1rem;
+            padding: 0.75rem;
         }
     }
     
@@ -205,78 +358,55 @@
         letter-spacing: 0.5px;
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 0, 0, 0.5);
         margin-bottom: 0.5rem;
+        line-height: 1.2;
         
         @media (max-width: 1024px) and (min-width: 769px) {
-            font-size: 1.6rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.4rem;
+            line-height: 1.25;
         }
         
         @media (max-width: 768px) {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
         }
         
         @media (max-width: 480px) {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.35rem;
         }
     }
     
     &__card-subtitle {
         font-size: 0.95rem;
         color: rgba(255, 255, 255, 0.95);
-        line-height: 1.5;
+        line-height: 1.4;
         max-width: 90%;
         text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 0, 0, 0.4);
         font-weight: 500;
         margin-bottom: 1rem;
         
         @media (max-width: 1024px) and (min-width: 769px) {
-            font-size: 0.9rem;
-            margin-bottom: 0.875rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.7rem;
             max-width: 95%;
+            line-height: 1.35;
         }
         
         @media (max-width: 768px) {
-            font-size: 0.9rem;
-            margin-bottom: 0.875rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.7rem;
+            line-height: 1.4;
         }
         
         @media (max-width: 480px) {
-            font-size: 0.85rem;
-            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.6rem;
+            line-height: 1.35;
         }
     }
     
-    &__cta {
-        display: inline-block;
-        background: #e53e3e;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-radius: 4px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        
-        &:hover {
-            background: #c53030;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(197, 48, 48, 0.4);
-            color: white;
-            text-decoration: none;
-        }
-        
-        @media (max-width: 768px) {
-            padding: 0.625rem 1.25rem;
-            font-size: 0.85rem;
-        }
-        
-        @media (max-width: 480px) {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-        }
-    }
+    // Button styling removed - now handled by global .button.button--primary responsive styles
     
     // Featured section modifier for centered content (like Slip Net System)
     &--featured {
@@ -309,25 +439,9 @@
             max-width: 600px; // Limit width for better readability
         }
         
-        .category-showcase__card-title {
-            text-align: center;
-            margin-top: 0;
-            text-transform: capitalize;
-            
-            @media (max-width: 768px) {
-                margin-bottom: 0.875rem;
-            }
-        }
+        // Title styling handled by global .category-showcase__card-title rule
         
-        .category-showcase__card-subtitle {
-            text-align: center;
-            max-width: 100%; // Use full available width
-            margin-bottom: 1.5rem;
-            
-            @media (max-width: 768px) {
-                margin-bottom: 1.25rem;
-            }
-        }
+        // Subtitle styling handled by main .category-showcase__card-subtitle rule
     }
     
     // Category tag styling
@@ -372,26 +486,76 @@
         }
     }
     
-    .category-showcase__card-title {
-        // Larger title on mobile for the slip system
-        @media (max-width: 480px) {
-            font-size: 1.4rem; // Increased from 1.25rem
-            line-height: 1.3;
-            margin-bottom: 0.75rem;
-        }
-        
-        @media (max-width: 360px) {
-            font-size: 1.3rem;
-        }
+
+    
+
+}
+
+// =============================================================================
+// GLOBAL CARD TITLE STYLING - Consistent across all category cards
+// =============================================================================
+
+.category-showcase__card-title {
+    // Consistent font sizing and spacing for all card titles
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    @media (max-width: 1024px) and (min-width: 769px) {
+        font-size: 1.3rem;
     }
     
-    .category-showcase__card-subtitle {
-        // Better spacing and sizing for mobile
-        @media (max-width: 480px) {
-            font-size: 0.9rem; // Slightly larger
-            line-height: 1.4;
-            margin-bottom: 1rem;
-        }
+    @media (max-width: 768px) {
+        font-size: 1.25rem;
+        margin-bottom: 0.875rem;
+    }
+    
+    @media (max-width: 480px) {
+        font-size: 1.2rem; // Slightly smaller on mobile
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 360px) {
+        font-size: 1.3rem;
+    }
+    
+    // Featured cards get centered text
+    .category-showcase--featured & {
+        text-align: center;
+        margin-top: 0;
+        text-transform: capitalize;
+    }
+}
+
+// =============================================================================
+// GLOBAL CARD SUBTITLE STYLING - Consistent across all category cards
+// =============================================================================
+
+.category-showcase__card-subtitle {
+    // Consistent font sizing and spacing for all card subtitles
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    
+    @media (max-width: 768px) {
+        font-size: 0.85rem;
+        line-height: 1.35;
+    }
+    
+    @media (max-width: 480px) {
+        font-size: 0.9rem; // Slightly larger on mobile for readability
+        line-height: 1.4;
+        margin-bottom: 1rem;
+    }
+    
+    @media (max-width: 360px) {
+        font-size: 0.85rem;
     }
 }
 
@@ -546,7 +710,7 @@
         text-decoration: none;
         color: inherit;
         
-        .category-showcase__cta {
+        .button--primary {
             background: #c53030;
             transform: translateX(4px);
             box-shadow: 0 4px 12px rgba(197, 48, 48, 0.4);
@@ -557,8 +721,8 @@
         }
     }
     
-    // Disable pointer events on the CTA span to prevent nested link issues
-    .category-showcase__cta {
+    // Disable pointer events on buttons inside clickable cards to prevent nested link issues
+    .button {
         pointer-events: none;
         cursor: inherit;
     }
